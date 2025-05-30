@@ -1,0 +1,11 @@
+--- index.js.orig	2025-02-12 10:13:54.786563989 -0500
++++ index.js	2025-02-12 10:11:43.426761122 -0500
+@@ -59,7 +59,7 @@
+   const sprites = ___default['default'].map(
+     spritesmithResult.coordinates,
+     function (oneSourceInfo, fileName) {
+-      return ___default['default'].assign({ name: generateSpriteName(fileName) }, oneSourceInfo);
++      return ___default['default'].assign({ name: generateSpriteName(fileName), source_image: fileName }, oneSourceInfo);
+     }
+   );
+   const spritesheet = ___default['default'].assign(

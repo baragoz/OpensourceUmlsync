@@ -1,0 +1,47 @@
+{
+    "id": "vp-statestate-menu",
+    "items": [
+        {
+            "el": "state",
+            "cs": [
+                {
+                    "connector": "transition",
+                    "jsonModel" : {
+                      "name": "State ..."
+                    },
+                    "css": "icon-im-state-transition-state"
+                }
+            ]
+        },
+        {
+            "el": "statedesign",
+            "cs": [
+                {
+                    "connector": "transition",
+                    "css": "icon-im-state-transition-design"
+                }
+            ]
+        },
+        {
+            "el": "statefork",
+            "cs": [
+                {
+                    "connector": "transition",
+                    "css": "icon-im-state-transition-fork"
+                }
+            ]
+        },
+        {
+            "el": "note",
+            "cs": [
+                {
+                    "connector": "anchor",
+                    "jsonModel" : {
+                      "name": "Note ..."
+                    },
+                    "css": "icon-im-common-note-anchor"
+                }
+            ]
+        }
+    ]
+}

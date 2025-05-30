@@ -1,0 +1,53 @@
+{
+    "id": "vp-component-menu",
+    "items": [
+        {
+            "el": "component",
+            "cs": [
+                {
+                    "connector": "association",
+                    "css": "icon-im-component-association"
+                },
+                {
+                    "connector": "aggregation",
+                    "css": "icon-im-component-aggregation"
+                },
+                {
+                    "connector": "composition",
+                    "css": "icon-im-component-composition"
+                },
+                {
+                    "connector": "iobserver",
+                    "css": "icon-im-component-iobserver"
+                }
+            ]
+        },
+        {
+            "el": "interface",
+            "cs": [
+                {
+                    "connector": "realization",
+                    "css": "icon-im-component-realization"
+                }
+            ]
+        },
+        {
+            "el": "port",
+            "cs": [
+                {
+                    "connector": "association",
+                    "css": "icon-im-component-port-association"
+                }
+            ]
+        },
+        {
+            "el": "note",
+            "cs": [
+                {
+                    "connector": "anchor",
+                    "css": "icon-im-common-note-anchor"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "menuHeader": "Component Diagram",
+    "elements": [
+      {
+        "type": "component",
+        "description": "Component",
+        "css": "icon-es-component-Component"
+      },
+      {
+        "type": "interface",
+        "description": "Interface",
+        "css": "icon-es-component-Interface"
+      },
+      {
+        "type": "port",
+        "description": "Port",
+        "css": "icon-es-component-Port"
+      },
+      {
+        "type": "instance",
+        "description": "Instance Specification",
+        "css": "icon-es-component-InstanceSpecification"
+      }
+    ],
+    "connectors": [
+      {
+        "connector": "dependency",
+        "description": "Dependency",
+        "css": "icon-cs-dependency"
+      },
+      {
+        "connector": "dependency",
+        "description": "Import",
+        "css": "icon-cs-Import"
+      },
+      {
+        "connector": "dependency",
+        "description": "Access",
+        "css": "icon-cs-Access"
+      },
+      {
+        "connector": "generalization",
+        "description": "Generalization",
+        "css": "icon-cs-generalization"
+      },
+      {
+        "connector": "dependency",
+        "description": "Merge",
+        "css": "icon-cs-Merge"
+      },
+      {
+        "connector": "nested",
+        "description": "Containment",
+        "css": "icon-cs-nested"
+      }
+    ]
+  }
+]

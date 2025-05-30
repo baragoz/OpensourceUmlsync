@@ -1,0 +1,91 @@
+[
+    {
+      "menuHeader": "State Diagram",
+      "elements": [
+        {
+          "element": "state",
+          "type": "UML",
+          "description": "State",
+          "jsonModel": {
+             "name": "State"
+          },
+          "css": "icon-es-statemachine-State"
+        },
+        {
+          "element": "statestart",
+          "type": "UML",
+          "description": "Start state",
+          "css": "icon-es-statemachine-StartState",
+          "jsonModel": {
+             "name": "Start"
+          }
+        },
+        {
+          "element": "statefinal",
+          "type": "UML",
+          "description": "Start final",
+          "jsonModel": {
+            "name": "Finish"
+          },
+          "css": "icon-es-statemachine-FinalState"
+        },
+        {
+          "element": "statedesign",
+          "type": "UML",
+          "description": "Design",
+          "jsonModel": {
+             "name": "Design"
+          },
+          "css": "icon-es-statemachine-Choice"
+        },
+        {
+          "element": "statefork",
+          "type": "UML",
+          "description": "State fork",
+          "css": "icon-es-statemachine-Fork"
+        },
+        {
+          "element": "note",
+          "type": "UML",
+          "jsonModel": {
+             "name": "Note ..."
+          },
+          "description": "Note",
+          "css": "icon-es-common-note"
+        }
+      ],
+      "connectors": [
+        {
+          "connector": "dependency",
+          "type": "UML",
+          "description": "Dependency",
+          "css": "icon-cs-dependency"
+        },
+        {
+          "connector": "dependency",
+          "type": "UML",
+          "description": "Import",
+          "css": "icon-cs-Import"
+        },
+        {
+          "connector": "dependency",
+          "type": "UML",
+          "description": "Access",
+          "css": "icon-cs-Access"
+        },
+        {
+          "connector": "generalization",
+          "type": "UML",
+          "description": "Generalization",
+          "css": "icon-cs-generalization"
+        },
+        {
+          "connector": "dependency",
+          "type": "UML",
+          "description": "Merge",
+          "css": "icon-cs-Merge"
+        }
+      ]
+    }
+  ]
+  

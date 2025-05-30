@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic UML Sidebar</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&amp;display=swap">
+</head>
+<body>
+
+<!-- Sidebar Component -->
+<uml-sidebar></uml-sidebar>
+
+<!-- Main Content -->
+<div id="main-content">
+    <div id="top-bar">Top Bar</div>
+    <div id="workspace">Main Content Area</div>
+</div>
+
+<style>
+/* General Page Layout */
+body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+#main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+#top-bar {
+    height: 50px;
+    background-color: #34495E;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+#workspace {
+    flex-grow: 1;
+    background-color: #ECF0F1;
+    overflow: auto;
+    padding: 10px;
+}
+</style>
+
+</body>
+</html>

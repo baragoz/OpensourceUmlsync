@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "esnext",         /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', 'ES2021', 'ESNext', 'ES3', 'ES5', 'ES6', 'ES7', 'ES8', 'ES9', 'ES10', 'ES11', 'ES12', 'ES13', or 'ESNext'. */
+    "module": "esnext",         /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', 'esnext'. 'commonjs' is best for node, 'esnext' good for browsers.  */
+    "moduleResolution": "node",  /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). 'node16' and 'nodenext' are used for ESM projects */
+    "declaration": true,     /* Generates corresponding '.d.ts' file. */
+    "sourceMap": true,          /* Generates corresponding '.map' file. Good for debugging; you can disable for production. */
+    "outDir": "./dist",           /* Redirect output structure to the directory. Needs to match where you're building output to! */
+    "rootDir": "./src",       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "baseUrl": "./",             /* Base directory to resolve non-absolute module names.  Helps TypeScript find your code. */
+    "paths": {                 /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+      "*": ["src/*"]           /* Let TypeScript find any path */
+    },
+
+    /* Strict Type Checking Options */
+    "strict": true,               /* Enable all strict type-checking options.  Recommened strongly. */
+    "noImplicitAny": true,        /* Raise error on expressions and declarations with an implied 'any' type. Set true by "strict". */
+    "strictNullChecks": true,     /* Enable strict null checks. */
+    "strictFunctionTypes": true,  /* Enable strict checking of function types. */
+    "strictBindCallApply": true,  /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
+    "strictPropertyInitialization": true,  /* Enable strict checking of property initialization in classes. */
+    "noImplicitThis": true,       /* Raise error on 'this' expressions with an implied 'any' type. */
+    "alwaysStrict": true,         /* Parse in strict mode and emit "use strict" for each source file. */
+
+    /* Additional Checks */
+    "noUnusedLocals": true,       /* Report errors on unused locals. */
+    "noUnusedParameters": true,   /* Report errors on unused parameters. */
+    "noImplicitReturns": true,    /* Report error when not all code paths in function return a value. */
+    "noFallthroughCasesInSwitch": true,  /* Report errors for fallthrough cases in switch statement. */
+
+    /* Module Options */
+    "esModuleInterop": true,     /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace object for all imports. Implies 'allowSyntheticDefaultImports'.  Allows you to import CJS modules as if they were ES modules, very useful for cross compatibility. */
+    "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
+
+    /* Advanced Options */
+    "skipLibCheck": true,        /* Skip type checking of declaration files.  Speeds up compilation. */
+    "resolveJsonModule": true,    /* Allows importing .json files */
+    "allowSyntheticDefaultImports": true,   /* Allow default imports from modules with no default export.  Allows the compiler to emit code for these, if using ESModule interop. */
+  },
+  "include": [
+    "src/**/*.ts",   /* Include all TypeScript files in the src directory. */
+    "src/**/*.tsx",   /* If you're using React, include TSX files as well */
+    "src/**/*.d.ts"    /* Include any existing declaration files */
+  ],
+  "exclude": [
+    "node_modules"   /* Exclude the node_modules directory */
+  ]
+}

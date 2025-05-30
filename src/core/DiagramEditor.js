@@ -1,0 +1,196 @@
+import { copyCommandHandler, cutCommandHandler, deleteCommandHandler, editCommandHandler, pasteCommandHandler } from "../renderers/Commands/CopyPasteCommandHandlers";
+import { EditorPluginManager } from "../renderers/EditorPluginManager";
+import { ClassDiagram } from "../diagrams/ClassDiagram";
+import configLoader from "../utils/ConfigLoader"
+import { addConnectorLabelCommandHandler, removeConnectorCommandHandler, removeConnectorLabelCommandHandler } from "../renderers/Commands/ConnectorCommandHandler";
+import { zindexBackCommandHandler, zindexFrontCommandHandler } from "../renderers/Commands/ZindexCommandHandlers";
+import { classAddFieldCommandHandler, classAddMethodCommandHandler, classEditFieldCommandHandler, classEditMethodCommandHandler, classRemoveFieldCommandHandler, classRemoveMethodCommandHandler } from "../renderers/Commands/ClassExtraCommandHandler";
+import { PackageDiagram } from "../diagrams/PackageDiagram";
+import { ComponentsDiagram } from "../diagrams/ComponentsDiagram";
+import { StateDiagram } from "../diagrams/StateDiagram";
+import { SequenceDiagram } from "../diagrams/SequenceDiagram";
+
+
+class DiagramEditor {
+    constructor(domSelector, overrideOptions)  {
+        this.parentSelector = domSelector;
+
+        this.options = { id: 1, globalId: 1, devmode: false, width: 1000, height: 500, ...overrideOptions};
+        this.prefix = "e" + this.options.id;
+
+        //
+        // Placholder for a side menu
+        //
+        $(domSelector).append('<div id="dw-uml-toolbar"></div>\
+            <div id="dw-uml-area"><div id="dw-uml-sidebar"></div></div>');
+        this.sideMenu = $(domSelector + " #dw-uml-sidebar");
+        //
+        // Add default editor commands to the config loader API
+        //
+        this.#registerDefaultCommand();
+        this.#updateDimention(this.options.width, this.options.height)
+    }
+
+    getNextGlobalId() {
+        return this.options.globalId++;
+    }
+
+    registerCommand(name, handler) {
+        configLoader.addCommand(name, handler);
+    }
+
+    extendContextMenu(path, title, command) {
+        configLoader.extendContextMenu(path, title, command);
+    }
+
+    #registerDefaultCommand() {
+        // Base copy-paste implementation
+        this.registerCommand("command:element:cut", cutCommandHandler);
+        this.registerCommand("command:element:copy", copyCommandHandler);
+        this.registerCommand("command:diagram:paste", pasteCommandHandler);
+        this.registerCommand("command:element:remove", deleteCommandHandler);
+        this.registerCommand("command:element:edit", editCommandHandler);
+
+        // Connector's command handler
+        this.registerCommand("command:connector:add_label", addConnectorLabelCommandHandler);
+        this.registerCommand("command:connector:edit_label", removeConnectorLabelCommandHandler);
+        this.registerCommand("command:connector:remove_label", removeConnectorLabelCommandHandler);
+        // Connector Remove
+        this.registerCommand("command:connector:remove", removeConnectorCommandHandler);
+
+        // Z-index command handlers
+        this.registerCommand("command:element:moveback", zindexBackCommandHandler);
+        this.registerCommand("command:element:moveforward", zindexFrontCommandHandler);
+
+        // class extra commands
+        // TODO: For class diagram only, but ... it for another hand it is too small
+        this.registerCommand("command:class:add_field", classAddFieldCommandHandler);
+        this.registerCommand("command:class:edit_field", classEditFieldCommandHandler);
+        this.registerCommand("command:class:remove_field", classRemoveFieldCommandHandler);
+
+        this.registerCommand("command:class:add_method", classAddMethodCommandHandler);
+        this.registerCommand("command:class:edit_method", classEditMethodCommandHandler);
+        this.registerCommand("command:class:remove_method", classRemoveMethodCommandHandler);
+
+    }
+
+    //
+    // Create a new diagram - edit mode by default
+    //
+    createDiagram(nameTemplate, extraOptions = {}) {
+        return this.loadDiagram({width: 500, height: 400, nameTemplate: nameTemplate}, { editmode: true, ...extraOptions} );
+    }
+
+    //
+    // Load an existing digaram - view mode by default
+    //
+    loadDiagram(jsonModel, extraOptions = {editmode: false}) {
+        //
+        // remove the previous one
+        //
+        if (this.digram) {
+            this.digram.removeInstance(); // Remove previous instance of the diagram
+            this.sideMenu.empty();  // Clear side menu area too
+            delete this.digram;
+            this.digram = null;
+        }
+
+        // e1-d1-e5-o3 - make a complex prefix,based on hierarchy, to make a unique ids
+        // e1 -editor 1 - instance
+        // d1 - diagram, first loaded
+        // e5 - element - 5th loaded
+        // o3 - operations inside class element 3-rd instance
+        jsonModel.id = this.getNextGlobalId();
+        let prefix = this.prefix + "d" + jsonModel.id;
+
+        //
+        // at this point we should provide a custom config
+        // which is different for editor and viewer
+        //
+        let pm = new EditorPluginManager({devmode: this.options.devmode});
+
+        const diagramMap = {
+            classDiagram: ClassDiagram,
+            packageDiagram: PackageDiagram,
+            componentsDiagram: ComponentsDiagram,
+            stateDiagram: StateDiagram,
+            sequenceDiagram: SequenceDiagram
+        };
+          
+        const DiagramRef = diagramMap[jsonModel.nameTemplate];
+          
+        if (DiagramRef) {
+            const options = {
+              width: 900,
+              height: 600,
+              prefix: prefix,
+              parentId: "#dw-uml-area",
+              ...extraOptions
+            };
+          
+            this.digram = new DiagramRef(jsonModel, options, pm);
+            this.digram.setUserData("plugin-manager", pm);
+        }
+
+
+       // Sync-up edit mode - hide/show side menu
+       this.options.editmode = extraOptions.editmode;
+
+       return this.digram;
+    }
+
+    setOption(key, value) {
+        if (key === "dimention") {
+            this.#updateDimention(value.width, value.height);
+        } else if (key === "editmode") {
+            this.#updateEditMode(key, value);
+            this.#updateDimention()
+        }
+    }
+
+
+    #updateDimention(width, height) {
+
+       // Update UI
+       var $par = $(this.parentSelector);
+       $par.width(width);
+       $par.height(height);
+
+       this.sideMenu.height(height)
+
+        // TODO: replace the parent selector's width/height
+        //       reduce width on side menu size, if edit mode
+        //       and update diagram area finally
+        if (this.digram) {
+            let diagramWidth = width;
+            
+            // take in account sidemenu if editmode
+            if (this.digram.options.editmode)
+                diagramWidth -= this.sideMenu.width();
+
+            this.digram.updateDimention(diagramWidth, height);
+        }
+    }
+
+    #updateEditMode(key, value) {
+        if (!this.digram)
+          return;
+
+        this.digram._setOption(key, value);
+
+        //
+        // Broadcast value to the extensions via blackboard
+        //
+        const bb = this.digram.getUserData("blackboard");
+        if (bb && bb.getStorageValue(key) != value) {
+            bb.setStorageValue(key, value);
+        }
+
+        // TODO: resize diagram beacause of show/hide side menu
+        // this.#updateDimention();
+    }
+
+
+}
+
+export { DiagramEditor }

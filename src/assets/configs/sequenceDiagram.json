@@ -1,0 +1,71 @@
+[
+  {
+    "menuHeader": "Sequence Diagram",
+    "elements": [
+      {
+        "type": "sqobject_instance",
+        "description": "Object Instance",
+        "css": "icon-es-component-InstanceSpecification"
+      },
+      {
+        "type": "sqactor",
+        "description": "Actor",
+        "css": "icon-cs-usecase-Actor"
+      },
+      {
+        "type": "sqalt",
+        "description": "Alternative",
+        "css": "icon-cs-usecase-Actor"
+      },
+      {
+        "type": "sqport",
+        "description": "Port",
+        "css": "icon-cs-usecase-Actor"
+      },
+      {
+        "type": "sqdestroy",
+        "description": "Destroy",
+        "css": "icon-cs-usecase-Actor"
+      },
+      {
+        "type": "sqparticipant",
+        "description": "Message Participant",
+        "css": "icon-cs-usecase-Actor"
+      }
+      
+    ],
+    "connectors": [
+      {
+        "connector": "sqsyncmessage",
+        "description": "Sync Message",
+        "css": "icon-cs-dependency"
+      },
+      {
+        "connector": "sqasyncmessage",
+        "description": "Async message",
+        "css": "icon-cs-composition"
+      },
+      {
+        "connector": "sqselfmessage",
+        "description": "Self Message",
+        "onway": true,
+        "css": "icon-cs-generalization"
+      },
+      {
+        "connector": "sqreturnmessage",
+        "description": "Return Message",
+        "css": "icon-cs-realization"
+      },
+      {
+        "connector": "anchor",
+        "description": "Anchor",
+        "css": "icon-cs-AnchorToNote"
+      },
+      {
+        "connector": "anchor",
+        "description": "Constraint",
+        "css": "icon-cs-Constrain"
+      }
+    ]
+  }
+]

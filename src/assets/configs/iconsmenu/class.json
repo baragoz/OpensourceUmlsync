@@ -1,0 +1,51 @@
+{
+    "id": "vp-class-menu",
+    "items": [
+        {
+            "el": "class",
+            "cs": [
+                {
+                    "connector": "association",
+                    "css": "icon-im-class-association"
+                },
+                {
+                    "connector": "aggregation",
+                    "css": "icon-im-class-aggregation"
+                },
+                {
+                    "connector": "composition",
+                    "css": "icon-im-class-composition"
+                },
+                {
+                    "connector": "self-association",
+                    "css": "icon-im-class-self-association"
+                },
+                {
+                    "connector": "dependency",
+                    "css": "icon-im-class-dependency"
+                },
+                {
+                    "connector": "realization",
+                    "css": "icon-im-class-realization"
+                },
+                {
+                    "connector": "generalization",
+                    "css": "icon-im-class-generalization"
+                },
+                {
+                    "connector": "nested",
+                    "css": "icon-im-class-nested"
+                }
+            ]
+        },
+        {
+            "el": "note",
+            "cs": [
+                {
+                    "connector": "anchor",
+                    "css": "icon-im-common-note-anchor"
+                }
+            ]
+        }
+    ]
+}

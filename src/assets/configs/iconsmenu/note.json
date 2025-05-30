@@ -1,0 +1,14 @@
+{
+    "id": "vp-note-menu",
+    "items": [
+        {
+            "el": "none",
+            "cs": [
+                {
+                    "connector": "anchor",
+                    "css": "icon-im-common-anchor"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,85 @@
+[
+  {
+    "menuHeader": "Class Diagram",
+    "elements": [
+      {
+        "element": "class",
+        "description": "Class",
+        "jsonModel": {
+          "name": "Class"
+        },
+        "css": "icon-es-class-Class"
+      },
+      {
+        "element": "class",
+        "description": "Interface",
+        "jsonModel": {
+          "name": "Interface",
+          "aux": "interface"
+        },
+        "css": "icon-es-class-ClassInterface"
+      },
+      {
+        "element": "class",
+        "description": "Enumeration",
+        "jsonModel": {
+          "name": "Enumeration",
+          "aux": "enum"
+        },
+        "css": "icon-es-class-ClassEnumeration"
+      },
+      {
+        "element": "class",
+        "description": "Primitive",
+        "css": "icon-es-class-ClassPrimitive"
+      },
+      {
+        "element": "class",
+        "description": "ORM",
+        "css": "icon-es-class-ClassORM"
+      },
+      {
+        "element": "class",
+        "description": "ORMComponent",
+        "css": "icon-es-class-ClassORMComponent"
+      },
+      {
+        "element": "note",
+        "description": "Note",
+        "css": "icon-es-common-Note"
+      }
+    ],
+    "connectors": [
+      {
+        "connector": "aggregation",
+        "description": "Aggregation",
+        "css": "icon-cs-aggregation"
+      },
+      {
+        "connector": "realization",
+        "description": "Realization",
+        "css": "icon-cs-realization"
+      },
+      {
+        "connector": "dependency",
+        "description": "Dependency",
+        "css": "icon-cs-dependency"
+      },
+      {
+        "connector": "generalization",
+        "description": "Generalization",
+        "css": "icon-cs-generalization"
+      },
+      {
+        "connector": "nested",
+        "description": "Nested",
+        "css": "icon-cs-nested"
+      },
+      {
+        "connector": "composition",
+        "description": "Composition",
+        "css": "icon-cs-composition"
+      }
+    ]
+  }
+]

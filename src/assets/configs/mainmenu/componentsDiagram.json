@@ -1,0 +1,71 @@
+[
+  {
+    "menuHeader": "Component Diagram",
+    "elements": [
+      {
+        "description": "Component",
+        "element": "component",
+        "jsonModel": {
+          "name": "Component"
+        },
+        "css": "icon-es-component-Component"
+      },
+      {
+        "element": "interface",
+        "description": "Interface",
+        "jsonModel": {
+          "name": "Interface"
+        },
+        "css": "icon-es-component-Interface"
+      },
+      {
+        "element": "port",
+        "description": "Port",
+        "jsonModel": {
+          "name": "Port"
+        },
+        "css": "icon-es-component-Port"
+      },
+      {
+        "element": "instance_specification",
+        "description": "Instance Specification",
+        "jsonModel": {
+          "name": "Instance Specification"
+        },
+        "css": "icon-es-component-InstanceSpecification"
+      }
+    ],
+    "connectors": [
+      {
+        "connector": "dependency",
+        "description": "Dependency",
+        "css": "icon-cs-dependency"
+      },
+      {
+        "connector": "dependency",
+        "description": "Import",
+        "css": "icon-cs-Import"
+      },
+      {
+        "connector": "dependency",
+        "description": "Access",
+        "css": "icon-cs-Access"
+      },
+      {
+        "connector": "generalization",
+        "description": "Generalization",
+        "css": "icon-cs-generalization"
+      },
+      {
+        "connector": "dependency",
+        "description": "Merge",
+        "css": "icon-cs-Merge"
+      },
+      {
+        "connector": "nested",
+        "description": "Containment",
+        "css": "icon-cs-nested"
+      }
+    ]
+  }
+]

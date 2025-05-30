@@ -1,0 +1,141 @@
+{
+    "items": [
+        {
+            "id": "us-common",
+            "event": "element:contextmenu",
+            "extend": "",
+            "commands": [
+                {
+                    "title": "Copy",
+                    "handler": "command:element:copy"
+                },
+                {
+                    "title": "Cut",
+                    "handler": "command:element:cut"
+                },
+                {
+                    "title": "Paste",
+                    "handler": "command:element:paste"
+                },
+                {
+                    "title": "---",
+                    "handler": ""
+                },
+                {
+                    "title": "Edit",
+                    "handler": "command:element:edit"
+                },
+                {
+                    "title": "Remove",
+                    "handler": "command:element:remove"
+                },
+                {
+                    "title": "---",
+                    "handler": ""
+                },
+                {
+                    "title": "Send back",
+                    "handler": "command:element:moveback"
+                },
+                {
+                    "title": "Bring front",
+                    "handler": "command:element:moveforward"
+                }
+            ]
+        },
+        {
+            "id": "us-class",
+            "event": "class:contextmenu",
+            "extend": "element:contextmenu",
+            "commands": [
+                {
+                    "title": "Add Field",
+                    "handler": "command:class:add_field"
+                },
+                {
+                    "title": "Add Method",
+                    "handler": "command:class:add_method"
+                }
+            ]
+        },
+        {
+            "id": "us-class-field",
+            "event": "class:field:contextmenu",
+            "extend": "",
+            "commands": [
+                {
+                    "title": "Edit",
+                    "handler": "command:class:edit_field"
+                },
+                {
+                    "title": "Remove",
+                    "handler": "command:class:remove_field"
+                }
+            ]
+        },
+        {
+            "id": "us-class-method",
+            "event": "class:method:contextmenu",
+            "extend": "",
+            "commands": [
+                {
+                    "title": "Edit",
+                    "handler": "command:class:edit_method"
+                },
+                {
+                    "title": "Remove",
+                    "handler": "command:class:remove_method"
+                }
+            ]
+        },
+        {
+            "id": "us-diagram-default",
+            "event": "diagram:contextmenu",
+            "extend": "",
+            "commands": [
+                {
+                    "title": "Paste",
+                    "handler": "command:diagram:paste"
+                }
+            ]
+        },
+        {
+            "id": "us-connector-default",
+            "event": "connector:contextmenu",
+            "extend": "",
+            "commands": [
+                {
+                    "title": "Add Label",
+                    "handler": "command:connector:add_label"
+                },
+                {
+                    "title": "---",
+                    "handler": ""
+                },
+                {
+                    "title": "Remove Connector",
+                    "handler": "command:connector:remove"
+                }
+            ]
+        },
+        {
+            "id": "us-connector-label",
+            "event": "connector:label:contextmenu",
+            "extend": "",
+            "commands": [
+                {
+                    "title": "Edit",
+                    "handler": "command:connector:edit_label"
+                },
+                {
+                    "title": "---",
+                    "handler": ""
+                },
+                {
+                    "title": "Remove",
+                    "handler": "command:connector:remove_label"
+                }
+            ]
+        }
+    ]
+}

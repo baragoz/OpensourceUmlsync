@@ -1,0 +1,1014 @@
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+.icon-Access {
+  background-image: url(/sprites/icons.png);
+  background-position: -130px -164px;
+  width: 18px;
+  height: 18px;
+}
+.icon-aggregation {
+  background-image: url(/sprites/icons.png);
+  background-position: -153px -164px;
+  width: 18px;
+  height: 18px;
+}
+.icon-AnchorToNote {
+  background-image: url(/sprites/icons.png);
+  background-position: -176px -164px;
+  width: 18px;
+  height: 18px;
+}
+.icon-association {
+  background-image: url(/sprites/icons.png);
+  background-position: -199px -164px;
+  width: 18px;
+  height: 18px;
+}
+.icon-BiDirectionDataFlow {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-aggregation {
+  background-image: url(/sprites/icons.png);
+  background-position: -23px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-association {
+  background-image: url(/sprites/icons.png);
+  background-position: -46px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-composition {
+  background-image: url(/sprites/icons.png);
+  background-position: -69px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-dependency {
+  background-image: url(/sprites/icons.png);
+  background-position: -92px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-generalization {
+  background-image: url(/sprites/icons.png);
+  background-position: -115px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-nested {
+  background-image: url(/sprites/icons.png);
+  background-position: -138px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-realization {
+  background-image: url(/sprites/icons.png);
+  background-position: -161px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-self-association {
+  background-image: url(/sprites/icons.png);
+  background-position: -184px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-vp-note {
+  background-image: url(/sprites/icons.png);
+  background-position: -207px -199px;
+  width: 18px;
+  height: 18px;
+}
+.icon-composition {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px 0px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Constrain {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px -23px;
+  width: 18px;
+  height: 18px;
+}
+.icon-bi_direction_dataflow_to_datastore {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px -46px;
+  width: 18px;
+  height: 18px;
+}
+.icon-bi_direction_dataflow_to_entity {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px -69px;
+  width: 18px;
+  height: 18px;
+}
+.icon-bi_direction_dataflow_to_process {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px -92px;
+  width: 18px;
+  height: 18px;
+}
+.icon-dataflow_to_datastore {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px -115px;
+  width: 18px;
+  height: 18px;
+}
+.icon-dataflow_to_entity {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px -138px;
+  width: 18px;
+  height: 18px;
+}
+.icon-dataflow_to_process {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px -161px;
+  width: 18px;
+  height: 18px;
+}
+.icon-dependency {
+  background-image: url(/sprites/icons.png);
+  background-position: -236px -184px;
+  width: 18px;
+  height: 18px;
+}
+.icon-association_to_data_object {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-association_to_text_annotation {
+  background-image: url(/sprites/icons.png);
+  background-position: -23px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-compensation_association_to_subprocess {
+  background-image: url(/sprites/icons.png);
+  background-position: -46px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-compensation_association_to_task {
+  background-image: url(/sprites/icons.png);
+  background-position: -69px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-connection_to_end_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -92px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-connection_to_intermediate_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -115px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-connection_to_start_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -138px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-connection_to_subprocess {
+  background-image: url(/sprites/icons.png);
+  background-position: -161px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-connection_to_task {
+  background-image: url(/sprites/icons.png);
+  background-position: -184px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-create_lane {
+  background-image: url(/sprites/icons.png);
+  background-position: -207px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-generic_resource {
+  background-image: url(/sprites/icons.png);
+  background-position: -230px -222px;
+  width: 18px;
+  height: 18px;
+}
+.icon-message_flow_from_data_object {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px 0px;
+  width: 18px;
+  height: 18px;
+}
+.icon-message_to_end_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -23px;
+  width: 18px;
+  height: 18px;
+}
+.icon-message_to_gateway {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -46px;
+  width: 18px;
+  height: 18px;
+}
+.icon-message_to_intermediate_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -69px;
+  width: 18px;
+  height: 18px;
+}
+.icon-message_to_pool {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -92px;
+  width: 18px;
+  height: 18px;
+}
+.icon-message_to_start_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -115px;
+  width: 18px;
+  height: 18px;
+}
+.icon-message_to_subprocess {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -138px;
+  width: 18px;
+  height: 18px;
+}
+.icon-message_to_task {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -161px;
+  width: 18px;
+  height: 18px;
+}
+.icon-sequence_flow_from_data_object {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -184px;
+  width: 18px;
+  height: 18px;
+}
+.icon-sequence_to_end_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -259px -207px;
+  width: 18px;
+  height: 18px;
+}
+.icon-sequence_to_gateway {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-sequence_to_intermediate_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -23px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-sequence_to_pool {
+  background-image: url(/sprites/icons.png);
+  background-position: -46px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-sequence_to_start_event {
+  background-image: url(/sprites/icons.png);
+  background-position: -69px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-sequence_to_subprocess {
+  background-image: url(/sprites/icons.png);
+  background-position: -92px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-sequence_to_task {
+  background-image: url(/sprites/icons.png);
+  background-position: -115px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-generalization {
+  background-image: url(/sprites/icons.png);
+  background-position: -138px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-icons {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px 0px;
+  width: 162px;
+  height: 90px;
+}
+.icon-Import {
+  background-image: url(/sprites/icons.png);
+  background-position: -161px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ManyToManyRelationship {
+  background-image: url(/sprites/icons.png);
+  background-position: -184px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Merge {
+  background-image: url(/sprites/icons.png);
+  background-position: -207px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-nested {
+  background-image: url(/sprites/icons.png);
+  background-position: -230px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-OneToManyRelationship {
+  background-image: url(/sprites/icons.png);
+  background-position: -253px -245px;
+  width: 18px;
+  height: 18px;
+}
+.icon-OneToOneRelationship {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px 0px;
+  width: 18px;
+  height: 18px;
+}
+.icon-realization {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -23px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Transition {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -46px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Actor {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -69px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Extend {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -92px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Include {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -115px;
+  width: 18px;
+  height: 18px;
+}
+.icon-System {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -138px;
+  width: 18px;
+  height: 18px;
+}
+.icon-UseCase {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -161px;
+  width: 18px;
+  height: 18px;
+}
+.icon-UseCaseCollaboration {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -184px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Abstraction {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -207px;
+  width: 18px;
+  height: 18px;
+}
+.icon-AssociationClass {
+  background-image: url(/sprites/icons.png);
+  background-position: -282px -230px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Binding {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Class {
+  background-image: url(/sprites/icons.png);
+  background-position: -23px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassCloseFolder {
+  background-image: url(/sprites/icons.png);
+  background-position: -46px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassDiagram {
+  background-image: url(/sprites/icons.png);
+  background-position: -69px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassDiagramPaper64 {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -95px;
+  width: 64px;
+  height: 64px;
+}
+.icon-ClassEnumeration {
+  background-image: url(/sprites/icons.png);
+  background-position: -92px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassInterface {
+  background-image: url(/sprites/icons.png);
+  background-position: -115px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassOpenFolder {
+  background-image: url(/sprites/icons.png);
+  background-position: -138px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassORM {
+  background-image: url(/sprites/icons.png);
+  background-position: -161px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassORMComponent {
+  background-image: url(/sprites/icons.png);
+  background-position: -184px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassPaper {
+  background-image: url(/sprites/icons.png);
+  background-position: -207px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ClassPrimitive {
+  background-image: url(/sprites/icons.png);
+  background-position: -230px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Derive {
+  background-image: url(/sprites/icons.png);
+  background-position: -253px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Instantiate {
+  background-image: url(/sprites/icons.png);
+  background-position: -276px -268px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Nary {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px 0px;
+  width: 18px;
+  height: 18px;
+}
+.icon-NewClassPaper {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -23px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Permission {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -46px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Qualifier {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -69px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Refine {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -92px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Substitute {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -115px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Trace {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -138px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Usage {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -161px;
+  width: 18px;
+  height: 18px;
+}
+.icon-DeepHistory {
+  background-image: url(/sprites/icons.png);
+  background-position: -36px -164px;
+  width: 30px;
+  height: 30px;
+}
+.icon-ExitPoint {
+  background-image: url(/sprites/icons.png);
+  background-position: -138px -122px;
+  width: 20px;
+  height: 20px;
+}
+.icon-FinalState {
+  background-image: url(/sprites/icons.png);
+  background-position: -167px -138px;
+  width: 21px;
+  height: 21px;
+}
+.icon-InitialPseudoState {
+  background-image: url(/sprites/icons.png);
+  background-position: -106px -164px;
+  width: 19px;
+  height: 20px;
+}
+.icon-interface {
+  background-image: url(/sprites/icons.png);
+  background-position: -193px -138px;
+  width: 21px;
+  height: 21px;
+}
+.icon-Note {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -184px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ShallowHistory {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -164px;
+  width: 31px;
+  height: 30px;
+}
+.icon-Terminate {
+  background-image: url(/sprites/icons.png);
+  background-position: -71px -164px;
+  width: 30px;
+  height: 30px;
+}
+.icon-Component {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -207px;
+  width: 18px;
+  height: 18px;
+}
+.icon-InstanceSpecification {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -230px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Interface {
+  background-image: url(/sprites/icons.png);
+  background-position: -305px -253px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Port {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Datastore {
+  background-image: url(/sprites/icons.png);
+  background-position: -23px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ExternalEntity {
+  background-image: url(/sprites/icons.png);
+  background-position: -46px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ProcessBox {
+  background-image: url(/sprites/icons.png);
+  background-position: -69px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Artifact {
+  background-image: url(/sprites/icons.png);
+  background-position: -92px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-DeploymentSpecification {
+  background-image: url(/sprites/icons.png);
+  background-position: -115px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-DeviceNode {
+  background-image: url(/sprites/icons.png);
+  background-position: -138px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ExecutionEnvironmentNode {
+  background-image: url(/sprites/icons.png);
+  background-position: -161px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Node {
+  background-image: url(/sprites/icons.png);
+  background-position: -184px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-DBView {
+  background-image: url(/sprites/icons.png);
+  background-position: -207px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Entity {
+  background-image: url(/sprites/icons.png);
+  background-position: -230px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ResultSet {
+  background-image: url(/sprites/icons.png);
+  background-position: -253px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-StoredProceduresContainer {
+  background-image: url(/sprites/icons.png);
+  background-position: -276px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Column {
+  background-image: url(/sprites/icons.png);
+  background-position: -299px -291px;
+  width: 18px;
+  height: 18px;
+}
+.icon-CreatePartialTable {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px 0px;
+  width: 18px;
+  height: 18px;
+}
+.icon-DBViewIcon {
+  background-image: url(/sprites/icons.png);
+  background-position: -138px -95px;
+  width: 22px;
+  height: 22px;
+}
+.icon-EntityRelationshipCloseFolder {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -23px;
+  width: 18px;
+  height: 18px;
+}
+.icon-EntityRelationshipDiagram {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -46px;
+  width: 18px;
+  height: 18px;
+}
+.icon-EntityRelationshipOpenFolder {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -69px;
+  width: 18px;
+  height: 18px;
+}
+.icon-EntityRelationshipPaper {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -92px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ERDiagramPaper64 {
+  background-image: url(/sprites/icons.png);
+  background-position: -69px -95px;
+  width: 64px;
+  height: 64px;
+}
+.icon-ForeignKey {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -115px;
+  width: 18px;
+  height: 18px;
+}
+.icon-NewEntityRelationshipPaper {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -138px;
+  width: 18px;
+  height: 18px;
+}
+.icon-OneToOneRelationship {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -161px;
+  width: 18px;
+  height: 18px;
+}
+.icon-PrimaryForeignKey {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -184px;
+  width: 18px;
+  height: 18px;
+}
+.icon-PrimaryKey {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -207px;
+  width: 18px;
+  height: 18px;
+}
+.icon-DecisionNode {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -230px;
+  width: 18px;
+  height: 18px;
+}
+.icon-FinalState {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -253px;
+  width: 18px;
+  height: 18px;
+}
+.icon-InitialPseudoState {
+  background-image: url(/sprites/icons.png);
+  background-position: -328px -276px;
+  width: 18px;
+  height: 18px;
+}
+.icon-InteractionOccurrence {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-NewPackagePaper {
+  background-image: url(/sprites/icons.png);
+  background-position: -23px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Package {
+  background-image: url(/sprites/icons.png);
+  background-position: -46px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-PackageCloseFolder {
+  background-image: url(/sprites/icons.png);
+  background-position: -69px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-PackageDiagram {
+  background-image: url(/sprites/icons.png);
+  background-position: -92px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-PackageDiagramPaper64 {
+  background-image: url(/sprites/icons.png);
+  background-position: -167px 0px;
+  width: 64px;
+  height: 64px;
+}
+.icon-PackageOpenFolder {
+  background-image: url(/sprites/icons.png);
+  background-position: -115px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-PackagePaper {
+  background-image: url(/sprites/icons.png);
+  background-position: -138px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Subsystem {
+  background-image: url(/sprites/icons.png);
+  background-position: -161px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Choice {
+  background-image: url(/sprites/icons.png);
+  background-position: -184px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-DeepHistory {
+  background-image: url(/sprites/icons.png);
+  background-position: -207px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-EntryPoint {
+  background-image: url(/sprites/icons.png);
+  background-position: -230px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ExitPoint {
+  background-image: url(/sprites/icons.png);
+  background-position: -253px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-FinalState {
+  background-image: url(/sprites/icons.png);
+  background-position: -276px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Fock {
+  background-image: url(/sprites/icons.png);
+  background-position: -299px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-HistoryState {
+  background-image: url(/sprites/icons.png);
+  background-position: -322px -314px;
+  width: 18px;
+  height: 18px;
+}
+.icon-InitialPseudoState {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px 0px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Join {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -23px;
+  width: 18px;
+  height: 18px;
+}
+.icon-JunctionPoint {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -46px;
+  width: 18px;
+  height: 18px;
+}
+.icon-NewStatePaper {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -69px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Region {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -92px;
+  width: 18px;
+  height: 18px;
+}
+.icon-ShallowHistory {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -115px;
+  width: 18px;
+  height: 18px;
+}
+.icon-State {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -138px;
+  width: 18px;
+  height: 18px;
+}
+.icon-StateCloseFolder {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -161px;
+  width: 18px;
+  height: 18px;
+}
+.icon-StateDiagram {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -184px;
+  width: 18px;
+  height: 18px;
+}
+.icon-StateDiagramPaper64 {
+  background-image: url(/sprites/icons.png);
+  background-position: -167px -69px;
+  width: 64px;
+  height: 64px;
+}
+.icon-StateMachine {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -207px;
+  width: 18px;
+  height: 18px;
+}
+.icon-StateOpenFolder {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -230px;
+  width: 18px;
+  height: 18px;
+}
+.icon-StatePaper {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -253px;
+  width: 18px;
+  height: 18px;
+}
+.icon-SubMachineState {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -276px;
+  width: 18px;
+  height: 18px;
+}
+.icon-Terminate {
+  background-image: url(/sprites/icons.png);
+  background-position: -351px -299px;
+  width: 18px;
+  height: 18px;
+}
+.icon-blue {
+  background-image: url(/sprites/icons.png);
+  background-position: 0px -337px;
+  width: 18px;
+  height: 18px;
+}
+.icon-green {
+  background-image: url(/sprites/icons.png);
+  background-position: -23px -337px;
+  width: 18px;
+  height: 18px;
+}
+.icon-orange {
+  background-image: url(/sprites/icons.png);
+  background-position: -46px -337px;
+  width: 18px;
+  height: 18px;
+}
+.icon-red {
+  background-image: url(/sprites/icons.png);
+  background-position: -69px -337px;
+  width: 18px;
+  height: 18px;
+}
+.icon-yellow {
+  background-image: url(/sprites/icons.png);
+  background-position: -92px -337px;
+  width: 18px;
+  height: 18px;
+}

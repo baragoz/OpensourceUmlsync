@@ -1,0 +1,63 @@
+[
+  {
+    "menuHeader": "Package Diagram",
+    "elements": [
+      {
+        "element": "package",
+        "type": "UML",
+        "description": "Package",
+        "css": "icon-es-package-Package"
+      },
+      {
+        "element": "subsystem",
+        "type": "UML",
+        "description": "Subsystem",
+        "css": "icon-es-package-Subsystem"
+      },
+      {
+        "element": "note",
+        "type": "UML",
+        "description": "Note",
+        "css": "icon-es-common-note"
+      }
+    ],
+    "connectors": [
+      {
+        "connector": "dependency",
+        "type": "UML",
+        "description": "Dependency",
+        "css": "icon-cs-dependency"
+      },
+      {
+        "connector": "dependency",
+        "type": "UML",
+        "description": "Import",
+        "css": "icon-cs-Import"
+      },
+      {
+        "connector": "dependency",
+        "type": "UML",
+        "description": "Access",
+        "css": "icon-cs-Access"
+      },
+      {
+        "connector": "generalization",
+        "type": "UML",
+        "description": "Generalization",
+        "css": "icon-cs-generalization"
+      },
+      {
+        "connector": "dependency",
+        "type": "UML",
+        "description": "Merge",
+        "css": "icon-cs-Merge"
+      },
+      {
+        "connector": "nested",
+        "type": "UML",
+        "description": "Containment",
+        "css": "icon-cs-nested"
+      }
+    ]
+  }
+]

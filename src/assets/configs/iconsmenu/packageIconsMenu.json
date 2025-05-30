@@ -1,0 +1,47 @@
+{
+    "id": "vp-package-menu",
+    "items": [
+        {
+            "el": "package",
+            "cs": [
+                {
+                    "connector": "dependency",
+                    "css": "icon-im-package-dependency"
+                },
+                {
+                    "connector": "access",
+                    "css": "icon-im-package-access"
+                },
+                {
+                    "connector": "import",
+                    "css": "icon-im-package-import"
+                },
+                {
+                    "connector": "generalization",
+                    "css": "icon-im-package-generalization"
+                },
+                {
+                    "connector": "realization",
+                    "css": "icon-im-package-realization"
+                },
+                {
+                    "connector": "dependency",
+                    "css": "icon-im-package-merge"
+                },
+                {
+                    "connector": "nested",
+                    "css": "icon-im-package-contain"
+                }
+            ]
+        },
+        {
+            "el": "note",
+            "cs": [
+                {
+                    "connector": "anchor",
+                    "css": "icon-im-common-note-anchor"
+                }
+            ]
+        }
+    ]
+}
