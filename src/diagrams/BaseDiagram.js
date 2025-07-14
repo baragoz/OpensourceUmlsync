@@ -257,7 +257,6 @@ class BaseDiagram extends BaseDiagramItem {
       result.elements.push(this.elements[e].getDescription());
     }
 
-    console.log("GET DESCRIPTION !!!!", result);
     return result;
   }
 
@@ -744,7 +743,7 @@ class BaseDiagram extends BaseDiagramItem {
       // Add or remove item to the list of selected
       //
       if (item.options.selected) {
-        this.selectedItems = this.selectedItems.filter((elem) => { elem != item});
+        this.selectedItems = this.selectedItems.filter((elem) => { return elem != item});
       } else {
         this.selectedItems.push(item);
       }
@@ -897,6 +896,91 @@ class BaseDiagram extends BaseDiagramItem {
     //
     this.renderer.onRemoveDiagram(this);
   }
+
+
+  //
+  // Element DND observer API
+  //
+  onElementDragStart(element, ui) {
+    //
+    // 
+    //
+    element.onDragStart(ui, true);
+    //
+    // Multiple elements selected
+    //
+    if (this.selectedItems.length > 1) {
+      for (var i in this.elements) {
+        var ee = this.elements[i];
+        if (ee.options["selected"]
+            && !ee.options["dragStart"]) {
+          ee.onDragStart(ui);
+        }
+      }  // elements
+
+      // Update the list of draggable elements
+      var draggable = [];
+      //
+      // Push all draggable elements to the list
+      //
+      for (var i in this.elements) {
+        const ee = this.elements[i];
+        if (ee.options["dragStart"]) {
+          // add euid to the list
+          draggable.push(ee.euid);
+        }
+      }
+
+      //
+      // Update list of connectors to DND
+      //
+      for (var i in this.connectors) {
+        if (draggable.indexOf(this.connectors[i]['fromId']) >= 0 
+         && draggable.indexOf(this.connectors[i]['toId']) >= 0) {
+          this.connectors[i].onDragStart(ui);
+        }
+      }  // connectors
+    }
+  }
+
+
+  onElementDragMove(element, ui) {
+    // Elements
+    for (var i in this.elements) {
+      if (this.elements[i].options["dragStart"]
+          && this.elements[i] != element) {
+        // Drag move updates the css of the element
+        // Skip draggable element to avoid infinite loop
+        this.elements[i].onDragMove(ui);
+      }
+    }
+    // Connectors
+    for (var i in this.connectors) {
+      if (this.connectors[i].options["dragStart"]) {
+        this.connectors[i].onDragMove(ui);
+      }
+    }
+  }
+
+
+  onElementDragStop(element, ui) {
+    element.onDragStop(ui, true);
+
+    for (var i in this.elements) {
+      var ee = this.elements[i];
+      if (ee.options["dragStart"]
+          && ee != element) {
+        ee.onDragStop(ui);
+        ee._update();
+      }
+    }
+
+    // stop connector's move
+    for (var i in this.connectors)
+      if (this.connectors[i].options["dragStart"])
+        this.connectors[i].onDragStop(ui);
+  }
+
 }
 
 export { BaseDiagram }

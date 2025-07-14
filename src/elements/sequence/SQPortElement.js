@@ -4,7 +4,8 @@ class SQPortElement extends BaseElement {
     constructor(options, jsonModel, diagram) {
         let defaultOptions = {
             'nameTemplate': "sqport",
-            'droppable': false,
+            'droppable': ftrue,
+            'resizable_h': 's-u,n-u',
             ...options
         };
         let defaultjsonModel = {

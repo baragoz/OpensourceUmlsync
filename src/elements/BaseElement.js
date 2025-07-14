@@ -223,19 +223,6 @@ class BaseElement extends BaseDiagramItem {
   }
 
   //
-  // Element DND observer API
-  //
-  onElementDragStart(ui) {
-    // Empty
-  }
-  onElementDragMove(ui) {
-    // empty
-  }
-  onElementDragStop(ui) {
-    // Empty
-  }
-
-  //
   //  Element RESIZE observer API
   //
   onResizeStart() {
@@ -263,6 +250,79 @@ class BaseElement extends BaseDiagramItem {
     //
     super.removeInstance();
   }
+
+
+  //
+  //
+  // Droppagbale + multiple DND
+  //
+  onDragStart(ui, skipDropped = false) {
+
+      //
+      // Could be drag-started as dropped element
+      //
+      if (this.options.dragStart) {
+        return;
+      }
+
+      if (skipDropped) {
+        // Do nothing with dropped elements
+      } else {
+        for (var i in this._dropped) {
+          if (this.diagram.elements[i]) {
+            this.diagram.elements[i].onDragStart(ui);
+          }
+        }
+      }
+
+      this.options.dragStart = true;
+
+//    if (isbase == undefined) {
+//      var p = $("#" + this.euid + "_Border").position(),
+  //    scrollLeft = $("#" + this.parrent.euid).scrollLeft(),
+    //  scrollTop = $("#" + this.parrent.euid).scrollTop();
+
+      //this.options.left = p.left + scrollLeft;
+     // this.options.top = p.top + scrollTop;
+
+      this.start_operation = {left:this.jsonModel.left, top: this.jsonModel.top};
+//    }
+    }
+    
+    onDragMove(ui, skipModelChange = false) {
+      if (!this.options.dragStart || !this.start_operation) {
+        return;
+      }
+
+      if (!skipModelChange) {
+        this.nativeBorderRef
+          .css({'left':this.start_operation.left + ui.left, 'top':this.start_operation.top + ui.top});
+      }
+
+      this.jsonModel.left = this.start_operation.left + ui.left;
+      this.jsonModel.top = this.start_operation.top + ui.top;
+    }
+    
+    onDragStop(ui, skipModelChange = false) {
+      //
+      // Update UI position
+      //
+      this.onDragMove(ui, skipModelChange = false);
+
+      // Droppable
+      if (this.options['droppable']) {
+            this.diagram._dropElement(this,
+              {
+                position: {
+                  'left':this.jsonModel.left, 
+                  'top':this.jsonModel.top
+                }}); 
+      } // droppable
+
+      
+      this.options.dragStart = false;
+      delete this.start_operation;            
+    }
 }
 
 export { BaseElement }

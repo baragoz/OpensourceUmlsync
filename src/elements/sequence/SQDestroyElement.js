@@ -4,7 +4,7 @@ class SQDestroyElement extends BaseElement {
     constructor(options, jsonModel, diagram) {
         let defaultOptions = {
             'nameTemplate': "sqdestroy",
-            'droppable': false,
+            'droppable': true,
             ...options
         };
         let defaultjsonModel = {

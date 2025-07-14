@@ -1,6 +1,7 @@
 class ElementDraggable {
       constructor(element, nativeBorderRef, blackboard) {
         this.element = element;
+        this.diagram = element.diagram;
         this.init(element, nativeBorderRef, blackboard);
         blackboard.addEventListener(
           'storage:editmode', this.onEditModeChange.bind(this));
@@ -39,7 +40,7 @@ class ElementDraggable {
                 }
     
                 // Notify element
-                element.onElementDragStart(ui);
+                self.diagram.onElementDragStart(element, ui);
 
                 // broadcast
                 blackboard.notify("element:drag:start", element);
@@ -57,7 +58,9 @@ class ElementDraggable {
                 if (element.$moveit != undefined) {
                     $("#" + element.$moveit).css("left", 200);
                 }
-                element.onElementDragMove({left:ui.position.left - self.operation_start.left, top:ui.position.top - self.operation_start.top});
+                self.diagram.onElementDragMove(element,
+                  {left:ui.position.left - self.operation_start.left,
+                   top:ui.position.top - self.operation_start.top});
             },
             'stop': function(event, ui) {
 
@@ -97,7 +100,11 @@ class ElementDraggable {
                   return;
                 }
     
-                element.onElementDragStop({left:ui.position.left - self.operation_start.left, top:ui.position.top - self.operation_start.top});
+                self.diagram.onElementDragStop(element,
+                  {
+                    left:ui.position.left - self.operation_start.left,
+                    top:ui.position.top - self.operation_start.top
+                  });
 
                 element._update();
                 // Notify another plugins ....

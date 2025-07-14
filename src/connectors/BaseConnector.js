@@ -373,7 +373,7 @@ class BaseConnector extends BaseDiagramItem {
   eppos = -1
   //
   // Could be override
-  //
+  //0-
   getNearestPointIndex(x, y) {
     //
     // Check if mouse is near to some extra point ?
@@ -874,7 +874,6 @@ class BaseConnector extends BaseDiagramItem {
       for (var i in this.epoints) {
         this.epoints_drag[i] = {x: this.epoints[i].x, y: this.epoints[i].y};
       }
-      this.options.dragStart = true;
     }
     //
     // Clone labels on drag start
@@ -886,6 +885,8 @@ class BaseConnector extends BaseDiagramItem {
         this.labels_drag[i] = {x: p.left, y: p.top};
       }
     }
+
+    this.options.dragStart = true;
 
     // this.diagram.opman.reportStart("option", this.euid, {'epoints':
     // this.epoints_drag, 'labels':this.labels_drag});
