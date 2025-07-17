@@ -46,14 +46,18 @@ function pasteCommandHandler(diagram, data) {
 
 function deleteCommandHandler(element) {
     if (element && element.diagram) {
+        let diagram = element.diagram;
+        let blackboard = diagram.getUserData("blackboard");
+        if (blackboard) {
+          blackboard.notify("element:before:remove", element);
+        }
+
         let sharedData = {
             jsonModel : {...element.jsonModel},
             euid: element.euid
         };
-        let diagram = element.diagram;
         diagram.removeElement(element.euid);
 
-        let blackboard = diagram.getUserData("blackboard");
         if (blackboard) {
           blackboard.notify("element:remove", sharedData);
         }

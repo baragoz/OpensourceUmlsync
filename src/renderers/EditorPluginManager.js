@@ -8,6 +8,7 @@ import {ClassExtras} from './Plugins/ClassExtras';
 import { ConnectorLabels } from './Plugins/ConnectorLabels';
 import {DiagramContextMenu} from './Plugins/DiagramContextMenu';
 import { DiagramDroppableElement } from './Plugins/DiagramDroppableElements';
+import { DiagramDroppableSQElement } from './Plugins/DiagramDroppableSQElement';
 import {DiagramMouseEvents} from './Plugins/DiagramMouseEvents';
 import {DiagramScroll} from './Plugins/DiagramScroll';
 import {EditorContextMenu} from './Plugins/EditorContextMenu';
@@ -83,7 +84,7 @@ class EditorPluginManager extends IDiagramObserver {
     // allow to drop elements on sequence diagram
     //
     if (diagram.options.nameTemplate === 'sequenceDiagram') {
-      diagram.setUserData("plugin-droppable", new DiagramDroppableElement(diagram, this.blackboard));
+      diagram.setUserData("plugin-droppable", new DiagramDroppableSQElement(diagram, this.blackboard));
     }
     diagram.setUserData("plugin-scroll", new DiagramScroll(diagram, this.blackboard));
     diagram.setUserData("plugin-contextmenu", new DiagramContextMenu(diagram, this.blackboard));
