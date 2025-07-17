@@ -651,7 +651,6 @@ class BaseDiagram extends BaseDiagramItem {
         ctx.lineWidth = 1;
 
         if (this.connectors[c].options['line-width'] != undefined) {
-          console.log("LINE WIDTH IS: " + this.connectors[c].options['line-width']);
           ctx.lineWidth = this.connectors[c].options['line-width'];
         }
 
@@ -826,6 +825,51 @@ class BaseDiagram extends BaseDiagramItem {
     // TODO: do not forget this.options.editmode if you decide to add something to this method
   }
 
+
+  checkDroppableElement(de /* dropped_element */) {
+    //
+    // Could not relay on jsonModel at this point
+    //
+    const dp = de.nativeBorderRef.position();
+    const ds = {
+      width: de.nativeBorderRef.width(),
+      height: de.nativeBorderRef.height()
+    };
+
+    var zindex = -100;
+    var result = null;
+
+    for (var d in this.elements) {
+      const item = this.elements[d];
+      if (item === de                // the same element
+        || !item.options.acceptdrop  // do not accept any elements for drop
+                                     // do not accept an element type as drop
+        || item.options.acceptdrop.indexOf(de.options.nameTemplate) < 0) {
+        continue;
+      }
+
+      var p = item.nativeBorderRef.position();
+      var sz = {
+        width: item.nativeBorderRef.width(),
+        height: item.nativeBorderRef.height()
+      };
+
+      //
+      // Check if dropped element inside current 
+      // 
+      if ((dp.left > p.left) && (dp.left + ds.width < p.left + sz.width) && (dp.top > p.top) &&
+          (dp.top + ds.height < p.top + sz.height)) {
+
+          const zi = parseInt(item.jsonModel['z-index']);
+          if (zi > zindex) {
+            zindex = zi;
+            result = item;
+          }
+      }
+    }
+    return result;
+  }
+
   //
   // indeed on add connector finished successfull
   //
@@ -905,7 +949,7 @@ class BaseDiagram extends BaseDiagramItem {
     //
     // 
     //
-    element.onDragStart(ui, true);
+    element.onDragStart(ui);
     //
     // Multiple elements selected
     //

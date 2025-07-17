@@ -8,7 +8,7 @@ const defaultOptions = {
   'ctx_menu':"default",
   'editable':true,
   "acceptdrop": [],
-  "dropable": false,
+  "droppable": false,
 };
 
 
@@ -22,7 +22,6 @@ class BaseElement extends BaseDiagramItem {
      
 
   nativeRef = null;
-  _dropped = [];
 
   constructor(options, jsonModel, diagram) {
     // Generate unique id
@@ -100,13 +99,20 @@ class BaseElement extends BaseDiagramItem {
     //
     // If element has nested elements
     //
-    if (this._dropped.length > 0) {
+
+
+    //
+    // TODO: REMOVE - no need to save droplist 
+    //
+    /*
+    if (this.droplist && this.droplist.length > 0) {
       this.jsonModel['dropped'] = new Array();
-      for (var euid in this._dropped) {
+      for (var euid in this.droplist) {
         // TODO: check if element still present
         this.jsonModel['dropped'].push(euid);
       }
     }
+    */
   }
 
   //
@@ -268,9 +274,13 @@ class BaseElement extends BaseDiagramItem {
       if (skipDropped) {
         // Do nothing with dropped elements
       } else {
-        for (var i in this._dropped) {
-          if (this.diagram.elements[i]) {
-            this.diagram.elements[i].onDragStart(ui);
+        //
+        // Toggle drag start for dropped elements
+        //
+        console.log("DROPLIST !!", this.droplist);
+        for (var i in this.droplist) {
+          if (this.droplist[i]) {
+            this.droplist[i].onDragStart(ui);
           }
         }
       }
@@ -310,6 +320,7 @@ class BaseElement extends BaseDiagramItem {
       this.onDragMove(ui, skipModelChange = false);
 
       // Droppable
+      /*
       if (this.options['droppable']) {
             this.diagram._dropElement(this,
               {
@@ -318,7 +329,7 @@ class BaseElement extends BaseDiagramItem {
                   'top':this.jsonModel.top
                 }}); 
       } // droppable
-
+*/
       
       this.options.dragStart = false;
       delete this.start_operation;            
