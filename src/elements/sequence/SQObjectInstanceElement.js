@@ -11,6 +11,7 @@ class SQObjectInstanceElement extends BaseElement {
         let defaultjsonModel = {
             'width': 176,
             'height': 400,
+            'name': 'ObjectInstance',
             ...jsonModel
         };
 
@@ -27,7 +28,7 @@ class SQObjectInstanceElement extends BaseElement {
         let innerHtml = '<div id="' + this.euid + '" class="us-element-resizable-area" style="width:100%;">\
           <div class="us-instance-line"></div>\
           <div id="' + this.euid + '_NEXT" class="us-instance grElement" style="height:40px;">\
-          <div><a id="name" data-key="name" class="editablefield Name">:' + this.options.name+ '</a></div></div></div>';
+          <div><a id="name" data-key="name" class="editablefield Name">:' + this.jsonModel.name+ '</a></div></div></div>';
         this.diagram.nativeRef.append(innerHtml);
     }
 }

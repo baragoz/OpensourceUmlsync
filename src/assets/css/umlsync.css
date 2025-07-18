@@ -817,6 +817,11 @@
     position: absolute;
   }
 
+  .us-side-menu-icon>svg {
+    width: 16px;
+    height: 16px;
+  }
+
 /***************** CLASS DIAGRAM **********/
 
 .us-class-aux {

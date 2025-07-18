@@ -8,45 +8,48 @@
         "jsonModel": {
           "name": "Class"
         },
-        "css": "icon-es-class-Class"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M5 9H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
+      },
+      {
+        "element": "class",
+        "description": "Template",
+        "jsonModel": {
+          "name": "Class",
+          "template": "Template"
+        },
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M17 12L18.6302 9.5547C18.8541 9.2188 18.8541 8.7812 18.6302 8.4453L17 6' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M7 6L5.3698 8.4453C5.14587 8.7812 5.14587 9.2188 5.3698 9.5547L7 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M12 11.5V6.5M12 6.5H14.5M12 6.5H9.5' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
       },
       {
         "element": "class",
         "description": "Interface",
         "jsonModel": {
-          "name": "Interface",
+          "name": "Class",
           "aux": "interface"
         },
-        "css": "icon-es-class-ClassInterface"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M17 12L18.6302 9.5547C18.8541 9.2188 18.8541 8.7812 18.6302 8.4453L17 6' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M7 6L5.3698 8.4453C5.14587 8.7812 5.14587 9.2188 5.3698 9.5547L7 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M12 11.5V6.5M12 6.5H14.5M12 6.5H9.5' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
       },
       {
         "element": "class",
         "description": "Enumeration",
         "jsonModel": {
-          "name": "Enumeration",
+          "name": "Struct",
           "aux": "enum"
         },
-        "css": "icon-es-class-ClassEnumeration"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M17 12L18.6302 9.5547C18.8541 9.2188 18.8541 8.7812 18.6302 8.4453L17 6' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M7 6L5.3698 8.4453C5.14587 8.7812 5.14587 9.2188 5.3698 9.5547L7 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M10 6.5V5.75C9.58579 5.75 9.25 6.08579 9.25 6.5H10ZM10 11.5H9.25C9.25 11.9142 9.58579 12.25 10 12.25V11.5ZM13.5 7.25C13.9142 7.25 14.25 6.91421 14.25 6.5C14.25 6.08579 13.9142 5.75 13.5 5.75V7.25ZM13.5 12.25C13.9142 12.25 14.25 11.9142 14.25 11.5C14.25 11.0858 13.9142 10.75 13.5 10.75V12.25ZM13.5 9.58333C13.9142 9.58333 14.25 9.24755 14.25 8.83333C14.25 8.41912 13.9142 8.08333 13.5 8.08333V9.58333ZM10 6.5H9.25V8.83333H10H10.75V6.5H10ZM10 8.83333H9.25V11.5H10H10.75V8.83333H10ZM10 6.5V7.25H13.5V6.5V5.75H10V6.5ZM10 11.5V12.25H13.5V11.5V10.75H10V11.5ZM13.5 8.83333V8.08333H10V8.83333V9.58333H13.5V8.83333Z' fill='#292D32'/></svg>"
       },
       {
         "element": "class",
-        "description": "Primitive",
-        "css": "icon-es-class-ClassPrimitive"
-      },
-      {
-        "element": "class",
-        "description": "ORM",
-        "css": "icon-es-class-ClassORM"
-      },
-      {
-        "element": "class",
-        "description": "ORMComponent",
-        "css": "icon-es-class-ClassORMComponent"
+        "description": "Custom",
+        "jsonModel": {
+          "name": "Class",
+          "aux": "custom"
+        },
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M17 12L18.6302 9.5547C18.8541 9.2188 18.8541 8.7812 18.6302 8.4453L17 6' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M7 6L5.3698 8.4453C5.14587 8.7812 5.14587 9.2188 5.3698 9.5547L7 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M13.5 6.5H11V11.5H13.5' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "element": "note",
         "description": "Note",
-        "css": "icon-es-common-Note"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><g clip-path='url(#clip0_4403_12086)'><path d='M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M14.5 4.5V6.5C14.5 7.6 15.4 8.5 16.5 8.5H18.5' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 13H12' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 17H16' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></g><defs><clipPath id='clip0_4403_12086'><rect width='24' height='24' fill='white'/></clipPath></defs></svg>"
       }
     ],
     "connectors": [

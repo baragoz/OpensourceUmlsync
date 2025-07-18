@@ -73,7 +73,7 @@ export class PreviewDiagramItemsDropdownComponent {
             </div>
             <div class="us-side-menu-icon">${item.svg}</div>
           </div>
-          <span class="diagram-name" style="width: 16px;">${item.description || "Unknown"}</span>
+          <span class="diagram-name">${item.description || "Unknown"}</span>
         </div>
       `);
       } else {

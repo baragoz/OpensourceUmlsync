@@ -5,67 +5,82 @@
       {
         "element": "sqobject_instance",
         "description": "Object Instance",
-        "css": "icon-es-component-InstanceSpecification"
-      },
-      {
-        "element": "sqactor",
-        "description": "Actor",
-        "css": "icon-cs-usecase-Actor"
-      },
-      {
-        "element": "sqalt",
-        "description": "Alternative",
-        "css": "icon-cs-usecase-Actor"
+        "jsonModel": {
+          "name": "Object Instance"
+        },
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 7.9L3 9.1C3 12.6 4.4 14 7.9 14L16.1 14C19.6 14 21 12.6 21 9.1L21 7.9C21 4.4 19.6 3 16.1 3L7.9 3C4.4 3 3 4.4 3 7.9Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M11.818 14.773V16.364M11.818 21.1369V19.5459' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "element": "sqport",
         "description": "Port",
-        "css": "icon-cs-usecase-Actor"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12.6 3L11.4 3C7.9 3 6.5 4.4 6.5 7.9L6.5 16.1C6.5 19.6 7.9 21 11.4 21L12.6 21C16.1 21 17.5 19.6 17.5 16.1L17.5 7.9C17.5 4.4 16.1 3 12.6 3Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M11.8178 1.00001V2.591' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M11.8178 21V22.591' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "element": "sqdestroy",
         "description": "Destroy",
-        "css": "icon-cs-usecase-Actor"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M4 4L12 12M20 20L12 12M12 12L20 4M12 12L4 20' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
       },
       {
-        "element": "sqparticipant",
-        "description": "Message Participant",
-        "css": "icon-cs-usecase-Actor"
-      }
-      
+        "element": "sqactor",
+        "description": "Actor",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><ellipse cx='12' cy='5' rx='3' ry='3' transform='rotate(-180 12 5)' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5'/><path d='M12.05 8V10.9167M12.05 16.75H15.65V22M12.05 16.75H8.45V22M12.05 16.75V10.9167M12.05 10.9167H19.25M12.05 10.9167H4.25' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+      },
+      {
+        "element": "sqcircle",
+        "description": "Lost Message",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#292D32' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+      },
+      {
+        "element": "sqalt",
+        "description": "Loop",
+        "jsonModel": {
+          "name": "Loop"
+        },
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M22 14L22 9C22 4 20 2 15 2L9 2C4 2 2 4 2 9L2 15C2 20 4 22 9 22L14 22' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 10V12.25V14.5H7M17 14.5V12.25M17 12.25V10H19V12.25H17ZM9 10H11V14.5H9V10ZM13 10H15V14.5H13V10Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+      },
+      {
+        "element": "sqalt",
+        "description": "Alternative",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M22 14L22 9C22 4 20 2 15 2L9 2C4 2 2 4 2 9L2 15C2 20 4 22 9 22L14 22' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M7 14.5V12.25M7 12.25V10H9V12.25H7ZM7 12.25L9 14.5M12.5 10H11V12.25M11 12.25V14.5H12.5M11 12.25H12.5M14.5 14.5V12.25M16.5 10H14.5V12.25M14.5 12.25H15.5' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+      },
+      {
+        "element": "sqalt",
+        "description": "Reference",
+        "jsonModel": {
+          "name": "Ref"
+        },
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M22 14L22 9C22 4 20 2 15 2L9 2C4 2 2 4 2 9L2 15C2 20 4 22 9 22L14 22' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M7 14.5V12.25M7 12.25V10H9V12.25H7ZM7 12.25L9 14.5M12.5 10H11V12.25M11 12.25V14.5H12.5M11 12.25H12.5M14.5 14.5V12.25M16.5 10H14.5V12.25M14.5 12.25H15.5' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+      }      
     ],
     "connectors": [
       {
         "connector": "sqsyncmessage",
         "description": "Sync Message",
-        "css": "icon-cs-dependency"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M16.3638 5.63605L22.0206 11.2929C22.4111 11.6834 22.4111 12.3166 22.0206 12.7071L16.3638 18.364' fill='#292D32'/><path d='M2 12L20.5 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "connector": "sqasyncmessage",
         "description": "Async message",
-        "css": "icon-cs-composition"
-      },
-      {
-        "connector": "sqselfmessage",
-        "description": "Self Message",
-        "onway": true,
-        "css": "icon-cs-generalization"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M2 12L20.5 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "connector": "sqreturnmessage",
         "description": "Return Message",
-        "css": "icon-cs-realization"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><g transform='scale(-1,1) translate(-24,0)'><path d='M18.3638 8.63617L21.7276 12L18.3638 15.3638' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99996 12H3.59095H5.18194H6.77293M14.7279 12H16.3189M21.0918 12H19.5008M11.5459 12H9.95491' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></g></svg>"
       },
       {
-        "connector": "anchor",
-        "description": "Anchor",
-        "css": "icon-cs-AnchorToNote"
+        "connector": "sqreturnmessage",
+        "description": "Create Message",
+        "end": "sqobject_instance",
+        "label": "[ Create ]",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M18.3638 8.63617L21.7276 12L18.3638 15.3638' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99996 12H3.59095H5.18194H6.77293M14.7279 12H16.3189M21.0918 12H19.5008M11.5459 12H9.95491' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
-        "connector": "anchor",
-        "description": "Constraint",
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M21 3L3 21' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>",
-        "css": "icon-cs-Constrain"
+        "connector": "sqasyncmessage",
+        "description": "Destroy message",
+        "end": "sqdestroy",
+        "label" : "[ Destroy ]",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M2 12L20.5 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       }
     ]
   }
