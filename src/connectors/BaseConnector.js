@@ -95,7 +95,7 @@ class BaseConnector extends BaseDiagramItem {
       // it is for a menus's DND
       //
       if (!ep[0]['euid']) {
-        console.error('Connection Helper is for icon menu only' + this.options.nameTemplate);
+        console.error('Error: Connection Helper is for icon menu only' + this.options.nameTemplate);
         return false;
       }
     }
@@ -428,10 +428,11 @@ class BaseConnector extends BaseDiagramItem {
     //                      next DND
     if ((this.cleanOnNextTransform) && (this.epoints.length == 3)) {
       this.cleanOnNextTransform = false;
-      this.epoints.splice(1, 1);
+      this.eppos = 1;
+    } else {
+      this.eppos = this.getNearestPointIndex(x, y);
     }
 
-    this.eppos = this.getNearestPointIndex(x, y);
     let newPoint = { x: x1, y: y1 };
 
     //
@@ -467,32 +468,32 @@ class BaseConnector extends BaseDiagramItem {
         // we need to identify where to place a new point
         // So, we have to check each interval to know if point belong to it
         //
-        
-          // Get the list of connection points
-          this.points = this._getConnectionPoints(this.epoints, scrollOffset);
 
-          for (let zi = 1; zi < this.points.length; ++zi) {
-            // TODO: we could keep the state from mouse move events
-            if (this.canRemovePoint(
-              this.points[zi - 1], this.points[zi], newPoint)) {
-              this.eppos = zi;
-              //
-              // if connector detached, shift point
-              //
-              this.epoints.splice(this.eppos, 0, newPoint);
-              break;
-            }
-          }
-          
-          //
-          // It should never happen
-          //
-          if (this.eppos < 0) {
-            console.log("ERROR: failed to find a triggered point. ");
-            this.eppos = 1;
+        // Get the list of connection points
+        this.points = this._getConnectionPoints(this.epoints, scrollOffset);
+
+        for (let zi = 1; zi < this.points.length; ++zi) {
+          // TODO: we could keep the state from mouse move events
+          if (this.canRemovePoint(
+            this.points[zi - 1], this.points[zi], newPoint)) {
+            this.eppos = zi;
+            //
+            // if connector detached, shift point
+            //
             this.epoints.splice(this.eppos, 0, newPoint);
+            break;
           }
-        
+        }
+
+        //
+        // It should never happen
+        //
+        if (this.eppos < 0) {
+          console.log("ERROR: failed to find a triggered point. ");
+          this.eppos = 1;
+          this.epoints.splice(this.eppos, 0, newPoint);
+        }
+
       }
     }
 
@@ -513,11 +514,7 @@ class BaseConnector extends BaseDiagramItem {
 
   #joinEpoitsIfNeeded() {
     var isEqualPoint = function (p1, p2) {
-      if ((p1.x - 12 < p2.x) && (p1.x + 12 > p2.x) && (p1.y - 12 < p2.y) &&
-        (p1.y + 12 > p2.y)) {
-        return true;
-      }
-      return false;
+      return Math.abs(p1.x - p2.x) < 12 && Math.abs(p1.y - p2.y) < 12;
     };
 
     var hasSliced = false;
@@ -530,7 +527,6 @@ class BaseConnector extends BaseDiagramItem {
       // eppos + 1 = could be the last point
       //             that's why remove eppos point
       this.epoints.splice(this.eppos, 1);
-      console.log("SLICED " + this.eppos);
       // this.eppos--; NOW NEXT ELEMENT IS ON
       return true;
     }
@@ -539,12 +535,11 @@ class BaseConnector extends BaseDiagramItem {
     // Join a new point with the previous point, if it is too close
     //
     if ((this.eppos > 0) &&
-      isEqualPoint(this.epoints[this.eppos], this.epoints[this.eppos - 1])) {
+      isEqualPoint(this.points[this.eppos], this.points[this.eppos - 1])) {
       //
       // it could be the first point, which contain euid
       //
       this.epoints.splice(this.eppos, 1);
-      console.log("SLICED SECOND: " + this.eppos);
       this.eppos--;
       return true;
     }
@@ -579,14 +574,19 @@ class BaseConnector extends BaseDiagramItem {
     //
     // need to check drop
     //
-    if (this.eppos === 0) {  // detached first point
-      let val = this.diagram._dropConnector({ position: { top: y, left: x } });
-      this.epoints[this.eppos]["euid"] = val ? val.euid : null;
-      needToRefreshPoints ||= (val != null);
-    } else if (this.eppos === this.epoints.length - 1) { // detached last point
-      let val = this.diagram._dropConnector({ position: { top: y, left: x } });
-      this.epoints[this.eppos]["euid"] = val ? val.euid : null;
-      needToRefreshPoints ||= (val != null);
+    // on previous step we handled the middle points only
+    // on current step we need to check end points
+    //
+    if (!needToRefreshPoints) {
+      if (this.eppos === 0) {  // detached first point
+        let val = this.diagram._dropConnector({ position: { top: y, left: x } });
+        this.epoints[this.eppos]["euid"] = val ? val.euid : null;
+        needToRefreshPoints ||= (val != null);
+      } else if (this.eppos === this.epoints.length - 1) { // detached last point
+        let val = this.diagram._dropConnector({ position: { top: y, left: x } });
+        this.epoints[this.eppos]["euid"] = val ? val.euid : null;
+        needToRefreshPoints ||= (val != null);
+      }
     }
 
     if (needToRefreshPoints) {
@@ -596,38 +596,26 @@ class BaseConnector extends BaseDiagramItem {
       //
       this.points = this._getConnectionPoints(
         this.epoints, scrollOffset);
+      needToRefreshPoints = false;
     }
 
     //
     // Check if a new point is on a line
     //
-    if (this.eppos + 2 < this.points.length &&
-      this.canRemovePoint(
-        this.points[this.eppos], this.points[this.eppos + 2],
-        this.points[this.eppos + 1])) {
-      // this.diagram.opman.reportShort(
-      //     '-epoint', this.euid,
-      //     {idx: this.eppos, value: this.epoints[this.eppos]});
-      console.log("CAN REMOVE !!!", this.points);
-      if (this.epoints.length > 1) {
-        console.log("SPLICE EPOINT : " + this.eppos);
-        this.epoints.splice(this.eppos, 1);
-      } else {
-        //
-        // Extra point on the same vertical or horizontal line
-        // otherwiser we can remove it too
-        //
-        this.cleanOnNextTransform =
-          Math.abs(this.points[this.eppos].x - this.points[this.eppos + 2].x) < 2
-          || Math.abs(this.points[this.eppos].y - this.points[this.eppos + 2].y) < 2;
-        if (!this.cleanOnNextTransform) {
-          this.epoints = []; // we have a single point
-        }
-      }
+    if (this.points.length > 3  // for 3 points - clean on next transfiormation 
+      // for 2 points - the shortest path
+      && this.eppos !== 0 // not first point
+      && this.eppos !== this.points.length - 1  // nor the last point
+      && this.canRemovePoint(
+        this.points[this.eppos - 1], this.points[this.eppos + 1],
+        this.points[this.eppos])) {
+      // dropped point on a straight line of points. Means we can remove it
+      this.epoints.splice(this.eppos, 1);
+    } else if (this.points.length === 3) {
+      this.cleanOnNextTransform = this.canRemovePoint(this.points[0], this.points[2], this.points[1]);
     }
 
     this.eppos = -1;
-
     this.onStopTransform(x, y);
   }
 
@@ -716,8 +704,7 @@ class BaseConnector extends BaseDiagramItem {
     const limit2 = epoints[epoints.length - 1]['limit'] || 0;
 
     if ((hasFrom && !p1) || (hasTo && !p2)) {
-      console.log("SOMETHING ????", epoints);
-       return [];
+      return [];
     }
 
     //
@@ -745,10 +732,6 @@ class BaseConnector extends BaseDiagramItem {
         x2 = this._getRValue(p2.left, p1.left, toW);
         y2 = this._getRValue(p2.top, p1.top, toH);
       }
-console.log("EXIT 2 ????? ", [
-        { x: x1, y: y1 },
-        { x: x2, y: y2 }
-      ], epoints);
       return [
         { x: x1, y: y1 },
         { x: x2, y: y2 }
@@ -798,9 +781,9 @@ console.log("EXIT 2 ????? ", [
       const newpoints = [];
       for (let i = 0; i < epoints.length; ++i) {
         if (hasFrom && i === 0) {
-          newpoints.push({x: x1, y: y1});
+          newpoints.push({ x: x1, y: y1 });
         } else if (hasTo && i === epoints.length - 1) {
-          newpoints.push({x: x2, y: y2});
+          newpoints.push({ x: x2, y: y2 });
         } else {
           newpoints.push({
             x: epoints[i].x - scrollLeft,
@@ -809,7 +792,6 @@ console.log("EXIT 2 ????? ", [
         }
       }
 
-          console.log("GET CONNECTION POINTS: " + this.jsonModel.nameTemplate, newpoints);
       return newpoints;
     }
   }
@@ -936,9 +918,6 @@ console.log("EXIT 2 ????? ", [
         this.jsonModel[key] = changes[key];
       }
     }
-
-    console.log("UPDATE CALLED. RESULT IS: ", this.jsonModel);
-    console.log("UPDATE CALLED. REQUESTED CHANGES: ", changes);
 
     return { apply: appliedChanges, revert: revertedChanges };
   }
