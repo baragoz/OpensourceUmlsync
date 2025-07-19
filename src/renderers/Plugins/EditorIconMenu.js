@@ -158,8 +158,10 @@ class EditorIconMenu {
               //'toId': iconMenuBuilder.currentElement});
               //			} else {
               iconMenuBuilder.diagram.Connector(this.id, {
-                'fromId': iconMenuBuilder.currentElementId,
-                'toId': 'ConnectionHelper'
+                epoints: [
+                  {x: 0, y: 0, euid: iconMenuBuilder.currentElementEuid, id:iconMenuBuilder.currentElementId},
+                  {x: 100, y: 100, euid: 'ConnectionHelper'}
+                ]
               });
               //		}
             } else {
@@ -200,7 +202,14 @@ class EditorIconMenu {
 
                 iconMenuBuilder.diagram.Connector(
                     thisid,
-                    {'fromId': fromElement.jsonModel["id"], 'toId': toElement.jsonModel["id"], ...iconMenuBuilder.connectorStyle},
+                    {
+                      epoints: [
+                        {x: 100, y: 100, id: fromElement.jsonModel["id"], euid: fromElement.euid},
+                        {x: 100, y: 200, id: toElement.jsonModel["id"], euid: toElement.euid},
+                      ],
+                      ...iconMenuBuilder.connectorStyle
+                    },
+                    // {'fromId': fromElement.jsonModel["id"], 'toId': toElement.jsonModel["id"], ...iconMenuBuilder.connectorStyle},
                     function(connector) {
                       if (fromElement.dropHelper)
                         fromElement.dropHelper(
@@ -264,6 +273,7 @@ class EditorIconMenu {
     // Cache clicked element
     this.currentElement = element;
     this.currentElementId = element.jsonModel["id"];
+    this.currentElementEuid = element.euid;
     //
     // User should select element to see connectors icon menu
     //

@@ -30,12 +30,16 @@ class ElementDraggable {
             'scroll': true,
             'start': function(event, ui) {
                 self.operation_start = {left: ui.position.left, top: ui.position.top};
-    
                 //
                 // drop helper - create uml element directly from connector type icons menu above element 
                 //
                 if (self.diagram.dropHelper) {
-                  self.diagram.Connector(self.diagram.dropHelper, {fromId: element.euid, toId: "ConnectionHelper"});
+                  console.log("AAAAAAAAAAAAAAAAA " + element.euid);
+                  self.diagram.Connector(self.diagram.dropHelper, {
+                    epoints: [
+                      {x:0,   y: 0,   euid:  element.euid},
+                      {x:100, y: 100, euid: "ConnectionHelper"}
+                    ]});
                   return;
                 }
     
@@ -88,7 +92,11 @@ class ElementDraggable {
                   self.diagram.removeConnector(element.euid, "ConnectionHelper", connectorType);
     
                   if (name != undefined) {
-                    self.diagram.Connector(connectorType, {fromId: element.euid, toId: name});
+                    console.log("BBBBBBBBB " + element.euid);
+                    self.diagram.Connector(connectorType, {
+                      epoints: [
+                        {x:0, y:0, euid: element.euid}, {x: 100, y: 100, euid: name}
+                      ]});
                   }
 
                   // Remove selection from menu item

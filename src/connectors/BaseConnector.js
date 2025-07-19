@@ -1,4 +1,4 @@
-import {BaseDiagramItem} from '../core/BaseDiagramItem';
+import { BaseDiagramItem } from '../core/BaseDiagramItem';
 
 const LimitMode = {
   NONE: 0,
@@ -15,18 +15,9 @@ const defaultOptions = {
 
 class BaseConnector extends BaseDiagramItem {
   constructor(options, jsonModel, diagram) {
-    super({...defaultOptions, ...options});
+    super({ ...defaultOptions, ...options });
     this.diagram = diagram;
     this.jsonModel = jsonModel;
-
-    //
-    // FromId-toId element's euid
-    //
-    this.fromId = null;
-    this.toId = null;
-
-    this.fromLimit = null;
-    this.toLimit = null;
 
     //
     // Points
@@ -50,57 +41,85 @@ class BaseConnector extends BaseDiagramItem {
   _create() {
     var self = this;
     if (this.jsonModel.epoints != undefined) {
-      $.each(this.jsonModel.epoints, function(idx, item) {
-        self.epoints[idx] = {x: parseInt(item.x), y: parseInt(item.y)};
+      $.each(this.jsonModel.epoints, function (idx, item) {
+        self.epoints[idx] = { x: parseInt(item.x), y: parseInt(item.y) };
       });
     }
 
     //
     // Find elements from diagram for connector
     //
-    if (this.jsonModel['fromId'] != null || this.jsonModel['toId'] != null) {
+    var ep = this.jsonModel.epoints;
+
+    //
+    // Load diagram from JSON, find euid by id 
+    //
+    if (ep[0]['id'] || ep[ep.length - 1]['id'] != null) {
       for (var i in this.diagram.elements) {
-        if (this.diagram.elements[i].jsonModel['id'] ==
-            this.jsonModel['fromId']) {
-          this.fromId = this.diagram.elements[i].euid;
-          this.fromLimit = this.diagram.elements[i].options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
+        if (this.diagram.elements[i].jsonModel['id'] == ep[0]['id']) {
+          ep[0]['euid'] = this.diagram.elements[i].euid;
+          ep[0]['limit'] = this.diagram.elements[i].options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
         }
-  
-        if (this.diagram.elements[i].jsonModel['id'] == this.jsonModel['toId']) {
-          this.toId = this.diagram.elements[i].euid;
-          this.toLimit = this.diagram.elements[i].options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
+
+        if (this.diagram.elements[i].jsonModel['id'] == ep[ep.length - 1]['id']) {
+          ep[ep.length - 1]['euid'] = this.diagram.elements[i].euid;
+          ep[ep.length - 1]['limit'] = this.diagram.elements[i].options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
         }
       }
     }
 
-    if (this.jsonModel['toId'] == 'ConnectionHelper') {
-      this.toId = this.jsonModel['toId'];
-      if (this.jsonModel['fromId'] == null) {
+    //
+    // We need 2 points minimum to show the line
+    // - make a random line
+    //
+    if (ep.length < 2) {
+      if (ep.length == 0) {
+        // Draw a lost points
+        this.jsonModel.epoints = [{ x: 40, y: 50 }, { x: 150, y: 50 }];
+      } else {
+        //
+        // if we have one point, then let's assume that it is start point !!!!
+        //
+        if (ep[0]['euid']) {
+          this.jsonModel.epoints.push({ x: 200, y: 200 });
+        }
+      }
+      ep = this.jsonModel.epoints;
+    }
+
+    //
+    // Connection helper - is runtime element, that's why use it via euid
+    //
+    if (ep[ep.length - 1]['euid'] == 'ConnectionHelper') {
+      //
+      // it is for a menus's DND
+      //
+      if (!ep[0]['euid']) {
         console.error('Connection Helper is for icon menu only' + this.options.nameTemplate);
         return false;
       }
     }
 
-    if (this.toId == null || this.fromId == null ) {
-      // Note: Check if connector detached from one side 
-      //       or it is detached from both sides
-      if (this.epoints.length < 1 || 
-        (this.toId === this.fromId && this.epoints.length < 2)) {
-         console.error('Not enough epoints for detached connector ' + this.options.nameTemplate);
-         return false;
-      }
-    } else if (this.epoints.length === 1) {
-      // Update points
-      this.points = this._getConnectionPoints(
-          this.fromId, this.toId, this.epoints,
-          this.diagram.getDiagramOffset(), this.fromLimit, this.toLimit);
-      
+    //
+    // point to the same object
+    //
+    this.epoints = ep;
+
+    //
+    // Update points + indentations
+    //
+    this.points = this._getConnectionPoints(ep, this.diagram.getDiagramOffset());
+
+    //
+    // Check if we could remove point on next transform
+    // Uses to move connector in horizontal/vertical way
+    //
+    if (ep.length === 3) {
       //
       // Check if it is a helper point which support allow us to move conenctor
       // between 2 elements event if helper point on a straight line between elements
       //
-      if (this.points.length === 3)
-        this.cleanOnNextTransform = this.canRemovePoint(this.points[0], this.points[2], this.points[1]);
+      this.cleanOnNextTransform = this.canRemovePoint(this.points[0], this.points[2], this.points[1]);
     }
 
     //
@@ -113,12 +132,12 @@ class BaseConnector extends BaseDiagramItem {
     //
     // TODO: add error handling if some mandatory items not available
     //
-    [ 'line-width',  'color',  // Arrow
+    ['line-width', 'color',  // Arrow
       'font-bg', 'font-color', 'font-family', 'font-size' // Label
-     ].forEach((item) => {
-       if (this.jsonModel[item])
-         this._setOption(item, this.jsonModel[item]);
-     });
+    ].forEach((item) => {
+      if (this.jsonModel[item])
+        this._setOption(item, this.jsonModel[item]);
+    });
   }
 
   //
@@ -141,14 +160,14 @@ class BaseConnector extends BaseDiagramItem {
       }
     } else if (key == 'labels') {
       for (var i in value) {
-        this.labels[i].css({left: value[i].x, top: value[i].y});
+        this.labels[i].css({ left: value[i].x, top: value[i].y });
       }
     } else if (key == 'editable') {
       for (var i in this.labels) {
-        $.each(this.labels[i], function(index, item) {
+        $.each(this.labels[i], function (index, item) {
           $(item)
-              .draggable('option', 'disabled', !value)
-              .editable(value ? 'enable' : 'disable');
+            .draggable('option', 'disabled', !value)
+            .editable(value ? 'enable' : 'disable');
         });
       }
     } else if (key === 'font-bg') {
@@ -209,13 +228,13 @@ class BaseConnector extends BaseDiagramItem {
     let leuid = opt.prefix + '_' + this.getRandomSuffix();
 
     var $item =
-        $('<div id="' + leuid + '" data-label-id="' + opt.id +
-          '" data-connector-id="' + this.jsonModel.id +
-          '" class="us-connector-label"><a class="editablefield" >' + opt.text + '</a></div>')
-            .appendTo('#' + this.diagram.euid)
-            .css('left', opt.left)
-            .css('top', opt.top)
-            .css("z-index", opt.zIndex);
+      $('<div id="' + leuid + '" data-label-id="' + opt.id +
+        '" data-connector-id="' + this.jsonModel.id +
+        '" class="us-connector-label"><a class="editablefield" >' + opt.text + '</a></div>')
+        .appendTo('#' + this.diagram.euid)
+        .css('left', opt.left)
+        .css('top', opt.top)
+        .css("z-index", opt.zIndex);
 
     this.labels.push($item);
     this.jsonModel.labels = this.jsonModel.labels || [];
@@ -242,7 +261,7 @@ class BaseConnector extends BaseDiagramItem {
   #removeLabelById(labelId) {
     // Find the label in this.labels array
     let $label = this.labels.find($item => $item.attr("data-label-id") == labelId);
-    
+
     if (!$label) return; // If not found, exit early
 
     // Remove from DOM
@@ -256,7 +275,7 @@ class BaseConnector extends BaseDiagramItem {
   }
 
   moveLabel(opt) {
-    this.labels[opt.idx].css({left: opt.left, top: opt.top});
+    this.labels[opt.idx].css({ left: opt.left, top: opt.top });
   }
 
   //
@@ -297,14 +316,12 @@ class BaseConnector extends BaseDiagramItem {
     // We need these steps for all connectors.
     //
     this.points = this._getConnectionPoints(
-        this.fromId, this.toId,
-        this.epoints, scrollOffset,
-        this.fromLimit, this.toLimit);
+      this.epoints, scrollOffset);
 
     this.gip = [];
     for (var i = 0; i < this.points.length - 1; ++i) {
       let dy = this.points[i].y - this.points[i + 1].y,
-          dx = this.points[i].x - this.points[i + 1].x;
+        dx = this.points[i].x - this.points[i + 1].x;
       this.gip[i] = Math.sqrt(dx * dx + dy * dy);
     }
 
@@ -327,7 +344,7 @@ class BaseConnector extends BaseDiagramItem {
     //
     for (var c = 0; c < this.epoints.length; ++c) {
       if ((this.epoints[c].x - 12 < x) && (this.epoints[c].x + 12 > x) &&
-          (this.epoints[c].y - 12 < y) && (this.epoints[c].y + 12 > y)) {
+        (this.epoints[c].y - 12 < y) && (this.epoints[c].y + 12 > y)) {
         // dm.at.cs.mouseover = {euid: this.euid, idx: c};
         return true;
       }
@@ -335,9 +352,9 @@ class BaseConnector extends BaseDiagramItem {
 
     for (var i = 0; i < this.points.length - 1; ++i) {
       var dx1 = x - this.points[i].x, dy1 = y - this.points[i].y,
-          dx = this.points[i + 1].x - x, dy = this.points[i + 1].y - y,
-          gip1 = Math.sqrt(dx1 * dx1 + dy1 * dy1),
-          gip = Math.sqrt(dx * dx + dy * dy);
+        dx = this.points[i + 1].x - x, dy = this.points[i + 1].y - y,
+        gip1 = Math.sqrt(dx1 * dx1 + dy1 * dy1),
+        gip = Math.sqrt(dx * dx + dy * dy);
 
       if (((gip1 + gip) - this.gip[i]) < 0.2) {
         // dm.at.cs.mouseover = {euid: this.euid};
@@ -356,10 +373,10 @@ class BaseConnector extends BaseDiagramItem {
       return false;
     }
     var dx = p1.x - p2.x, dy = p1.y - p2.y, dx1 = p1.x - rp.x,
-        dy1 = p1.y - rp.y, dx2 = p2.x - rp.x, dy2 = p2.y - rp.y,
-        gip1 = Math.sqrt(dx1 * dx1 + dy1 * dy1),
-        gip2 = Math.sqrt(dx2 * dx2 + dy2 * dy2),
-        gip = Math.sqrt(dx * dx + dy * dy);
+      dy1 = p1.y - rp.y, dx2 = p2.x - rp.x, dy2 = p2.y - rp.y,
+      gip1 = Math.sqrt(dx1 * dx1 + dy1 * dy1),
+      gip2 = Math.sqrt(dx2 * dx2 + dy2 * dy2),
+      gip = Math.sqrt(dx * dx + dy * dy);
     if (((gip1 + gip2) - gip) < 0.5) {
       return true;
     }
@@ -380,7 +397,7 @@ class BaseConnector extends BaseDiagramItem {
     //
     for (var c = 0; c < this.points.length; ++c) {
       if ((this.points[c].x - 12 < x) && (this.points[c].x + 12 > x) &&
-          (this.points[c].y - 12 < y) && (this.points[c].y + 12 > y)) {
+        (this.points[c].y - 12 < y) && (this.points[c].y + 12 > y)) {
         return c;
       }
     }
@@ -409,80 +426,75 @@ class BaseConnector extends BaseDiagramItem {
     //                      lines between elements.
     //                      It is single extra point which should be removed on
     //                      next DND
-    if ((this.cleanOnNextTransform) && (this.epoints.length == 1)) {
+    if ((this.cleanOnNextTransform) && (this.epoints.length == 3)) {
       this.cleanOnNextTransform = false;
-      this.epoints.splice(0, 1);
+      this.epoints.splice(1, 1);
     }
 
     this.eppos = this.getNearestPointIndex(x, y);
-    let newPoint = {x: x1, y: y1};
+    let newPoint = { x: x1, y: y1 };
 
     //
     // Detach first point
     //
-    if (this.eppos === 0 && this.fromId !== null) {
-        this.fromId = null;
-        this.epoints.splice(0, 0, newPoint);
+    if (this.eppos === 0 && this.epoints[this.eppos]['euid']) {
+      this.epoints[this.eppos]['euid'] = null;
+      this.epoints[this.eppos]['limit'] = null;
     }
     //
     // Detach last point
     //
-    else {
-      if (this.eppos === this.points.length - 1 && this.toId != null) {
-        this.toId = null;
-        this.epoints.push(newPoint);
-      }
-
-      // shift epoint position
-      if (this.fromId != null) {
-        this.eppos--;
-      }
+    else if (this.eppos === this.epoints.length - 1 && this.epoints[this.eppos]['euid']) {
+      this.epoints[this.eppos]['euid'] = null;
+      this.epoints[this.eppos]['limit'] = null;
     }
 
     //
-    // Don't need to identify position if there is no extra points
+    // No Point found let's add a new one
     //
-    if (this.epoints.length == 0) {
-      // in array for the first element
-      this.eppos = 0;
-      this.epoints[this.eppos] = newPoint;
-      // this.report = "+epoint";
-    } else {
-      //
-      // Point - is not one of the extra points, that's why
-      // we need to identify where to place a new point
-      // So, we have to check each interval to know if point belong to it
-      //
-      if (this.eppos < 0) {
-        // Get the list of connection points
-        this.points = this._getConnectionPoints(
-            this.fromId, this.toId,
-            this.epoints, scrollOffset,
-            this.fromLimit, this.toLimit);
 
-        var zi = 0;
-        for (; zi < this.points.length - 1; ++zi) {
-          // TODO: we could keep the state from mouse move events
-          if (this.canRemovePoint(
-                  this.points[zi], this.points[zi + 1], newPoint)) {
-            this.eppos = zi;
-            //
-            // if connector detached, shift point
-            //
-            if (this.fromId == null) this.eppos++;
-            this.epoints.splice(this.eppos, 0, newPoint);
-            break;
-          }
-        }
-        // this.report = "+epoint";
+    if (this.eppos < 0) {
+      //
+      // Don't need to identify position if there is no extra points
+      //
+      if (this.epoints.length == 2) {
+        // in array for the first element
+        this.eppos = 1;
+        this.epoints.splice(this.eppos, 0, newPoint);
       } else {
-        // this.report = "#epoint";
-        this.epoints[this.eppos] = newPoint;
+        //
+        // Point - is not one of the extra points, that's why
+        // we need to identify where to place a new point
+        // So, we have to check each interval to know if point belong to it
+        //
+        
+          // Get the list of connection points
+          this.points = this._getConnectionPoints(this.epoints, scrollOffset);
+
+          for (let zi = 1; zi < this.points.length; ++zi) {
+            // TODO: we could keep the state from mouse move events
+            if (this.canRemovePoint(
+              this.points[zi - 1], this.points[zi], newPoint)) {
+              this.eppos = zi;
+              //
+              // if connector detached, shift point
+              //
+              this.epoints.splice(this.eppos, 0, newPoint);
+              break;
+            }
+          }
+          
+          //
+          // It should never happen
+          //
+          if (this.eppos < 0) {
+            console.log("ERROR: failed to find a triggered point. ");
+            this.eppos = 1;
+            this.epoints.splice(this.eppos, 0, newPoint);
+          }
+        
       }
     }
-
-    // opman.reportStart(this.report, this.euid, {idx: this.eppos, value:
-    // [x,y]});
 
     this.onStartTransform(x, y);
   }
@@ -500,40 +512,41 @@ class BaseConnector extends BaseDiagramItem {
   }
 
   #joinEpoitsIfNeeded() {
-    var isEqualPoint = function(p1, p2) {
+    var isEqualPoint = function (p1, p2) {
       if ((p1.x - 12 < p2.x) && (p1.x + 12 > p2.x) && (p1.y - 12 < p2.y) &&
-          (p1.y + 12 > p2.y)) {
+        (p1.y + 12 > p2.y)) {
         return true;
       }
       return false;
     };
 
     var hasSliced = false;
+
     //
     // Join a new point with the next point, if it is too close
     //
     if ((this.eppos + 1 < this.epoints.length) &&
-        isEqualPoint(this.epoints[this.eppos], this.epoints[this.eppos + 1])) {
-      // TODO: report operation
-      // this.diagram.opman.reportShort(
-      //    '-epoint', this.euid,
-      //    {idx: this.eppos + 1, value: this.epoints[this.eppos + 1]});
-      this.epoints.splice(this.eppos + 1, 1);
-      hasSliced = true;
+      isEqualPoint(this.points[this.eppos], this.points[this.eppos + 1])) {
+      // eppos + 1 = could be the last point
+      //             that's why remove eppos point
+      this.epoints.splice(this.eppos, 1);
+      console.log("SLICED " + this.eppos);
+      // this.eppos--; NOW NEXT ELEMENT IS ON
+      return true;
     }
 
     //
     // Join a new point with the previous point, if it is too close
     //
     if ((this.eppos > 0) &&
-        isEqualPoint(this.epoints[this.eppos], this.epoints[this.eppos - 1])) {
-      this.eppos--;
-      // TODO: report operation
-      // this.diagram.opman.reportShort(
-      //    '-epoint', this.euid,
-      //    {idx: this.eppos, value: this.epoints[this.eppos]});
+      isEqualPoint(this.epoints[this.eppos], this.epoints[this.eppos - 1])) {
+      //
+      // it could be the first point, which contain euid
+      //
       this.epoints.splice(this.eppos, 1);
-      hasSliced = true;
+      console.log("SLICED SECOND: " + this.eppos);
+      this.eppos--;
+      return true;
     }
     return hasSliced;
   }
@@ -554,7 +567,7 @@ class BaseConnector extends BaseDiagramItem {
     this.epoints[this.eppos].y = y1 + scrollOffset.top;
 
     let x = this.epoints[this.eppos].x,
-        y = this.epoints[this.eppos].y;
+      y = this.epoints[this.eppos].y;
 
 
     let needToRefreshPoints = false;
@@ -566,14 +579,14 @@ class BaseConnector extends BaseDiagramItem {
     //
     // need to check drop
     //
-    if (this.fromId === null && this.eppos === 0) {
-      let val = this.diagram._dropConnector({position: {top:y, left: x}});
-      this.fromId = val ? val.euid : null;
-      needToRefreshPoints ||= this.fromId != null;
-    } else if (this.toId === null && this.eppos === this.epoints.length - 1) {
-      let val = this.diagram._dropConnector({position: {top:y, left: x}});
-      this.toId = val ? val.euid : null;
-      needToRefreshPoints ||= this.toId != null;
+    if (this.eppos === 0) {  // detached first point
+      let val = this.diagram._dropConnector({ position: { top: y, left: x } });
+      this.epoints[this.eppos]["euid"] = val ? val.euid : null;
+      needToRefreshPoints ||= (val != null);
+    } else if (this.eppos === this.epoints.length - 1) { // detached last point
+      let val = this.diagram._dropConnector({ position: { top: y, left: x } });
+      this.epoints[this.eppos]["euid"] = val ? val.euid : null;
+      needToRefreshPoints ||= (val != null);
     }
 
     if (needToRefreshPoints) {
@@ -582,18 +595,16 @@ class BaseConnector extends BaseDiagramItem {
       // TODO: we could remove items from points too, without re-calculation
       //
       this.points = this._getConnectionPoints(
-        this.fromId, this.toId,
-        this.epoints, scrollOffset,
-        this.fromLimit, this.toLimit);
+        this.epoints, scrollOffset);
     }
 
     //
     // Check if a new point is on a line
     //
-    if (this.eppos + 2 < this.points.length && 
+    if (this.eppos + 2 < this.points.length &&
       this.canRemovePoint(
-            this.points[this.eppos], this.points[this.eppos + 2],
-            this.points[this.eppos + 1])) {
+        this.points[this.eppos], this.points[this.eppos + 2],
+        this.points[this.eppos + 1])) {
       // this.diagram.opman.reportShort(
       //     '-epoint', this.euid,
       //     {idx: this.eppos, value: this.epoints[this.eppos]});
@@ -606,7 +617,7 @@ class BaseConnector extends BaseDiagramItem {
         // Extra point on the same vertical or horizontal line
         // otherwiser we can remove it too
         //
-        this.cleanOnNextTransform = 
+        this.cleanOnNextTransform =
           Math.abs(this.points[this.eppos].x - this.points[this.eppos + 2].x) < 2
           || Math.abs(this.points[this.eppos].y - this.points[this.eppos + 2].y) < 2;
         if (!this.cleanOnNextTransform) {
@@ -625,7 +636,7 @@ class BaseConnector extends BaseDiagramItem {
       return;
     }
     var x = x1 + $('#' + this.diagram.euid).scrollLeft(),
-        y = y1 + $('#' + this.diagram.euid).scrollTop();
+      y = y1 + $('#' + this.diagram.euid).scrollTop();
     this.epoints[this.eppos].x = x;
     this.epoints[this.eppos].y = y;
     this.onTransform(x, y);
@@ -650,7 +661,7 @@ class BaseConnector extends BaseDiagramItem {
     const dy = otherY - centerY;
     const absDx = Math.abs(dx);
     const absDy = Math.abs(dy);
-  
+
     if (absDx > absDy) {
       // Horizontal edge (left or right)
       return {
@@ -665,48 +676,59 @@ class BaseConnector extends BaseDiagramItem {
       };
     }
   }
-  
-  _getConnectionPoints(fromId, toId, epoints, scrollOffset, fromLimit = LimitMode.CENTER, toLimit = LimitMode.CENTER) {
+
+  _getConnectionPoints(epoints, scrollOffset) {
     const scrollTop = scrollOffset.top;
     const scrollLeft = scrollOffset.left;
-  
-    const hasFrom = fromId != null;
-    const hasTo = toId != null;
-  
+
+    const hasFrom = epoints[0]["euid"] != null;
+    const hasTo = epoints[epoints.length - 1]["euid"] != null;
+
+    //
+    // Detached connectors -> move connector's points only
+    //
     if (!hasFrom && !hasTo) {
-      if (epoints.length < 2) return [];
       return epoints.map(pt => ({
         x: pt.x - scrollLeft,
         y: pt.y - scrollTop
       }));
     }
-  
-    const p1 = hasFrom ? $('#' + fromId + '_Border').position() : null;
+
+    const p1 = hasFrom ? $('#' + epoints[0]["euid"] + '_Border').position() : null;
     if (p1) {
       p1.left += 3;
       p1.top += 3;
     }
-    const fromBorder = hasFrom ? $('#' + fromId + '_Border') : null;
+    const fromBorder = hasFrom ? $('#' + epoints[0]["euid"] + '_Border') : null;
     const fromW = hasFrom ? fromBorder.width() + 6 : 0;
-    const fromH = hasFrom ? fromBorder.height() + 6: 0;
-  
-    const p2 = hasTo ? $('#' + toId + '_Border').position() : null;
+    const fromH = hasFrom ? fromBorder.height() + 6 : 0;
+
+    const p2 = hasTo ? $('#' + epoints[epoints.length - 1]["euid"] + '_Border').position() : null;
     if (p2) {
       p2.left += 3;
       p2.top += 3;
     }
-    const toBorder = hasTo ? $('#' + toId + '_Border') : null;
+    const toBorder = hasTo ? $('#' + epoints[epoints.length - 1]["euid"] + '_Border') : null;
     const toW = hasTo ? toBorder.width() + 6 : 0;
-    const toH = hasTo ? toBorder.height() + 6: 0;
-  
-    if ((hasFrom && !p1) || (hasTo && !p2)) return [];
-  
-    if (epoints.length === 0) {
-      if (!hasFrom || !hasTo) return [];
-  
+    const toH = hasTo ? toBorder.height() + 6 : 0;
+
+    const limit = epoints[0]['limit'] || 0;
+    const limit2 = epoints[epoints.length - 1]['limit'] || 0;
+
+    if ((hasFrom && !p1) || (hasTo && !p2)) {
+      console.log("SOMETHING ????", epoints);
+       return [];
+    }
+
+    //
+    // Find the shortes line between 2 elements
+    //
+    if (epoints.length === 2 && hasFrom && hasTo) {
+      // if (!hasFrom || !hasTo) return [];
+
       let x1, y1, x2, y2;
-  
-      if (fromLimit === LimitMode.CENTER) {
+
+      if (limit === LimitMode.CENTER) {
         const center = this.getCenterEdgePoint(p1, fromW, fromH, p2.left, p2.top);
         x1 = center.x;
         y1 = center.y;
@@ -714,8 +736,8 @@ class BaseConnector extends BaseDiagramItem {
         x1 = this._getRValue(p1.left, p2.left, fromW);
         y1 = this._getRValue(p1.top, p2.top, fromH);
       }
-  
-      if (toLimit === LimitMode.CENTER) {
+
+      if (limit2 === LimitMode.CENTER) {
         const center = this.getCenterEdgePoint(p2, toW, toH, p1.left, p1.top);
         x2 = center.x;
         y2 = center.y;
@@ -723,7 +745,10 @@ class BaseConnector extends BaseDiagramItem {
         x2 = this._getRValue(p2.left, p1.left, toW);
         y2 = this._getRValue(p2.top, p1.top, toH);
       }
-  
+console.log("EXIT 2 ????? ", [
+        { x: x1, y: y1 },
+        { x: x2, y: y2 }
+      ], epoints);
       return [
         { x: x1, y: y1 },
         { x: x2, y: y2 }
@@ -731,120 +756,60 @@ class BaseConnector extends BaseDiagramItem {
     } else {
       const lln = epoints.length - 1;
       let x1, y1, x2, y2;
-  
+
+      //
+      // Refresh first point position
+      //
       if (hasFrom) {
-        if (fromLimit === LimitMode.CENTER) {
+        if (limit === LimitMode.CENTER) {
           const center = this.getCenterEdgePoint(
             p1, fromW, fromH,
-            epoints[0].x - scrollLeft, epoints[0].y - scrollTop
+            epoints[1].x - scrollLeft, epoints[1].y - scrollTop
           );
           x1 = center.x;
           y1 = center.y;
         } else {
-          x1 = this._getRValue(p1.left, epoints[0].x - scrollLeft, fromW);
-          y1 = this._getRValue(p1.top, epoints[0].y - scrollTop, fromH);
+          x1 = this._getRValue(p1.left, epoints[1].x - scrollLeft, fromW);
+          y1 = this._getRValue(p1.top, epoints[1].y - scrollTop, fromH);
         }
-      } else {
-        x1 = epoints[0].x - scrollLeft;
-        y1 = epoints[0].y - scrollTop;
       }
-  
+
+      //
+      // Refresh last point position
+      //
       if (hasTo) {
-        if (toLimit === LimitMode.CENTER) {
+        //
+        // Recalculate the end point, to the nearest border of element
+        //
+        if (limit2 === LimitMode.CENTER) {
           const center = this.getCenterEdgePoint(
             p2, toW, toH,
-            epoints[lln].x - scrollLeft, epoints[lln].y - scrollTop
+            epoints[lln - 1].x - scrollLeft,
+            epoints[lln - 1].y - scrollTop
           );
           x2 = center.x;
           y2 = center.y;
         } else {
-          x2 = this._getRValue(p2.left, epoints[lln].x - scrollLeft, toW);
-          y2 = this._getRValue(p2.top, epoints[lln].y - scrollTop, toH);
+          x2 = this._getRValue(p2.left, epoints[lln - 1].x - scrollLeft, toW);
+          y2 = this._getRValue(p2.top, epoints[lln - 1].y - scrollTop, toH);
         }
-      } else {
-        x2 = epoints[lln].x - scrollLeft;
-        y2 = epoints[lln].y - scrollTop;
       }
-  
+
       const newpoints = [];
-      // it is in epoints yet
-      if (hasFrom)
-        newpoints.push({ x: x1, y: y1 });
       for (let i = 0; i < epoints.length; ++i) {
-        newpoints.push({
-          x: epoints[i].x - scrollLeft,
-          y: epoints[i].y - scrollTop
-        });
+        if (hasFrom && i === 0) {
+          newpoints.push({x: x1, y: y1});
+        } else if (hasTo && i === epoints.length - 1) {
+          newpoints.push({x: x2, y: y2});
+        } else {
+          newpoints.push({
+            x: epoints[i].x - scrollLeft,
+            y: epoints[i].y - scrollTop
+          });
+        }
       }
-      // it is in epoints yet
-      if (hasTo)
-        newpoints.push({ x: x2, y: y2 });
-      return newpoints;
-    }
-  }
-  
-  REMOVE_getConnectionPoints_OLD(fromId, toId, epoints, scrollOffset) {
-    var p1 = $('#' + fromId).position();
-    var p2 = $('#' + toId).position();
-    if (p2 == null) {
-      return [];
-    }
 
-    ///////////////////////////////////////////    Do not recalculate
-    /// coordinates for all elements !!!!!!!!! ////////////////////
-    ///////////////////////////////////////////    It is necessary for
-    /// draggable and resizable elements only !!!!!!!!! //////////
-    var p11 = $('#' + fromId + '_Border').position();
-    if (!p11) {
-      return;
-    }
-    var p21 = $('#' + toId + '_Border').position();
-
-    var scrollTop = scrollOffset.top, scrollLeft = scrollOffset.left;
-
-    if (epoints.length == 0) {
-      var x1 = this._getRValue(
-          p1.left + p11.left, p2.left + p21.left, $('#' + fromId).width());
-      var y1 = this._getRValue(
-          p1.top + p11.top, p2.top + p21.top, $('#' + fromId).height());
-
-      var x2 = this._getRValue(
-          p2.left + p21.left, p1.left + p11.left, $('#' + toId).width());
-      var y2 = this._getRValue(
-          p2.top + p21.top, p1.top + p11.top, $('#' + toId).height());
-
-      if (this.diagram.options.multicanvas) {
-        var newpoints = [
-          {x: x1 + scrollLeft, y: y1 + scrollTop},
-          {x: x2 + scrollLeft, y: y2 + scrollTop}
-        ];
-        return newpoints;
-      } else {
-        var newpoints = [{x: x1, y: y1}, {x: x2, y: y2}];
-        return newpoints;
-      }
-    } else {
-      var lln = epoints.length - 1;
-      var x1 = this._getRValue(
-          p1.left + p11.left, epoints[0].x - scrollLeft,
-          $('#' + fromId).width());
-      var y1 = this._getRValue(
-          p1.top + p11.top, epoints[0].y - scrollTop, $('#' + fromId).height());
-
-      var x2 = this._getRValue(
-          p2.left + p21.left, epoints[lln].x - scrollLeft,
-          $('#' + toId).width());
-      var y2 = this._getRValue(
-          p2.top + p21.top, epoints[lln].y - scrollTop, $('#' + toId).height());
-
-      var newpoints = [];
-
-      newpoints.push({x: x1, y: y1});
-      for (var i = 0; i < epoints.length; ++i) {
-        newpoints.push(
-            {x: epoints[i].x - scrollLeft, y: epoints[i].y - scrollTop});
-      }
-      newpoints.push({x: x2, y: y2});
+          console.log("GET CONNECTION POINTS: " + this.jsonModel.nameTemplate, newpoints);
       return newpoints;
     }
   }
@@ -872,7 +837,7 @@ class BaseConnector extends BaseDiagramItem {
     if (this.epoints.length > 0) {
       this.epoints_drag = [];
       for (var i in this.epoints) {
-        this.epoints_drag[i] = {x: this.epoints[i].x, y: this.epoints[i].y};
+        this.epoints_drag[i] = { x: this.epoints[i].x, y: this.epoints[i].y };
       }
     }
     //
@@ -882,7 +847,7 @@ class BaseConnector extends BaseDiagramItem {
       this.labels_drag = [];
       for (var i in this.labels) {
         var p = this.labels[i].position();
-        this.labels_drag[i] = {x: p.left, y: p.top};
+        this.labels_drag[i] = { x: p.left, y: p.top };
       }
     }
 
@@ -933,7 +898,7 @@ class BaseConnector extends BaseDiagramItem {
 
   removeInstance() {
     if (this.labels.length > 0) {
-      for (let i=0; i< this.labels.length; ++i) {
+      for (let i = 0; i < this.labels.length; ++i) {
         this.labels[i].remove();
       }
       this.labels = [];
@@ -950,26 +915,26 @@ class BaseConnector extends BaseDiagramItem {
     let revertedChanges = {}; // Stores old values
 
     for (const key in changes) {
-        if (Array.isArray(changes[key]) && Array.isArray(this.jsonModel[key])) {
-            // Handle array updates (like labels)
-            appliedChanges[key] = [];
-            revertedChanges[key] = [];
+      if (Array.isArray(changes[key]) && Array.isArray(this.jsonModel[key])) {
+        // Handle array updates (like labels)
+        appliedChanges[key] = [];
+        revertedChanges[key] = [];
 
-            this.jsonModel[key] = this.jsonModel[key].map(item => {
-                let updatedItem = changes[key].find(changeItem => changeItem.id === item.id);
-                if (updatedItem) {
-                    appliedChanges[key].push({ id: item.id, ...updatedItem });
-                    revertedChanges[key].push({ id: item.id, ...item }); // Store old state
-                    return { ...item, ...updatedItem }; // Apply changes
-                }
-                return item;
-            });
-        } else {
-            // Directly update primitive values or non-array objects
-            appliedChanges[key] = changes[key];
-            revertedChanges[key] = this.jsonModel[key];
-            this.jsonModel[key] = changes[key];
-        }
+        this.jsonModel[key] = this.jsonModel[key].map(item => {
+          let updatedItem = changes[key].find(changeItem => changeItem.id === item.id);
+          if (updatedItem) {
+            appliedChanges[key].push({ id: item.id, ...updatedItem });
+            revertedChanges[key].push({ id: item.id, ...item }); // Store old state
+            return { ...item, ...updatedItem }; // Apply changes
+          }
+          return item;
+        });
+      } else {
+        // Directly update primitive values or non-array objects
+        appliedChanges[key] = changes[key];
+        revertedChanges[key] = this.jsonModel[key];
+        this.jsonModel[key] = changes[key];
+      }
     }
 
     console.log("UPDATE CALLED. RESULT IS: ", this.jsonModel);
@@ -982,14 +947,14 @@ class BaseConnector extends BaseDiagramItem {
     var x2 = p2.x, x1 = p1.x, y2 = p2.y, y1 = p1.y;
 
     var x = 10,  // dash length
-        dashf = 5, dashe = 3, dx = x2 - x1, dy = y2 - y1,
-        gip = Math.sqrt(dx * dx + dy * dy);
+      dashf = 5, dashe = 3, dx = x2 - x1, dy = y2 - y1,
+      gip = Math.sqrt(dx * dx + dy * dy);
 
     if (gip < x)  // Nothing to draw
       return;
 
     var sina = dy / gip, cosa = dx / gip, fx = dashf * cosa, fy = dashf * sina,
-        ex = dashe * cosa, ey = dashe * sina;
+      ex = dashe * cosa, ey = dashe * sina;
 
     for (let i = 0; i < (gip / (dashf + dashe)); ++i) {
       c.moveTo(x1, y1);
@@ -1001,4 +966,4 @@ class BaseConnector extends BaseDiagramItem {
   }
 }
 
-export {BaseConnector}
+export { BaseConnector }

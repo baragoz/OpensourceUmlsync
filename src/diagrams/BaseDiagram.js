@@ -561,8 +561,8 @@ class BaseDiagram extends BaseDiagramItem {
   removeConnector(fromId, toId, name) {
     this.connectors = this.connectors.filter(connector => {
       // exclude a single connector
-      return !(connector.toId == toId
-        && connector.fromId == fromId); 
+      return !(connector.epoints[connector.epoints.length - 1]['euid'] == toId
+        && connector.epoints[0]['euid'] == fromId); 
         // TODO: && connector.options.nameTemplate == name);
     });
     
