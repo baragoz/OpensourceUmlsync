@@ -6,35 +6,35 @@
             "cs": [
                 {
                     "connector": "association",
-                    "css": "icon-im-class-association"
+                    "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M21 3L3 21' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
                 },
                 {
                     "connector": "aggregation",
-                    "css": "icon-im-class-aggregation"
+                    "svg" : "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M21 3L9 15' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M9 20V15H4V20H9Z' stroke='#292D32' stroke-width='1.5'/></svg>"
                 },
                 {
                     "connector": "composition",
-                    "css": "icon-im-class-composition"
+                    "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M21 3L9 15' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M10 21V14H3V21H10Z' fill='#292D32'/></svg>"
                 },
                 {
                     "connector": "self-association",
-                    "css": "icon-im-class-self-association"
+                    "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M13.579 17.7368H18C20.2092 17.7368 22 15.946 22 13.7368V7C22 4.79086 20.2092 3 18 3H11.2632C9.05405 3 7.26318 4.79086 7.26318 7V11.4211' stroke='#292D32' stroke-width='1.5'/><rect x='2' y='11.4211' width='11.5789' height='9.47368' rx='2' stroke='#292D32' stroke-width='1.5'/><path d='M2.52637 17.7368H13.0527' stroke='#292D32' stroke-width='1.5'/><path d='M2.52637 14.5789H13.0527' stroke='#292D32' stroke-width='1.5'/></svg>"
                 },
                 {
                     "connector": "dependency",
-                    "css": "icon-im-class-dependency"
+                    "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 3H21V12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M21 3L19.875 4.125L18.75 5.25M3 21L4.125 19.875L5.25 18.75L6.375 17.625M12 12L13.125 10.875M16.5 7.5L15.375 8.625M9.75 14.25L8.625 15.375' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
                 },
                 {
                     "connector": "realization",
-                    "css": "icon-im-class-realization"
+                    "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M13 2H21C21.5523 2 22 2.44772 22 3V11' fill='#292D32'/><path d='M21 3L19.875 4.125L18.75 5.25M3 21L4.125 19.875L5.25 18.75L6.375 17.625M12 12L13.125 10.875M16.5 7.5L15.375 8.625M9.75 14.25L8.625 15.375' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
                 },
                 {
                     "connector": "generalization",
-                    "css": "icon-im-class-generalization"
+                    "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 3 L21 3 L21 12 Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M21 3L3 21' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
                 },
                 {
                     "connector": "nested",
-                    "css": "icon-im-class-nested"
+                    "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M21 3L10 14' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='7' cy='17' r='4' stroke='#292D32' stroke-width='1.5'/><path d='M5 15L7 17M9 19L7 17M7 17L9 15M7 17L5 19' stroke='#292D32' stroke-width='1.5' stroke-linecap='square'/></svg>"
                 }
             ]
         },
@@ -43,7 +43,7 @@
             "cs": [
                 {
                     "connector": "anchor",
-                    "css": "icon-im-common-note-anchor"
+                    "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><g clip-path='url(#clip0_4403_12086)'><path d='M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M14.5 4.5V6.5C14.5 7.6 15.4 8.5 16.5 8.5H18.5' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 13H12' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 17H16' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></g><defs><clipPath id='clip0_4403_12086'><rect width='24' height='24' fill='white'/></clipPath></defs></svg>"
                 }
             ]
         }

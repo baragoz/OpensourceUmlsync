@@ -54,34 +54,39 @@
     ],
     "connectors": [
       {
-        "connector": "aggregation",
-        "description": "Aggregation",
-        "css": "icon-cs-aggregation"
+        "connector": "association",
+        "description": "Association",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 12L21 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
       },
       {
         "connector": "realization",
         "description": "Realization",
-        "css": "icon-cs-realization"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364' fill='#292D32'/><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364V5.63605Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99996 12H3.59095H5.18194H6.77293M14.7279 12H16.3189M21.0918 12H19.5008M11.5459 12H9.95491' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+      },
+      {
+        "connector": "generalization",
+        "description": "Inheritance",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364L15.3638 5.63605' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99993 12L15 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "connector": "dependency",
         "description": "Dependency",
-        "css": "icon-cs-dependency"
-      },
-      {
-        "connector": "generalization",
-        "description": "Generalization",
-        "css": "icon-cs-generalization"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99996 12H3.59095H5.18194H6.77293M14.7279 12H16.3189M21.0918 12H19.5008M11.5459 12H9.95491' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "connector": "nested",
         "description": "Nested",
-        "css": "icon-cs-nested"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 12L21 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><ellipse cx='8' cy='12' rx='5' ry='5' transform='rotate(-180 8 12)' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5'/><path d='M8 7.5V17M12.5 12H3' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+      },
+      {
+        "connector": "aggregation",
+        "description": "Aggregation",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 12L21 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M5.71223 15.7123L3.23736 13.2374C2.49489 12.495 2.4124 11.5875 3.37485 10.6251L5.57474 8.42518C6.53719 7.46273 7.44464 7.54523 8.1871 8.28769L10.662 10.7626C11.4044 11.505 11.4869 12.4125 10.5245 13.3749L8.3246 15.5748C7.36215 16.5373 6.45469 16.4548 5.71223 15.7123Z' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "connector": "composition",
         "description": "Composition",
-        "css": "icon-cs-composition"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 12L21 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M5.71223 15.7123L3.23736 13.2374C2.49489 12.495 2.4124 11.5875 3.37485 10.6251L5.57474 8.42518C6.53719 7.46273 7.44464 7.54523 8.1871 8.28769L10.662 10.7626C11.4044 11.505 11.4869 12.4125 10.5245 13.3749L8.3246 15.5748C7.36215 16.5373 6.45469 16.4548 5.71223 15.7123Z' fill='#292D32' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       }
     ]
   }

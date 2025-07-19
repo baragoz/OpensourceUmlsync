@@ -54,6 +54,7 @@ class RealizationConnector extends BaseConnector {
     c.lineTo(x5, y5);
     c.lineTo(x3, y3);
     c.stroke();
+    c.fill();
     c.closePath();
   }
 }
