@@ -12,6 +12,7 @@ class ClassElement extends BaseElement {
             attributes: [],
             width: "150px",
             height: "auto",
+            name: "Class", // default title
             ...jsonModel 
         },
         diagram);

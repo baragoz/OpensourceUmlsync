@@ -8,6 +8,8 @@ import stateDiagram from "../assets/configs/mainmenu/stateDiagram.json";
 // Icons Menu configuration
 import classIcons from "../assets/configs/iconsmenu/class.json";
 import noteIcons from "../assets/configs/iconsmenu/note.json";
+import portIcons from "../assets/configs/iconsmenu/port.json";
+import interfaceIcons from "../assets/configs/iconsmenu/interface.json";
 // bad name for the node-based project
 import packageIcons from "../assets/configs/iconsmenu/packageIconsMenu.json";
 import stateIcons from "../assets/configs/iconsmenu/state.json";
@@ -36,7 +38,9 @@ class ConfigLoader {
       package: packageIcons,
       component: componentIcons,
       state: stateIcons,
-      statestart: stateStartIcons
+      statestart: stateStartIcons,
+      interface: interfaceIcons,
+      port: portIcons
     }
 
     this.contextMenuConfig = contextMenuConfig;

@@ -93,7 +93,16 @@ class EditorIconMenu {
     for (var c in items) {
       let item = items[c];
       for (var r in item['cs'])  // connector descriptor
-        htmlIcons.push(
+        if (item['cs'][r].svg) {
+          htmlIcons.push(
+            '<div  id=\'' +
+            item['cs'][r].connector +  // unique ID == connection type
+            '\' title=\'' + (item['cs'][r]['alt'] || item['cs'][r].connector) +  // hover tip
+            '\' element=\'' + item['el'] +             // element to create
+            '\' class="us-icon-menu-svg-wrapper">' + item['cs'][r].svg + '</div>');
+
+        } else {
+          htmlIcons.push(
             '<div class=\'icons-sprite ' +
             item['cs'][r].css +  // Sprite icon css
             '\' id=\'' +
@@ -101,6 +110,7 @@ class EditorIconMenu {
             '\' title=\'' + item['cs'][r].connector +  // hover tip
             '\' element=\'' + item['el'] +             // element to create
             '\'></div>');
+        }
     }
 
     var cells = htmlIcons.join('');

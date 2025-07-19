@@ -8,6 +8,7 @@ const defaultOptions = {
 
 const defaultModel = {
     'height': 102,
+    'name': 'Package'
 };
 
 

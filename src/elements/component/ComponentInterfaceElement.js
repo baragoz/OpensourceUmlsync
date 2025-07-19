@@ -6,6 +6,7 @@ class InterfaceElement extends BaseElement {
             'nameTemplate': "interface",
             'droppable': false,
             resizeable: "none",
+            // midpoint: true,
             ...options
         };
         let defaultjsonModel = {
