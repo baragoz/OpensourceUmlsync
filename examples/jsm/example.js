@@ -18,7 +18,7 @@ const tmpClean = `{"nameTemplate":"classDiagram","width":1800,"height":800,"elem
 const tmpComp = `{"nameTemplate":"componentsDiagram","width":1800,"height":800,"elements":[{"width":280,"height":165,"left":108,"top":540,"operations":[{"id":1,"text":"CreateSomething()"},{"id":2,"text":"updatePayload()"}],"attributes":[{"id":0,"text":"someField"},{"id":2,"text":"someField2"}],"name":"Test long name LLLLLLLLLLL","aux":"Interface","id":2,"height_a":37,"nameTemplate":"class","z-index":5001},{"width":249,"height":114,"left":184,"top":185,"operations":[],"attributes":[],"id":"class-1741231821631-zk9afgwkb","height_a":20,"nameTemplate":"class","z-index":5003,"name":"aasda ad asd "}],"connectors":[{"id":"class-1741231821631-zk9afgwkb","toId":2,"z-index":5007,"id":7,"nameTemplate":"composition","epoints":[{"x":266,"y":441}]}]}`;
 
 
-let jsonModel = JSON.parse(tmpClass);
+let jsonModel = JSON.parse(tmpseq);
 
 console.log("PARSED MODEL IS:", jsonModel);
 const diagram = editor.loadDiagram(jsonModel, {width: rect.width, height: rect.height, 'editmode': true});

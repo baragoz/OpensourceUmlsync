@@ -10,12 +10,13 @@ import classIcons from "../assets/configs/iconsmenu/class.json";
 import noteIcons from "../assets/configs/iconsmenu/note.json";
 import portIcons from "../assets/configs/iconsmenu/port.json";
 import interfaceIcons from "../assets/configs/iconsmenu/interface.json";
+import sqObjectInstanceIcons from "../assets/configs/iconsmenu/sqobject_instance.json"
 // bad name for the node-based project
 import packageIcons from "../assets/configs/iconsmenu/packageIconsMenu.json";
 import stateIcons from "../assets/configs/iconsmenu/state.json";
 import stateStartIcons from "../assets/configs/iconsmenu/statestart.json";
-
 import componentIcons from "../assets/configs/iconsmenu/component.json";
+import sqPortIcons from "../assets/configs/iconsmenu/sqport.json"
 
 
 // Context Menu configuration
@@ -33,14 +34,22 @@ class ConfigLoader {
     };
 
     this.iconsMenuConfig = {
-      class: classIcons,
+      // common elements
       note: noteIcons,
+      // Class diagram
+      class: classIcons,
+      // Package diagram
       package: packageIcons,
-      component: componentIcons,
+      // State diagram
       state: stateIcons,
       statestart: stateStartIcons,
+      // Component diagram
+      component: componentIcons,
       interface: interfaceIcons,
-      port: portIcons
+      port: portIcons,
+      // Sequence diagram
+      sqobject_instance: sqObjectInstanceIcons,
+      sqport: sqPortIcons
     }
 
     this.contextMenuConfig = contextMenuConfig;

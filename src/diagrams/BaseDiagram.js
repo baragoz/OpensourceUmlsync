@@ -606,6 +606,8 @@ class BaseDiagram extends BaseDiagramItem {
     var result = null,
     scrollLeft = $("#" + this.euid).scrollLeft(),
     scrollTop = $("#" + this.euid).scrollTop();
+
+    var mazi = -1;
     for (var i in this.elements) {
       if (this.elements[i].options.single)
         continue;
@@ -619,7 +621,14 @@ class BaseDiagram extends BaseDiagramItem {
           && (ui.position.left < p.left + w + scrollLeft)
           && (ui.position.top > p.top + scrollTop)
           && (ui.position.top < p.top + h + scrollTop)) {
-        return this.elements[i];
+        //
+        // get max z-index
+        //
+        if (this.elements[i].jsonModel["z-index"] > mazi) {
+          result =  this.elements[i];
+          mazi = this.elements[i].jsonModel["z-index"];
+        }
+        
       }
     }
     return result;

@@ -98,7 +98,8 @@ class EditorIconMenu {
             '<div  id=\'' +
             item['cs'][r].connector +  // unique ID == connection type
             '\' title=\'' + (item['cs'][r]['alt'] || item['cs'][r].connector) +  // hover tip
-            '\' element=\'' + item['el'] +             // element to create
+            (item['cs'][r]['force_create'] ? ('\' data-force_create=\'' + item['cs'][r]['force_create']) : "") +  // force create
+            '\' data-element=\'' + item['el'] +             // element to create
             '\' class="us-icon-menu-svg-wrapper">' + item['cs'][r].svg + '</div>');
 
         } else {
@@ -177,7 +178,8 @@ class EditorIconMenu {
           'stop': function(event, ui) {
             if (!iconMenuBuilder.diagram) return false;
 
-            var tid = $(this).attr('element'),
+            var tid = $(this).data('element'),
+                force_create = $(this).data('force_create'),
                 jsonModel = {},  //$.extend({},
                                  //iconMenuBuilder.dmb.getElementById(tid)),
                 lcon =
@@ -198,14 +200,14 @@ class EditorIconMenu {
               //
               // Local helper method
               //
-              var handleConnector = function(toElement, isElFound) {
+              var handleConnector = function(toElement, isElFound, position) {
 
                 iconMenuBuilder.diagram.Connector(
                     thisid,
                     {
                       epoints: [
                         {x: 100, y: 100, id: fromElement.jsonModel["id"], euid: fromElement.euid},
-                        {x: 100, y: 200, id: toElement.jsonModel["id"], euid: toElement.euid},
+                        {x: position.left, y: position.top, id: toElement.jsonModel["id"], euid: toElement.euid},
                       ],
                       ...iconMenuBuilder.connectorStyle
                     },
@@ -223,16 +225,19 @@ class EditorIconMenu {
                     });  // Connector
               };
               // Create an element or get element which was drop on
-              var el = iconMenuBuilder.diagram._dropConnector(ui);
+              var el = null;
+              if (!force_create) {
+                el = iconMenuBuilder.diagram._dropConnector(ui);
+              }
+              // Create a dropped element type
               if (!el) {
-
-                
                 let clone =  {...jsonModel, ...iconMenuBuilder.elementStyle};
-                console.log("CREATING ELEMENT: " +tid, clone);
                 el = iconMenuBuilder.diagram.Element(tid, clone);
               }
 
-              handleConnector(el, true);
+              if (el) {
+                handleConnector(el, true, ui.position);
+              }
 
               //
               // Force Re-draw connectors

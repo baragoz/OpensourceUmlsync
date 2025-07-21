@@ -5,6 +5,7 @@ class SQObjectInstanceElement extends BaseElement {
         let defaultOptions = {
             'nameTemplate': "sqobject_instance",
             'droppable': false,
+            'midpoint': 1,
             'acceptdrop': ['sqport', 'sqdestroy'],
             ...options
         };

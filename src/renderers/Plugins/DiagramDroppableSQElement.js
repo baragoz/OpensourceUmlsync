@@ -74,7 +74,6 @@ class DiagramDroppableSQElement {
             if (parent) {
                   // middle of element + middle of parent
                   const align = parent.jsonModel.left + parent.jsonModel.width/2 - element.jsonModel.width/2;
-                  console.log("ALIGN: " + align);
                   element.nativeBorderRef.css('left', align);
                   element.jsonModel.left = align;
             }

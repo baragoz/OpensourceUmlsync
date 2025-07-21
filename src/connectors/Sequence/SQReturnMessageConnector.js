@@ -1,10 +1,10 @@
-import {BaseConnector} from '../BaseConnector';
+import { BaseSQConnector } from './BaseSQConnector';
 
 const defaultOptions = {
   nameTemplate: 'sqreturnmessage'
 }
 
-class SQReturnMessageConnector extends BaseConnector {
+class SQReturnMessageConnector extends BaseSQConnector {
   constructor(options, jsonModel, diagram) {
     super({...defaultOptions, ...options}, jsonModel, diagram);
   }

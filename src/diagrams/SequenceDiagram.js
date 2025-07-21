@@ -16,12 +16,13 @@ import { SQParticipantElement } from '../elements/sequence/SQParticipantElement.
 
 // Common Connectors
 import { AnchorConnector } from '../connectors/AnchorConnector.js';
+import { SQLostElement } from '../elements/sequence/SQLostElement.js';
 
 const defaultOptions = {
     nameTemplate: 'sequenceDiagram',
     type: 'sequence',
     acceptElements: ['note', 'sqport', 'sqactor', 'sqobject_instance',
-    'sqalt', 'sqdestroy', 'sqparticipant'],
+    'sqalt', 'sqdestroy', 'sqlost', 'sqparticipant'],
     acceptConnectors: ['lllink', 'llref']
 };
 
@@ -47,6 +48,8 @@ class SequenceDiagram extends BaseDiagram {
             object = new SQObjectInstanceElement({}, jsonModel, this);
         } else if (elementType == 'sqalt') {
             object = new SQAltElement({}, jsonModel, this);
+        } else if (elementType == 'sqlost') {
+            object = new SQLostElement({}, jsonModel, this);
         } else if (elementType == 'sqdestroy') {
             object = new SQDestroyElement({}, jsonModel, this);
         } else if (elementType == 'sqparticipant') {
@@ -73,7 +76,7 @@ class SequenceDiagram extends BaseDiagram {
         }
         // Connector for the note
         else if (connectorType == 'anchor') {
-            object = new AnchorConnector(options, jsonModel, this);
+            object = new AnchorConnector({}, jsonModel, this);
         }
   
         return object;
