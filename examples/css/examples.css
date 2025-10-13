@@ -1,0 +1,90 @@
+@import url("variables.css");
+
+body {
+    margin: 0px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Adjusted to allow full-width header */
+    height: 100vh;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    background-color: var(--color-primary-100); /* Slightly lighter than h2 */
+    color: white;
+    padding: 1rem 0;
+    margin: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    max-height: 3rem;
+}
+
+h2 {
+    height: 3rem; /* Match the height of h1 */
+    background-color: var(--color-primary-200);
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 3rem;
+}
+
+.container {
+    display: flex;
+    flex-grow: 1; /* Ensures the container takes up remaining space */
+    width: 100%;
+}
+
+.examples-menu {
+    width: 12.5%; /* Reduced width by 50% */
+    background-color: #f4f4f4;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+}
+
+.examples-menu h2 {
+    text-align: center;
+    padding: 1rem;
+    background-color: #ddd;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.examples-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.examples-menu ul li {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.examples-menu ul li:hover {
+    background-color: #e0e0e0;
+}
+
+.example-display {
+    flex-grow: 1;
+    padding: 0px;
+    overflow-y: auto;
+}
+
+.example-display iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+#us-class-diagram-placeholder {
+    flex-grow: 1;
+    height: calc(100% - 3rem); /* Adjust height based on h1 header */
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+}

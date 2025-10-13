@@ -34,13 +34,13 @@
     ],
     "connectors": [
       {
-        "connector": "assembly_connector",
+        "connector": "association",
         "element" : "interface",
         "description": "Assembly Connector",
         "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 12L3 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><ellipse cx='16' cy='12' rx='5' ry='5' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5'/></svg>"
       },
       {
-        "connector": "assembly_connector",
+        "connector": "assembly",
         "element" : {
           "nameTemplate": "interface",
           "visible": true

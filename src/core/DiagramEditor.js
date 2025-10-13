@@ -18,16 +18,20 @@ class DiagramEditor {
         this.options = { id: 1, globalId: 1, devmode: false, width: 1000, height: 500, ...overrideOptions};
         this.prefix = "e" + this.options.id;
 
+        $(domSelector).append('<div id="dw-uml-toolbar"></div>\
+                <div id="dw-uml-area"><div id="dw-uml-sidebar"></div></div>');
         //
         // Placholder for a side menu
         //
-        $(domSelector).append('<div id="dw-uml-toolbar"></div>\
-            <div id="dw-uml-area"><div id="dw-uml-sidebar"></div></div>');
         this.sideMenu = $(domSelector + " #dw-uml-sidebar");
+
         //
         // Add default editor commands to the config loader API
         //
         this.#registerDefaultCommand();
+        //
+        // Update dimentions of the editor if hardcoded by page.
+        //
         this.#updateDimention(this.options.width, this.options.height)
     }
 
@@ -121,8 +125,11 @@ class DiagramEditor {
           
         if (DiagramRef) {
             const options = {
-              width: 900,
-              height: 600,
+              width: this.options.width,
+              height: this.options.height,
+              // Check if editor do not want to allocate multiple canvas,
+              // Uses for multi-tabs mode
+              multicanvas: !this.options.shareCanvas,
               prefix: prefix,
               parentId: "#dw-uml-area",
               ...extraOptions
@@ -151,12 +158,21 @@ class DiagramEditor {
 
     #updateDimention(width, height) {
 
-       // Update UI
-       var $par = $(this.parentSelector);
-       $par.width(width);
-       $par.height(height);
+        if (this.options.fitToParent) {
+            // Always read size from the parent. Ignore passed width/height
+            const rect = $(this.parentSelector)[0].getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
+        } else {
+           // Update UI
+           var $par = $(this.parentSelector);
+           $par.width(width);
+           $par.height(height);
+        }
 
-       this.sideMenu.height(height)
+
+        // Side menu OR bottom menu.
+        this.sideMenu.height(height);
 
         // TODO: replace the parent selector's width/height
         //       reduce width on side menu size, if edit mode
@@ -165,7 +181,7 @@ class DiagramEditor {
             let diagramWidth = width;
             
             // take in account sidemenu if editmode
-            if (this.digram.options.editmode)
+            if (this.digram.options.editmode && this.sideMenu)
                 diagramWidth -= this.sideMenu.width();
 
             this.digram.updateDimention(diagramWidth, height);

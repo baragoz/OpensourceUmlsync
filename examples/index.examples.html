@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMLSync Examples</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css" integrity="sha512-TFee0335YRJoyiqz8hA8KV3P0tXa5CpRBSoM0Wnkn7JoJx1kaq1yXL/rb8YFpWXkMOjRcv5txv+C6UluttluCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- script src="https://cdn.jsdelivr.net/npm/jquery-editable@1.0.0/dist/jquery-editable.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script -->
+
+    <!-- Import Map to define module paths -->
+    <script type="importmap">
+        {
+            "imports": {
+                "umlsync": "../dist/editor/UMLSync.editor.cjs.js"
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="./css//variables.css"  />
+    <link rel="stylesheet" href="./css/examples.css"  />
+    <link rel="stylesheet" href="/src/assets/css/umlsync.css"  />
+    <link rel="stylesheet" href="./css/icons.css"  />
+
+    <!-- Main JavaScript file -->
+    <script type="module" src="jsm/jquery.editable.js"></script>
+    <script type="module" src="jsm/example.js"></script>
+</head>
+<body>
+    <h1>UMLSync Examples</h1>
+    <div id="us-class-diagram-placeholder"></div>
+</body>
+</html>
