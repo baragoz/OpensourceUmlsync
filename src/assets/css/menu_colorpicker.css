@@ -1,0 +1,66 @@
+/* Color picker component */
+.us-color-picker {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    z-index: 200000;
+    min-width: 400px; /* wider for 8x8 grid */
+  }
+  
+  .us-color-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .us-color-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .us-color-multiple-palettes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  
+  .us-color-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 10px;
+    border-right: 1px solid #ddd;
+  }
+  
+  .us-color-block:nth-child(3n) {
+    border-right: none;
+    padding-right: 0;
+  }
+  
+  .us-color-title {
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .us-color-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 16px); /* 8 columns */
+    gap: 4px;
+  }
+  
+  .us-color-cell {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  

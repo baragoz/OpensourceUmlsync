@@ -1,112 +1,123 @@
 import { defineConfig } from "vite";
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
-
-import path from 'path';
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 import spritesmith from "vite-plugin-spritesmith";
+import path from "path";
+import fs from "fs";
 import copy from "rollup-plugin-copy";
-import fs from 'fs';
-
-const SPRITE_PATH = 'public/assets/icons/icons.png';
 
 //
-// Convert image to base64
+// Constants
+//
+const SPRITE_PATH = "public/assets/icons/icons.png";
+
+//
+// Convert sprite to base64
 //
 function convertSpriteToBase64() {
   if (fs.existsSync(SPRITE_PATH)) {
     const fileBuffer = fs.readFileSync(SPRITE_PATH);
-    return `data:image/png;base64,${fileBuffer.toString('base64')}`;
+    return `data:image/png;base64,${fileBuffer.toString("base64")}`;
   }
-  return ""; 
+  return "";
 }
 
+//
+// Vite configuration
+//
 export default defineConfig({
   server: {
     open: "/examples/index.html",
   },
-  
+
   resolve: {
     alias: {
       "umlsync": "/src/UMLSync.editor.js",
     },
   },
+
   publicDir: "public",
+
   build: {
     outDir: "dist/editor",
-    lib: 
-      {
-        entry: {
-			editor: path.resolve(__dirname, "src/UMLSync.editor.js"), // Entry for UMLSync.editor.js
-		},
-		name: "UMLSync",
-        formats: ["es", "cjs"], // Both ESM and CommonJS
-        fileName: (format, target) => {
-			console.log("LOOKING FOR FORMAT: " + format + " SOM" + target);
-			return `UMLSync.${target}.${format}.js`;
-		},
+    lib: {
+      entry: {
+        editor: path.resolve(__dirname, "src/UMLSync.editor.js"),
       },
+      name: "UMLSync",
+      formats: ["es", "cjs"],
+      fileName: (format, target) => {
+        console.log("LOOKING FOR FORMAT: " + format + " SOM " + target);
+        return `UMLSync.${target}.${format}.js`;
+      },
+    },
     rollupOptions: {
-      external: ['jquery', 'jquery-ui'], // Add dependencies if needed
+      external: ["jquery", "jquery-ui"],
       output: {
         exports: "named",
         sourcemap: true,
         globals: {
-			jquery: '$'
-		},
+          jquery: "$",
+        },
       },
       plugins: [
+        //
+        // Copy extra JS files
+        //
         copy({
           targets: [
-            { src: "src/assets/css/umlsync.css", dest: "dist/assets/styles/" },
-            { src: "src/assets/js/jquery.editable.js", dest: "dist/assets/js/" }
+            { src: "src/assets/js/jquery.editable.js", dest: "dist/editor/assets/js/" },
           ],
-          verbose: true
-        })
+          verbose: true,
+        }),
       ],
-      
-    }
+    },
   },
+
   plugins: [
+    //
+    // Node polyfills
+    //
     nodePolyfills(),
+
+    //
+    // Sprite generator
+    //
     spritesmith({
       src: {
         cwd: "src/assets/icons/vp/",
-        glob: "**/*.png", // Includes subdirectories
+        glob: "**/*.png",
       },
       target: {
-        image: "public/assets/icons/icons.png", // Place sprite inside `public/`
-        css: "public/assets/styles/icons.css", // CSS file goes into `src/`
+        image: "public/assets/icons/icons.png",
+        css: "src/assets/styles/icons.css", // placed inside src for Vite import
       },
       apiOptions: {
-        cssImageRef: "assets/styles/icons.png", // Ensure proper path reference
-        generateSpriteName: function (imageData) {
-            //
-            // DOES NOT WORK - ADD source_image to the node module
-            //
-            return "NOTHING";
-        }
+        cssImageRef: "assets/icons/icons.png",
       },
       customTemplates: {
         css: (data) => {
           return `
 .icons-sprite {
-  background-image: url('` + convertSpriteToBase64()  + `');
+  background-image: url('${convertSpriteToBase64()}');
   background-repeat: no-repeat;
   display: inline-block;
   margin-right: 6px;
-}` + 
-          data.sprites.map((sprite) => {
-            const className = sprite.source_image
-              .replace(/^.*?\/icons\/vp\//, "") // Remove base path
-              .replace(/\//g, "-") // Replace "/" with "-"
-              .replace(".png", ""); // Remove ".png"
-
-            return `
+}
+${data.sprites
+  .map((sprite) => {
+    const className = sprite.image
+      .replace(/^.*?\/icons\/vp\//, "")
+      .replace(/\//g, "-")
+      .replace(".png", "");
+    return `
 .icon-${className} {
-  background-position: left ${sprite.offset_x}px top ${sprite.offset_y}px;
+  background-position: ${sprite.offset_x}px ${sprite.offset_y}px;
   width: ${sprite.width}px;
   height: ${sprite.height}px;
 }`;
-          }).join("\n");
+  })
+  .join("\n")}
+          `;
         },
       },
       spritesmithOptions: {
@@ -114,5 +125,4 @@ export default defineConfig({
       },
     }),
   ],
-
 });

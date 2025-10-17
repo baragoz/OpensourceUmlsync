@@ -1,0 +1,406 @@
+@import "./theme_light.css";
+
+/* toolbar variables */
+:root {
+  --toolbar-bg-color: var(--color-primary-0);
+  --toolbar-bg-radius: var(--border-radius-md);
+  --toolbar-bg-options: var(--color-secondary-100);
+  --toolbar-font-color: var(--color-secondary-400);
+  --toolbar-detached-bg-color: #f5f9fe;
+  --toolbar-style-row-bg-color: #fff;
+}
+
+/* EditorToolbar: toolbar */
+#dw-uml-toolbar {
+  position: absolute;
+  z-index: 1999999;
+}
+
+.us-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--toolbar-bg-color);
+  border-radius: var(--toolbar-bg-radius);
+  color: var(--toolbar-font-color);
+  border-bottom: 1px solid #ccc;
+}
+
+.us-toolbar button,
+.us-toolbar select {
+  padding: 0px;
+  font-size: 14px;
+  border: 1px solid buttonface;
+  border-radius: 6px;
+}
+
+.us-editor {
+  min-height: 300px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+/*************************** EDITOR DETACHED TOOLBAR MENU ********/
+/* Main toolbar wrapper and layout */
+.us-dt-toolbar-wrapper {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 299999;
+  font-family: sans-serif;
+}
+
+/* Title bar */
+.us-dt-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  padding: 0 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.us-dt-title {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+
+.us-dt-style-icons {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.us-dt-style-icons svg {
+  height: 16px;
+}
+
+/* Pin functionality */
+.us-dt-pin {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.us-dt-pin svg {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.us-dt-pinned {
+  display: none;
+}
+
+.us-dt-state-pinned .us-dt-pinned {
+  display: block;
+}
+
+.us-dt-state-pinned .us-dt-unpinned {
+  display: none;
+}
+
+/* Style rows */
+.us-dt-style-row {
+  display: flex;
+  align-items: center;
+  background: var(--toolbar-style-row-bg-color);
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+  gap: 10px;
+}
+
+.us-dt-connector-style-row {
+  display: flex;
+  align-items: center;
+  background: var(--toolbar-style-row-bg-color);
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+  gap: 10px;
+}
+
+/* Main toolbar */
+.us-dt-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--toolbar-detached-bg-color);
+  border: 1px solid #ccc;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.us-dt-toolbar button,
+.us-dt-toolbar select,
+.us-dt-style-row button,
+.us-dt-style-row select {
+  padding: 4px 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f9f9f9;
+  cursor: pointer;
+}
+
+.us-dt-drag-handle {
+  cursor: move;
+  padding-right: 5px;
+  display: flex;
+  align-items: center;
+}
+
+/* Default/Selected mode indicators */
+.us-sds-default,
+.us-sds-selected {
+  min-width: 70px;
+}
+
+/* Style carousel */
+.us-ds-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 670px;
+  overflow: auto;
+}
+
+.us-ds-carousel-track {
+  white-space: nowrap;
+  transition: transform 0.3s ease;
+  overflow: auto;
+  cursor: grab;
+  background-color:  rgba(135, 206, 235, 0.1);;
+  scrollbar-width: thin;
+  user-select: none;
+}
+
+.us-ds-carousel-track > div {
+  display: inline-block;
+  vertical-align: top;
+  background-color: white;
+}
+
+.us-ds-carousel-track > div:hover {
+  background-color: #87CEEB;
+}
+
+.us-ds-carousel-arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: white;
+  z-index: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  user-select: none;
+}
+
+.us-ds-carousel-left {
+  left: 0;
+  background: linear-gradient(to right, white 60%, transparent);
+}
+
+.us-ds-carousel-right {
+  right: 0;
+  background: linear-gradient(to left, white 60%, transparent);
+}
+
+/* Style preview wrapper */
+.us-dt-style-preview-wrapper {
+  position: absolute;
+  right: -130px;
+  bottom: 0px;
+}
+
+.us-dt-style-preview-scale {
+  scale: 0.5;
+  right: -90px;
+  bottom: -20px;
+}
+
+/* Preview style component */
+.us-dc-preview-style {
+  font-family: sans-serif;
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  width: 100px;
+  border-radius: 6px;
+  margin-right: 6px;
+}
+
+.us-dc-label {
+  width: 100%;
+  height: 30px; /* fixed height */
+  padding: 5px;
+  box-sizing: border-box;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  text-align: center;
+  overflow: hidden;
+  line-height: 20px; /* optional for vertical centering */
+}
+
+.us-dc-box {
+  width: 100%;
+  height: 30px; /* fixed height */
+  padding: 5px;
+  box-sizing: border-box;
+  margin-top: 10px;
+  border: 1px solid black;
+  text-align: center;
+  overflow: hidden;
+  line-height: 20px; /* optional */
+}
+
+.us-dc-canvas {
+  display: block;
+  width: 100%;
+  height: 15px;
+}
+
+/* Dropdown menu components */
+.us-preview-dropdown-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 5px;
+  background: var(--toolbar-bg-options);
+  width: fit-content;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.us-preview-dropdown-preview {
+  display: flex;
+  gap: 5px;
+}
+
+.us-preview-dropdown-preview .us-side-menu-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.us-preview-dropdown-arrow {
+  margin-left: 8px;
+  font-size: 14px;
+  user-select: none;
+}
+
+.us-preview-dropdown-full-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 200000;
+  min-width: 200px;
+}
+
+.us-preview-dropdown-full-menu .menu-item {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.us-preview-dropdown-full-menu .menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-item-list-variant {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.menu-item-svg svg {
+  display: block;
+}
+
+.us-preview-menu-icon {
+  position: inherit;
+  border-radius: 3px;
+  background-color: #0BCA6E99;
+  min-width: 18px;
+  min-height: 18px;
+}
+
+.us-preview-menu-icon:hover {
+  background-color: #0BCA6E;
+}
+
+.us-side-menu-icon {
+  position: absolute;
+}
+
+.us-side-menu-icon>svg {
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+}
+
+/* Shared utility classes for toolbar */
+.us-div-separator { 
+  background-color: lightgray;
+  padding: 0px;
+  margin:0px;
+  width: 1px;
+  height: 1vh;
+}
+
+.us-font-style-btn {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.us-bold { font-weight: bold; }
+.us-italic { font-style: italic; }
+.us-underline { text-decoration: underline; }
+
+.us-text-biu-active {
+  background-color: #d0ebff;
+  border-radius: 4px;
+}
+
+/* Hide buttons for release */
+#us-text-save-button,
+#us-text-undo,
+#us-text-redo {
+  display: none;
+}
+
+.us-dev-mode #us-text-save-button,
+.us-dev-mode #us-text-undo,
+.us-dev-mode #us-text-redo {
+  display: block;
+}
+
+.us-dt-placeholder-elements-dropdown,
+.us-dt-placeholder-connectors-dropdown {
+  background-color: var(--toolbar-bg-options);
+}
