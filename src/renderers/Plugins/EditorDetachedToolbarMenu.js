@@ -112,18 +112,22 @@ class EditorDetachedToolbarMenu {
   async loadToolbar() {
     this.toolbarElement = $(`
 <div class="us-dt-toolbar-wrapper">
+  <!-- top icons to switch between style select mode -->
   <div class="us-dt-title-bar">
     <div class="us-dt-title">Default</div>
     <div class="us-dt-style-icons">
+    <!-- icon for system style list -->
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
   <path d="M4.5 9.59163V14.4C4.5 16.1666 4.5 16.1666 6.16667 17.2916L10.75 19.9416C11.4417 20.3416 12.5667 20.3416 13.25 19.9416L17.8333 17.2916C19.5 16.1666 19.5 16.1666 19.5 14.4083V9.59163C19.5 7.8333 19.5 7.8333 17.8333 6.7083L13.25 4.0583C12.5667 3.6583 11.4417 3.6583 10.75 4.0583L6.16667 6.7083C4.5 7.8333 4.5 7.8333 4.5 9.59163Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M12 14.5C13.3807 14.5 14.5 13.3807 14.5 12C14.5 10.6193 13.3807 9.5 12 9.5C10.6193 9.5 9.5 10.6193 9.5 12C9.5 13.3807 10.6193 14.5 12 14.5Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+<!-- icon for liked style list -->
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
   <path d="M12.516 19.3417C12.2327 19.4417 11.766 19.4417 11.4827 19.3417C9.06602 18.5167 3.66602 15.075 3.66602 9.24171C3.66602 6.66671 5.74102 4.58337 8.29935 4.58337C9.81602 4.58337 11.1577 5.31671 11.9993 6.45004C12.841 5.31671 14.191 4.58337 15.6993 4.58337C18.2577 4.58337 20.3327 6.66671 20.3327 9.24171C20.3327 15.075 14.9327 18.5167 12.516 19.3417Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+<!-- icon for created/saved style list -->
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
   <path d="M20.2743 7.6333L17.466 18.9083C17.266 19.75 16.516 20.3333 15.6493 20.3333H4.69929C3.44096 20.3333 2.54097 19.0999 2.91597 17.8916L6.4243 6.625C6.66597 5.84167 7.39098 5.29993 8.20765 5.29993H18.4576C19.2493 5.29993 19.9076 5.78326 20.1826 6.44993C20.341 6.80826 20.3743 7.21663 20.2743 7.6333Z" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10"/>
@@ -133,6 +137,7 @@ class EditorDetachedToolbarMenu {
   <path d="M8.41602 12H15.0827" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M7.58398 15.3334H14.2507" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+<!-- icon for editing current style -->
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
   <path d="M9.49935 20.3333H14.4993C18.666 20.3333 20.3327 18.6666 20.3327 14.5V9.49996C20.3327 5.33329 18.666 3.66663 14.4993 3.66663H9.49935C5.33268 3.66663 3.66602 5.33329 3.66602 9.49996V14.5C3.66602 18.6666 5.33268 20.3333 9.49935 20.3333Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
