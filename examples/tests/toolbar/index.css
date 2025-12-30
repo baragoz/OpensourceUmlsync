@@ -1,0 +1,761 @@
+:root {
+  --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+    "Source Han Sans CN", sans-serif;
+}
+
+.main-container {
+  overflow: hidden;
+}
+
+.main-container,
+.main-container * {
+  box-sizing: border-box;
+}
+
+input,
+select,
+textarea,
+button {
+  outline: 0;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 4px;
+  position: relative;
+  width: 813px;
+  margin: 0 auto;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  position: relative;
+  width: 813px;
+  padding: 16px 16px 16px 16px;
+  background: #f5f9fe;
+  border-radius: 10px;
+}
+.frame-1 {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+  position: relative;
+  width: 411px;
+  z-index: 1;
+}
+.text-format {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  gap: 12px;
+  position: relative;
+  width: 130px;
+  z-index: 2;
+}
+.fonts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  position: relative;
+  width: 130px;
+  z-index: 3;
+}
+.fomt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  width: 130px;
+  height: 24px;
+  padding: 0 4px 0 4px;
+  background: #eeeff7;
+  z-index: 4;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.icon {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-basis: auto;
+  position: relative;
+  width: 29px;
+  height: 21px;
+  color: #54577a;
+  font-family: Nunito Sans, var(--default-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: -0.28px;
+  z-index: 5;
+}
+.icon-2 {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/SURSG5TEuD.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 6;
+  overflow: hidden;
+}
+.text-style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 12px;
+  position: relative;
+  width: 196px;
+  z-index: 7;
+}
+.background {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
+  position: relative;
+  width: 52px;
+  height: 24px;
+  background: #eeeff7;
+  z-index: 8;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.icon-3 {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/o4DB8M2c3F.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 9;
+  overflow: hidden;
+}
+.icon-4 {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/9ttqeS3vvj.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 10;
+  overflow: hidden;
+}
+.frame-5 {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 12px;
+  position: relative;
+  width: 132px;
+  z-index: 11;
+}
+.icon-6 {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  z-index: 12;
+}
+.bold {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0 2px;
+  z-index: 13;
+}
+.linear-smallcaps {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/0gmYBT1PQ2.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 14;
+}
+.icon-7 {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  z-index: 15;
+}
+.bold-8 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0 2px;
+  z-index: 16;
+}
+.linear-text-bold {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/LLVJ13vQnU.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 17;
+}
+.icon-9 {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  z-index: 18;
+}
+.bold-a {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0 2px;
+  z-index: 19;
+}
+.linear-text-italic {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/qegtReqgRN.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 20;
+}
+.icon-b {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  z-index: 21;
+}
+.bold-c {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0 2px;
+  z-index: 22;
+}
+.linear-text-underline {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/8ozjoYeGtb.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 23;
+}
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  width: 1px;
+  height: 24px;
+  padding: 0 0 0 0;
+  border-right: 1px solid #e1e1e2;
+  z-index: 24;
+}
+.icon-d {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  z-index: 25;
+}
+.bold-e {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0 2px;
+  z-index: 26;
+}
+.linear-align-horizontally {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/RspOG3eBFF.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 27;
+}
+.frame-f {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+  position: relative;
+  width: 45px;
+  z-index: 28;
+}
+.divider-10 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  width: 1px;
+  height: 24px;
+  padding: 0 0 0 0;
+  border-right: 1px solid #e1e1e2;
+  z-index: 29;
+}
+.icon-11 {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  z-index: 30;
+}
+.bold-12 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0 2px;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/Rm137vmQ1V.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 31;
+  overflow: hidden;
+}
+.toolbar-size {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  gap: 20px;
+  position: relative;
+  width: 813px;
+  padding: 16px 16px 16px 16px;
+  background: #f5f9fe;
+  z-index: 32;
+  border-radius: 10px;
+}
+.undo-redo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  position: relative;
+  width: 24px;
+  z-index: 33;
+}
+.undo {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  z-index: 34;
+}
+.vuesax-linear-menu {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/fo2sj4Hkfs.png)
+    no-repeat center;
+  background-size: 100% 100%;
+  z-index: 35;
+}
+.frame-13 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+  flex-basis: 0;
+  position: relative;
+  min-width: 0;
+  z-index: 36;
+}
+.frame-14 {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 10px;
+  position: relative;
+  width: 321px;
+  z-index: 37;
+}
+.text-format-15 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  gap: 12px;
+  position: relative;
+  width: 98px;
+  z-index: 38;
+}
+.fonts-16 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  position: relative;
+  width: 98px;
+  z-index: 39;
+}
+.fomt-17 {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
+  position: relative;
+  width: 98px;
+  height: 24px;
+  padding: 0 4px 0 4px;
+  background: #eeeff7;
+  z-index: 40;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.list-variant {
+  flex-shrink: 0;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  z-index: 41;
+}
+.vuesax-linear-chart {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/mefhpBExE7.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 42;
+}
+.list-variant-18 {
+  flex-shrink: 0;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  z-index: 43;
+}
+.vuesax-linear-chart-19 {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/tW8dg4J1z7.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 44;
+}
+.list-variant-1a {
+  flex-shrink: 0;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  z-index: 45;
+}
+.vuesax-linear-chart-1b {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/GOm7MvWh0Y.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 46;
+}
+.icon-1c {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/1gmgG3pHyu.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 47;
+  overflow: hidden;
+}
+.fonts-1d {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 12px;
+  position: relative;
+  width: 98px;
+  z-index: 48;
+}
+.fomt-1e {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
+  position: relative;
+  width: 98px;
+  height: 24px;
+  padding: 0 4px 0 4px;
+  background: #eeeff7;
+  z-index: 49;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.list-variant-1f {
+  flex-shrink: 0;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  z-index: 50;
+}
+.vuesax-linear-chart-20 {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/SGUxCojhpv.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 51;
+}
+.list-variant-21 {
+  flex-shrink: 0;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  z-index: 52;
+}
+.vuesax-linear-chart-22 {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/705GF7LhVg.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 53;
+}
+.list-variant-23 {
+  flex-shrink: 0;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  z-index: 54;
+}
+.vuesax-linear-chart-24 {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/GAAJoasB8x.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 55;
+}
+.icon-25 {
+  flex-shrink: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/vAO84Zibxr.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 56;
+  overflow: hidden;
+}
+.text-format-26 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  gap: 12px;
+  position: relative;
+  width: 105px;
+  z-index: 57;
+}
+.fonts-27 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  position: relative;
+  width: 105px;
+  height: 24px;
+  padding: 0;
+  z-index: 58;
+}
+.attachment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 12px;
+  position: relative;
+  width: 186px;
+  z-index: 59;
+}
+.background-28 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: #eeeff7;
+  z-index: 60;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.icon-29 {
+  flex-shrink: 0;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  z-index: 61;
+}
+.vuesax-linear-document {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/i7v0yUNFwW.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 62;
+}
+.background-2a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: #eeeff7;
+  z-index: 63;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.icon-2b {
+  flex-shrink: 0;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  z-index: 64;
+}
+.vuesax-linear-hierarchy {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/DkCsdw4sQ2.png)
+    no-repeat center;
+  background-size: 100% 100%;
+  z-index: 65;
+}
+.background-2c {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: #eeeff7;
+  z-index: 66;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.icon-2d {
+  flex-shrink: 0;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  z-index: 67;
+}
+.vuesax-linear-brush {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-10-13/xcb45RzeNo.png)
+    no-repeat center;
+  background-size: cover;
+  z-index: 68;
+}
+.icon-2e {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-basis: auto;
+  position: relative;
+  width: 78px;
+  height: 21px;
+  color: #54577a;
+  font-family: Nunito Sans, var(--default-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: -0.28px;
+  z-index: 69;
+}

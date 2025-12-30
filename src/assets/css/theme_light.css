@@ -15,7 +15,7 @@
     --color-primary-900: #20135A;
 
     /* colors - secondary */
-    --color-secondary-100: #DFE1F3;
+    --color-secondary-100: #EEEEF8;
     --color-secondary-400: #54577A;
     --color-secondary-500: #424242;
 
@@ -38,4 +38,7 @@
     --border-radius-md: 10px;
     --border-radius-lg: 16px;
 
+    /* toolbar options background color */
+    --toolbar-bg-options: #EEEFF8;
+    --toolbar-text-color: #54577a;
 }

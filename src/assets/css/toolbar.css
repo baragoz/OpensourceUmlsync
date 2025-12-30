@@ -4,8 +4,18 @@
 :root {
   --toolbar-bg-color: var(--color-primary-0);
   --toolbar-bg-radius: var(--border-radius-md);
-  --toolbar-bg-options: var(--color-secondary-100);
   --toolbar-font-color: var(--color-secondary-400);
+  --toolbar-font-size: 16px;
+
+  --toolbar-options-background: var(--color-secondary-100);
+  --toolbar-options-radius: 6px;
+
+  /* all icons on toolbar: left-4-dots, dropdown, undo/redo, style, */
+  --toolbar-icon-font-color-default:  var(--color-secondary-400);
+  --toolbar-icon-large: 24px;
+  --toolbar-icon-medium: 20px;
+  --toolbar-icon-small: 16px;
+  
   --toolbar-detached-bg-color: #f5f9fe;
   --toolbar-style-row-bg-color: #fff;
 }
@@ -58,8 +68,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 22px;
-  padding: 0 8px;
+  height: 30px;
+  padding: 0px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -71,14 +81,29 @@
 }
 
 .us-dt-style-icons {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 4px;
+  background-color: #F5F9FE;
+  border-radius: 10px;
+  padding: 4px 8px;
+  min-height: 24px;
+  margin-bottom: 10px;
+  width: fit-content;
 }
 
 .us-dt-style-icons svg {
-  height: 16px;
+  height: 24px;
+  margin-left: 4px;
+}
+
+
+.us-dt-style-icons svg:hover {
+  background-color: #0BCA6E;
+  color: white;
+  fill: #0BCA6E;
+  stroke: white;
 }
 
 /* Pin functionality */
@@ -110,12 +135,14 @@
 .us-dt-style-row {
   display: flex;
   align-items: center;
+  height: 34px;
   background: var(--toolbar-style-row-bg-color);
   padding: 6px 10px;
   border: 1px solid #ccc;
-  border-radius: 8px 8px 0 0;
+  border-radius: 10px;
   box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
   gap: 10px;
+  margin-bottom: 4px;
 }
 
 .us-dt-connector-style-row {
@@ -123,8 +150,9 @@
   align-items: center;
   background: var(--toolbar-style-row-bg-color);
   padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px 8px 0 0;
+  border-radius: 10px;
+  height: 34px;
+  margin-bottom: 4px;
   box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
   gap: 10px;
 }
@@ -137,8 +165,7 @@
   padding: 10px;
   background: var(--toolbar-detached-bg-color);
   border: 1px solid #ccc;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border-radius: 10px;
 }
 
 .us-dt-toolbar button,
@@ -147,9 +174,10 @@
 .us-dt-style-row select {
   padding: 4px 6px;
   font-size: 14px;
-  border: 1px solid #ccc;
   border-radius: 6px;
-  background: #f9f9f9;
+  background: #EEEFF8;
+  color: #54577A;
+  border-width: 0px;
   cursor: pointer;
 }
 
@@ -163,15 +191,21 @@
 /* Default/Selected mode indicators */
 .us-sds-default,
 .us-sds-selected {
-  min-width: 70px;
+  min-width: 170px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  color: var(--toolbar-text-color);
 }
 
 /* Style carousel */
 .us-ds-carousel-container {
   position: relative;
-  width: 100%;
-  max-width: 670px;
   overflow: auto;
+  min-width: 700px;
+  border-radius: 10px;
+  background-color: #F5F9FE;
+  margin-bottom: 4px;
 }
 
 .us-ds-carousel-track {
@@ -182,16 +216,19 @@
   background-color:  rgba(135, 206, 235, 0.1);;
   scrollbar-width: thin;
   user-select: none;
+  width: 620px;
+  margin-left: 40px;
 }
 
 .us-ds-carousel-track > div {
   display: inline-block;
   vertical-align: top;
   background-color: white;
+  border: 2px solid transparent;
 }
 
 .us-ds-carousel-track > div:hover {
-  background-color: #87CEEB;
+  border: 2px solid #0BCA6E;
 }
 
 .us-ds-carousel-arrow {
@@ -211,12 +248,12 @@
 
 .us-ds-carousel-left {
   left: 0;
-  background: linear-gradient(to right, white 60%, transparent);
+  background: linear-gradient(to right, #F5F9FE 60%, transparent);
 }
 
 .us-ds-carousel-right {
   right: 0;
-  background: linear-gradient(to left, white 60%, transparent);
+  background: linear-gradient(to left, #F5F9FE 60%, transparent);
 }
 
 /* Style preview wrapper */
@@ -279,7 +316,6 @@
   display: flex;
   align-items: center;
   position: relative;
-  border: 1px solid #ccc;
   padding: 5px;
   background: var(--toolbar-bg-options);
   width: fit-content;
@@ -296,7 +332,6 @@
   width: 24px;
   height: 24px;
   border-radius: 4px;
-  border: 1px solid #ccc;
 }
 
 .us-preview-dropdown-arrow {
@@ -347,6 +382,7 @@
   background-color: #0BCA6E99;
   min-width: 18px;
   min-height: 18px;
+  border-radius: 8px;
 }
 
 .us-preview-menu-icon:hover {
