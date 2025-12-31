@@ -109,9 +109,8 @@ class EditorDetachedToolbarMenu {
     }
   }
 
-  async loadToolbar() {
-    this.toolbarElement = $(`
-<div class="us-dt-toolbar-wrapper">
+  getHtmlTopIcons() {
+    return `
   <!-- top icons to switch between style select mode -->
   <div class="us-dt-title-bar">
     <div class="us-dt-title">Default</div>
@@ -144,14 +143,22 @@ class EditorDetachedToolbarMenu {
   <path d="M8.45898 12.0001L10.8173 14.3584L15.5423 9.64172" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
     </div>
-  </div>
+  </div>`;
+  }
+
+  getHtmlThemeSelectCarousel() {
+    return `
   <!-- theme select carousel -->
   <div class="us-ds-carousel-container">
     <div class="us-pin-carousel">pin</div>
     <div class="us-ds-carousel-arrow us-ds-carousel-left">◀</div>
     <div class="us-ds-carousel-arrow us-ds-carousel-right">▶</div>
     <div class="us-ds-carousel-track" id="us-ds-carousel-track"></div>
-  </div>
+  </div>`;
+  }
+
+  getHtmlElementStyleRow() {
+    return `
   <!-- element style row -->
   <div class="us-dt-style-row" style="display: none;">
     <select id="us-text-font-style">
@@ -195,8 +202,11 @@ class EditorDetachedToolbarMenu {
         </clipPath>
       </defs>
     </svg>
-  </div>
+  </div>`;
+  }
 
+  getHtmlConnectorStyleRow() {
+    return `
   <!-- connector style row -->
   <div class="us-dt-connector-style-row" style="display: none;">
     <span>Connector</span>
@@ -253,8 +263,11 @@ class EditorDetachedToolbarMenu {
         </clipPath>
       </defs>
     </svg>
-  </div>
+  </div>`;
+  }
 
+  getHtmlToolbar() {
+    return `
   <div class="us-dt-toolbar">
     <div class="us-dt-drag-handle">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -304,8 +317,11 @@ class EditorDetachedToolbarMenu {
       <span class="us-sds-default">Default style</span>
       <span class="us-sds-selected" style="color: white;display:none;">Selected</span>
     </div>
-  </div>
+  </div>`;
+  }
 
+  getHtmlPreviewElement() {
+    return `
   <div class="us-dt-style-preview-wrapper">
     <div class="us-dt-style-preview">
     </div>
@@ -317,7 +333,18 @@ class EditorDetachedToolbarMenu {
     <div class="ui-resizable-handle ui-resizable-sw-u" style="z-index: 9999990; "></div>
     <div class="ui-resizable-handle ui-resizable-ne-u" style="z-index: 9999990; "></div>
     <div class="ui-resizable-handle ui-resizable-se-u" style="z-index: 9999990; "></div>
-  </div>
+  </div>`;
+  }
+
+  async loadToolbar() {
+    this.toolbarElement = $(`
+<div class="us-dt-toolbar-wrapper">
+${this.getHtmlTopIcons()}
+${this.getHtmlThemeSelectCarousel()}
+${this.getHtmlElementStyleRow()}
+${this.getHtmlConnectorStyleRow()}
+${this.getHtmlToolbar()}
+${this.getHtmlPreviewElement()}
 </div>`);
 
     $(this.placeholder).empty();
