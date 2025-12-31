@@ -93,17 +93,35 @@
   width: fit-content;
 }
 
+.us-dt-style-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.us-dt-style-icon:hover {
+  background-color: rgba(11, 202, 110, 0.1);
+}
+
+.us-dt-style-icon-active {
+  background-color: #0BCA6E;
+}
+
+.us-dt-style-icon-active svg path[fill="#EEEFF8"] {
+  fill: #0BCA6E;
+}
+
+.us-dt-style-icon-active svg path[stroke="#54577A"] {
+  stroke: white;
+}
+
 .us-dt-style-icons svg {
   height: 24px;
   margin-left: 4px;
-}
-
-
-.us-dt-style-icons svg:hover {
-  background-color: #0BCA6E;
-  color: white;
-  fill: #0BCA6E;
-  stroke: white;
 }
 
 /* Pin functionality */
@@ -304,6 +322,34 @@
 .us-pin-carousel {
   flex: 0 0 auto;
   order: 0; /* Show pin first */
+}
+
+/* Edit container */
+.us-dt-edit-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  order: 3; /* Same order as carousel track, replaces it when visible */
+  min-width: 0;
+  max-width: 520px; /* Match carousel track width */
+}
+
+.us-dt-edit-row {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #EEEFF8;
+}
+
+.us-dt-edit-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #54577A;
+  min-width: 80px;
 }
 
 .us-dt-style-preview-scale {
