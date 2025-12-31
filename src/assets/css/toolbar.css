@@ -201,66 +201,109 @@
 /* Style carousel */
 .us-ds-carousel-container {
   position: relative;
-  overflow: auto;
-  min-width: 700px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  max-width: 700px;
   border-radius: 10px;
   background-color: #F5F9FE;
   margin-bottom: 4px;
+  padding: 10px;
 }
 
 .us-ds-carousel-track {
-  white-space: nowrap;
-  transition: transform 0.3s ease;
-  overflow: auto;
+  overflow: hidden; /* Hide overflow since we're using transform */
   cursor: grab;
-  background-color:  rgba(135, 206, 235, 0.1);;
-  scrollbar-width: thin;
+  background-color: rgba(135, 206, 235, 0.1);
   user-select: none;
-  width: 620px;
-  margin-left: 40px;
+  flex: 1;
+  min-width: 0;
+  max-width: 520px; /* Show 4 items (120px + 10px margin each = 130px * 4 = 520px), can show 5 if container allows */
+  order: 3; /* After left arrow, before right arrow */
 }
 
-.us-ds-carousel-track > div {
+.us-ds-carousel-wrapper {
+  display: flex;
+  white-space: nowrap;
+  transition: transform 0.3s ease; /* Smooth transform animation */
+  will-change: transform;
+}
+
+.us-ds-carousel-wrapper > div {
   display: inline-block;
   vertical-align: top;
   background-color: white;
-  border: 2px solid transparent;
+  border: 2px solid #EEEFF8;
+  width: 120px; /* Fixed width for each theme item */
+  margin-right: 10px;
+  flex-shrink: 0;
 }
 
-.us-ds-carousel-track > div:hover {
+.us-ds-carousel-wrapper > div:hover {
   border: 2px solid #0BCA6E;
 }
 
 .us-ds-carousel-arrow {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 40px;
-  background: white;
-  z-index: 1;
+  flex: 0 0 auto;
+  width: 20px;
+  min-height: 80px;
+  background: #EEEFF8;
+  z-index: 2;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
   user-select: none;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.us-ds-carousel-arrow:hover {
+  background-color: #e0e0e0;
 }
 
 .us-ds-carousel-left {
-  left: 0;
-  background: linear-gradient(to right, #F5F9FE 60%, transparent);
+  order: 2; /* After preview, before track */
 }
 
 .us-ds-carousel-right {
-  right: 0;
-  background: linear-gradient(to left, #F5F9FE 60%, transparent);
+  order: 4; /* After track */
 }
 
 /* Style preview wrapper */
 .us-dt-style-preview-wrapper {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  order: 1; /* Show preview first, before carousel */
+  position: relative;
+  padding-right: 10px; /* Add space for the split line */
+}
+
+.us-dt-style-preview-wrapper::after {
+  content: '';
   position: absolute;
-  right: -130px;
-  bottom: 0px;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 80%;
+  background-color: #8E92BC;
+}
+
+.us-dt-style-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.us-pin-carousel {
+  flex: 0 0 auto;
+  order: 0; /* Show pin first */
 }
 
 .us-dt-style-preview-scale {

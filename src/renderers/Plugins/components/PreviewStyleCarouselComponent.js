@@ -74,9 +74,13 @@ class PreviewStyleCarouselComponent {
     constructor($container, styles) {
         this.$container = $container;
         this.$track = $container.find("#us-ds-carousel-track");
+        this.$wrapper = $container.find("#us-ds-carousel-wrapper");
+        // Use wrapper if it exists, otherwise fall back to track
+        this.$contentContainer = this.$wrapper.length ? this.$wrapper : this.$track;
         this.currentOffset = 0;
         this.init(styles || makeRandomStyles());
-        this.bindArrows();
+        // Arrow binding is now handled in EditorDetachedToolbarMenu.initCarouselScroll()
+        // this.bindArrows();
 
         // DND + scroll
         this.isDragging = false;
@@ -89,7 +93,7 @@ class PreviewStyleCarouselComponent {
   
       init(styles) {
         styles.forEach(style => {
-          new PreviewStyleComponent(this.$track, style, (styleValue) => {
+          new PreviewStyleComponent(this.$contentContainer, style, (styleValue) => {
             //
             // apply listener
             //

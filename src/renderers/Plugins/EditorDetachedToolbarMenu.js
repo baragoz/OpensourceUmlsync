@@ -150,10 +150,23 @@ class EditorDetachedToolbarMenu {
     return `
   <!-- theme select carousel -->
   <div class="us-ds-carousel-container">
-    <div class="us-pin-carousel">pin</div>
-    <div class="us-ds-carousel-arrow us-ds-carousel-left">◀</div>
-    <div class="us-ds-carousel-arrow us-ds-carousel-right">▶</div>
-    <div class="us-ds-carousel-track" id="us-ds-carousel-track"></div>
+    <div class="us-pin-carousel"></div>
+    <div class="us-dt-style-preview-wrapper">
+      <div class="us-dt-style-preview"></div>
+    </div>
+    <div class="us-ds-carousel-arrow us-ds-carousel-left">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14.9998 19.9201L8.47984 13.4001C7.70984 12.6301 7.70984 11.3701 8.47984 10.6001L14.9998 4.08008" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="us-ds-carousel-arrow us-ds-carousel-right">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="us-ds-carousel-track" id="us-ds-carousel-track">
+      <div class="us-ds-carousel-wrapper" id="us-ds-carousel-wrapper"></div>
+    </div>
   </div>`;
   }
 
@@ -325,14 +338,6 @@ class EditorDetachedToolbarMenu {
   <div class="us-dt-style-preview-wrapper">
     <div class="us-dt-style-preview">
     </div>
-    <div class="ui-resizable-handle ui-resizable-n-u" style="z-index: 9999990; "></div>
-    <div class="ui-resizable-handle ui-resizable-e-u" style="z-index: 9999990; "></div>
-    <div class="ui-resizable-handle ui-resizable-s-u" style="z-index: 9999990; "></div>
-    <div class="ui-resizable-handle ui-resizable-w-u" style="z-index: 9999990; "></div>
-    <div class="ui-resizable-handle ui-resizable-nw-u" style="z-index: 9999990; "></div>
-    <div class="ui-resizable-handle ui-resizable-sw-u" style="z-index: 9999990; "></div>
-    <div class="ui-resizable-handle ui-resizable-ne-u" style="z-index: 9999990; "></div>
-    <div class="ui-resizable-handle ui-resizable-se-u" style="z-index: 9999990; "></div>
   </div>`;
   }
 
@@ -344,7 +349,6 @@ ${this.getHtmlThemeSelectCarousel()}
 ${this.getHtmlElementStyleRow()}
 ${this.getHtmlConnectorStyleRow()}
 ${this.getHtmlToolbar()}
-${this.getHtmlPreviewElement()}
 </div>`);
 
     $(this.placeholder).empty();
@@ -605,6 +609,9 @@ ${this.getHtmlPreviewElement()}
     this.styleCarousel = new PreviewStyleCarouselComponent(
         this.nativeRef.find('.us-ds-carousel-container'));
 
+    // Initialize carousel scroll functionality
+    this.initCarouselScroll();
+
     this.styleCarousel.setListener((options) => {
 
       if (!this.state.pinRows)
@@ -639,6 +646,76 @@ ${this.getHtmlPreviewElement()}
         this.postDefaultStylesOnBlackboard();
       }
     });
+  }
+
+  initCarouselScroll() {
+    const track = this.nativeRef.find('#us-ds-carousel-track');
+    const wrapper = this.nativeRef.find('#us-ds-carousel-wrapper');
+    const leftArrow = this.nativeRef.find('.us-ds-carousel-left');
+    const rightArrow = this.nativeRef.find('.us-ds-carousel-right');
+
+    if (!track.length || !wrapper.length || !leftArrow.length || !rightArrow.length) {
+      return;
+    }
+
+    const scrollAmount = 130; // Width of one item (120px) + margin (10px)
+    let currentTransform = 0;
+
+    // Calculate max transform (total width - visible width)
+    const updateMaxTransform = () => {
+      const wrapperElement = wrapper[0];
+      const trackElement = track[0];
+      // Get the actual content width of the wrapper
+      const totalWidth = wrapperElement.scrollWidth;
+      const visibleWidth = trackElement.clientWidth;
+      return Math.max(0, totalWidth - visibleWidth);
+    };
+
+    // Apply transform to move wrapper
+    const applyTransform = (transformValue) => {
+      wrapper.css('transform', `translateX(-${transformValue}px)`);
+      currentTransform = transformValue;
+      updateArrowVisibility();
+    };
+
+    // Left arrow click - move left
+    leftArrow.on('click', () => {
+      const newTransform = Math.max(0, currentTransform - scrollAmount);
+      applyTransform(newTransform);
+    });
+
+    // Right arrow click - move right
+    rightArrow.on('click', () => {
+      const maxTransform = updateMaxTransform();
+      const newTransform = Math.min(maxTransform, currentTransform + scrollAmount);
+      applyTransform(newTransform);
+    });
+
+    // Update arrow visibility based on transform position
+    const updateArrowVisibility = () => {
+      const maxTransform = updateMaxTransform();
+
+      // Show/hide left arrow
+      if (currentTransform <= 0) {
+        leftArrow.css('opacity', '0.5');
+        leftArrow.css('pointer-events', 'none');
+      } else {
+        leftArrow.css('opacity', '1');
+        leftArrow.css('pointer-events', 'auto');
+      }
+
+      // Show/hide right arrow
+      if (currentTransform >= maxTransform) {
+        rightArrow.css('opacity', '0.5');
+        rightArrow.css('pointer-events', 'none');
+      } else {
+        rightArrow.css('opacity', '1');
+        rightArrow.css('pointer-events', 'auto');
+      }
+    };
+
+    // Initial update
+    updateArrowVisibility();
   }
 
   initConnectorRow() {
