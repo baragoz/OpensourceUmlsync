@@ -61,6 +61,7 @@
   transform: translateX(-50%);
   z-index: 299999;
   font-family: sans-serif;
+  min-width: 700px;
 }
 
 /* Title bar */
@@ -183,6 +184,7 @@
   background: var(--toolbar-detached-bg-color);
   border: 1px solid #ccc;
   border-radius: 10px;
+  min-width: 700px;
 }
 
 .us-dt-toolbar button,

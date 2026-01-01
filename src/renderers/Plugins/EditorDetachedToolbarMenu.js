@@ -419,29 +419,7 @@ class EditorDetachedToolbarMenu {
     <div class="us-dt-placeholder-connectors-dropdown"></div>
     <div class="us-div-separator"></div>
 
-    <button id="us-text-undo">↶</button>
-    <button id="us-text-redo">↷</button>
-
-    <div class="us-div-separator"></div>
-
-    <div style="display: inline-flex; column-gap: 6px; align-items: center;">
-      <button id="us-dt-toggle-element">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
-        <path d="M9.50033 20.3334H14.5003C18.667 20.3334 20.3337 18.6667 20.3337 14.5001V9.50008C20.3337 5.33341 18.667 3.66675 14.5003 3.66675H9.50033C5.33366 3.66675 3.66699 5.33341 3.66699 9.50008V14.5001C3.66699 18.6667 5.33366 20.3334 9.50033 20.3334Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M15.125 9.5H8.875" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M15.125 14.5H8.875" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      </button>
-      <button id="us-dt-toggle-connector">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
-          <path d="M6.16699 8.66675C7.5477 8.66675 8.66699 7.54746 8.66699 6.16675C8.66699 4.78604 7.5477 3.66675 6.16699 3.66675C4.78628 3.66675 3.66699 4.78604 3.66699 6.16675C3.66699 7.54746 4.78628 8.66675 6.16699 8.66675Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M17.833 14.5C19.2137 14.5 20.333 13.3807 20.333 12C20.333 10.6193 19.2137 9.5 17.833 9.5C16.4523 9.5 15.333 10.6193 15.333 12C15.333 13.3807 16.4523 14.5 17.833 14.5Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M6.16699 20.3333C7.5477 20.3333 8.66699 19.214 8.66699 17.8333C8.66699 16.4525 7.5477 15.3333 6.16699 15.3333C4.78628 15.3333 3.66699 16.4525 3.66699 17.8333C3.66699 19.214 4.78628 20.3333 6.16699 20.3333Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M15.3337 12.0001H9.50033C7.66699 12.0001 6.16699 11.1667 6.16699 8.66675V15.3334" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
+    <div style="display: inline-flex; column-gap: 6px; align-items: center; margin-left: auto;">
       <button id="us-dt-toggle-style">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
@@ -449,9 +427,8 @@ class EditorDetachedToolbarMenu {
           <path d="M10.6917 16.6834C10.6917 17.6001 10.3417 18.4751 9.6834 19.1417C9.17507 19.6501 8.4834 20.0001 7.6584 20.1084L5.6084 20.3334C4.49173 20.4584 3.5334 19.5084 3.66673 18.3751L3.89173 16.3251C4.09173 14.5001 5.61673 13.3334 7.2334 13.3001C7.40007 13.2917 7.57507 13.3001 7.7334 13.3084C8.44173 13.4001 9.1334 13.7251 9.70006 14.3001C10.2584 14.8584 10.5751 15.5084 10.6667 16.2084C10.6751 16.3667 10.6917 16.5251 10.6917 16.6834Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M13.8665 14.0584C13.8665 11.8834 12.0998 10.1167 9.9248 10.1167" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
+        <span class="us-sds-default">Style</span>
       </button>
-      <span class="us-sds-default">Default style</span>
-      <span class="us-sds-selected" style="color: white;display:none;">Selected</span>
     </div>
   </div>`;
   }
@@ -625,12 +602,6 @@ ${this.getHtmlToolbar()}
   }
 
   render() {
-    //
-    // Switch between Selected/Default
-    //
-    this.nativeRef.find('.us-sds-selected').toggle(this.state.isSelectMode);
-    this.nativeRef.find('.us-sds-default').toggle(!this.state.isSelectMode);
-
     //
     // Disable/Enable buttons [ E ] and [ C ]
     //
