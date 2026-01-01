@@ -13,17 +13,24 @@
         <div class="examples-menu">
             <h2>UMLSync Examples</h2>
             <ul>
-                <li<h1>Basic Diagrams</h1></li>
-                <ul>
-                    <li onclick="loadExample('index.examples.html?val=classDiagram')">Class Diagram</li>
-                    <li onclick="loadExample('index.examples.html?val=packageDiagram')">Package Diagram</li>
-                    <li onclick="loadExample('index.examples.html?val=stateDiagram')">State Diagram</li>
-                    <li onclick="loadExample('index.examples.html?val=sequenceDiagram')">Sequence Diagram</li>
-                    <li onclick="loadExample('index.examples.html?val=componentsDiagram')">Components Diagram</li>
-                </ul>
-                <li onclick="loadExample('coloringMenu.html')">Coloring Menu</li>
-                <li onclick="loadExample('markdownIntegration.html')">Markdown Integration</li>
-                <li onclick="loadExample('crossReferences.html')">Cross References</li>
+                <li>
+                    <h3 class="expandable" onclick="toggleSection(this)">Basic Diagrams</h3>
+                    <ul class="expandable-content">
+                        <li onclick="loadExample('index.examples.html?val=classDiagram')">Class Diagram</li>
+                        <li onclick="loadExample('index.examples.html?val=packageDiagram')">Package Diagram</li>
+                        <li onclick="loadExample('index.examples.html?val=stateDiagram')">State Diagram</li>
+                        <li onclick="loadExample('index.examples.html?val=sequenceDiagram')">Sequence Diagram</li>
+                        <li onclick="loadExample('index.examples.html?val=componentsDiagram')">Components Diagram</li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 class="expandable" onclick="toggleSection(this)">View Multiple Diagrams</h3>
+                    <ul class="expandable-content">
+                      <li onclick="loadExample('coloringMenu.html')">Coloring Menu</li>
+                      <li onclick="loadExample('markdownIntegration.html')">Markdown Integration</li>
+                      <li onclick="loadExample('crossReferences.html')">Cross References</li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="example-display">
@@ -31,11 +38,59 @@
         </div>
     </div>
 
+    <style>
+        .expandable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .expandable::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            transition: transform 0.2s ease;
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .expandable.expanded::before {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            display: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+        
+        .expandable.expanded + .expandable-content {
+            display: block;
+        }
+        
+        .expandable:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+
     <script>
         function loadExample(examplePath) {
             const frame = document.getElementById('example-frame');
             frame.src = examplePath;
         }
+        
+        function toggleSection(h3Element) {
+            h3Element.classList.toggle('expanded');
+        }
+        
+        // Expand all sections by default
+        document.addEventListener('DOMContentLoaded', function() {
+            const expandableHeaders = document.querySelectorAll('.expandable');
+            expandableHeaders.forEach(header => {
+                header.classList.add('expanded');
+            });
+        });
     </script>
 </body>
 </html>
