@@ -10,16 +10,64 @@ body {
 
 h1 {
     width: 100%;
-    text-align: center;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: var(--color-primary-100); /* Slightly lighter than h2 */
     color: white;
-    padding: 1rem 0;
+    padding: 0 1rem;
     margin: 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     position: sticky;
     top: 0;
     z-index: 1000;
-    max-height: 3rem;
+    box-sizing: border-box;
+}
+
+h1 .h1-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    line-height: 3rem;
+    pointer-events: none;
+}
+
+h1 .h1-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+h1 .h1-button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    transition: background-color 0.2s;
+}
+
+h1 .h1-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+h1 .h1-button:active {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+h1 .h1-button.undo-redo {
+    font-size: 1.2rem;
+    padding: 0.3rem 0.6rem;
+    font-weight: bold;
 }
 
 h2 {
@@ -38,7 +86,7 @@ h2 {
 }
 
 .examples-menu {
-    width: 12.5%; /* Reduced width by 50% */
+    width: 250px;
     background-color: #f4f4f4;
     border-right: 1px solid #ccc;
     overflow-y: auto;

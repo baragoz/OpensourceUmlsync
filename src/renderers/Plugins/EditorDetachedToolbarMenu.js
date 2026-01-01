@@ -196,7 +196,7 @@ class EditorDetachedToolbarMenu {
          <option value="7">36px</option>
       </select>
       <div class="us-div-separator"></div>
-      <button id="us-label-color-picker">🎨</button>
+      <button class="us-label-color-picker">🎨</button>
       <div class="us-div-separator"></div>
 
     <button class="us-font-style-btn us-bold" id="us-label-bold">
@@ -262,7 +262,7 @@ class EditorDetachedToolbarMenu {
 
     <div class="us-div-separator"></div>
 
-    <button id="us-text-color-picker">🎨</button>
+    <button class="us-text-color-picker">🎨</button>
     <div class="us-div-separator"></div>
 
     <button class="us-font-style-btn us-bold" id="us-label-bold">
@@ -318,7 +318,7 @@ class EditorDetachedToolbarMenu {
 
     <div class="us-div-separator"></div>
 
-    <button id="us-text-color-picker">🎨</button>
+    <button class="us-text-color-picker">🎨</button>
     <div class="us-div-separator"></div>
 
     <button class="us-font-style-btn us-bold" id="us-text-bold">B</button>
@@ -382,7 +382,7 @@ class EditorDetachedToolbarMenu {
     </select>
 
     <div class="us-div-separator"></div>
-    <button id="us-label-color-picker">🎨</button>
+    <button class="us-label-color-picker">🎨</button>
     <div class="us-div-separator"></div>
 
     <button class="us-font-style-btn us-bold" id="us-label-bold">B</button>
@@ -456,21 +456,11 @@ class EditorDetachedToolbarMenu {
   </div>`;
   }
 
-  getHtmlPreviewElement() {
-    return `
-  <div class="us-dt-style-preview-wrapper">
-    <div class="us-dt-style-preview">
-    </div>
-  </div>`;
-  }
-
   async loadToolbar() {
     this.toolbarElement = $(`
 <div class="us-dt-toolbar-wrapper">
 ${this.getHtmlTopIcons()}
 ${this.getHtmlThemeSelectCarousel()}
-${this.getHtmlElementStyleRow()}
-${this.getHtmlConnectorStyleRow()}
 ${this.getHtmlToolbar()}
 </div>`);
 
@@ -965,7 +955,7 @@ ${this.getHtmlToolbar()}
     // Color picker
     //
     this.labelColorPicker = new PreviewColorPickerComponent(
-        this.nativeRef.find('#us-label-color-picker'),
+        this.nativeRef.find('.us-label-color-picker'),
         ['Text Color', 'Background Color']);
 
     this.labelColorPicker.onSelect((index, color) => {
@@ -1033,7 +1023,7 @@ ${this.getHtmlToolbar()}
     // Color picker
     //
     this.elementColorPicker = new PreviewColorPickerComponent(
-        this.nativeRef.find('#us-text-color-picker'),
+        this.nativeRef.find('.us-text-color-picker'),
         ['Background Color', 'Text Color']);
 
     this.elementColorPicker.onSelect((index, color) => {

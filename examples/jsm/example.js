@@ -64,7 +64,7 @@ function loadExampleFromQuery() {
         editor.loadDiagram(jsonModel, { width: rect.width, height: rect.height, editmode: false });
 
         // Update the header title
-        $("h1").text(example.title);
+        $("h1 .h1-title").text(example.title);
     }
 }
 
