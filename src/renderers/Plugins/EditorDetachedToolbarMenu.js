@@ -179,12 +179,115 @@ class EditorDetachedToolbarMenu {
     <div class="us-dt-edit-container" id="us-dt-edit-container" style="display: none;">
       <div class="us-dt-edit-row">
         <span class="us-dt-edit-label">Label:</span>
+        <select id="us-label-font-style">
+          <option value="Arial">Arial</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Georgia">Georgia</option>
+        </select>
+       <div class="us-div-separator"></div>
+       <select id="us-label-font-size">
+         <option value="1">8px</option>
+         <option value="2">10px</option>
+         <option value="3" selected>12px</option>
+         <option value="4">14px</option>
+         <option value="5">18px</option>
+         <option value="6">24px</option>
+         <option value="7">36px</option>
+      </select>
+      <div class="us-div-separator"></div>
+      <button id="us-label-color-picker">🎨</button>
+      <div class="us-div-separator"></div>
+
+    <button class="us-font-style-btn us-bold" id="us-label-bold">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.06641 3.74992C4.06641 2.83325 4.81641 2.08325 5.73307 2.08325H9.99974C12.1831 2.08325 13.9581 3.85825 13.9581 6.04159C13.9581 8.22492 12.1831 9.99992 9.99974 9.99992H4.06641V3.74992Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4.06641 10H11.9831C14.1664 10 15.9414 11.775 15.9414 13.9583C15.9414 16.1417 14.1664 17.9167 11.9831 17.9167H5.73307C4.81641 17.9167 4.06641 17.1667 4.06641 16.25V10V10Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="us-font-style-btn us-italic" id="us-label-italic">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.01758 2.5H15.7259" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4.26758 17.5H11.9759" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.875 2.5L8.125 17.5" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="us-font-style-btn us-underline" id="us-label-underline">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.16602 17.5H15.8327" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4.16602 2.5V8.33333C4.16602 11.5583 6.77435 14.1667 9.99935 14.1667C13.2243 14.1667 15.8327 11.5583 15.8327 8.33333V2.5" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
       </div>
       <div class="us-dt-edit-row">
         <span class="us-dt-edit-label">Connector:</span>
+              <button id="us-arrow-color-picker">🎨</button>
+              <div class="us-div-separator"></div>
+              <div id="us-arrow-line-width">
+                  <div class="us-connector-line-preview">
+                    <svg width="64" height="6" viewBox="0 0 64 6" xmlns="http://www.w3.org/2000/svg">
+                      <line x1="2" y1="3" x2="62" y2="3" stroke="black" stroke-width="2" /> 
+                      <circle cx="2" cy="3" r="2" fill="black" />
+                     <circle cx="62" cy="3" r="2" fill="black" />
+                    </svg>
+                  </div>
+                  <div class="us-svg-icon">
+                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9.4097 3.21257e-07C9.93455 3.40375e-07 10.1974 0.567797 9.82627 0.899872L5.41657 4.84561C5.1865 5.05146 4.8135 5.05146 4.58343 4.84561L0.173729 0.899871C-0.197393 0.567796 0.0654508 -1.91181e-08 0.590298 0L9.4097 3.21257e-07Z" fill="#54577A"/>
+                    </svg>
+                  </div>
+              </div>
+              <div class="us-div-separator"></div>
       </div>
       <div class="us-dt-edit-row">
         <span class="us-dt-edit-label">Element:</span>
+            <select id="us-text-font-style">
+      <option value="Arial">Arial</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="Courier New">Courier New</option>
+      <option value="Georgia">Georgia</option>
+    </select>
+
+    <div class="us-div-separator"></div>
+
+    <select id="us-text-font-size">
+      <option value="1">8px</option>
+      <option value="2">10px</option>
+      <option value="3" selected>12px</option>
+      <option value="4">14px</option>
+      <option value="5">18px</option>
+      <option value="6">24px</option>
+      <option value="7">36px</option>
+    </select>
+
+    <div class="us-div-separator"></div>
+
+    <button id="us-text-color-picker">🎨</button>
+    <div class="us-div-separator"></div>
+
+    <button class="us-font-style-btn us-bold" id="us-label-bold">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.06641 3.74992C4.06641 2.83325 4.81641 2.08325 5.73307 2.08325H9.99974C12.1831 2.08325 13.9581 3.85825 13.9581 6.04159C13.9581 8.22492 12.1831 9.99992 9.99974 9.99992H4.06641V3.74992Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4.06641 10H11.9831C14.1664 10 15.9414 11.775 15.9414 13.9583C15.9414 16.1417 14.1664 17.9167 11.9831 17.9167H5.73307C4.81641 17.9167 4.06641 17.1667 4.06641 16.25V10V10Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="us-font-style-btn us-italic" id="us-label-italic">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.01758 2.5H15.7259" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4.26758 17.5H11.9759" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.875 2.5L8.125 17.5" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="us-font-style-btn us-underline" id="us-label-underline">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.16602 17.5H15.8327" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4.16602 2.5V8.33333C4.16602 11.5583 6.77435 14.1667 9.99935 14.1667C13.2243 14.1667 15.8327 11.5583 15.8327 8.33333V2.5" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="us-div-separator"></div>
+    <div id="us-text-align"></div>
+
       </div>
     </div>
   </div>`;
@@ -640,6 +743,7 @@ ${this.getHtmlToolbar()}
     // Handle icon clicks
     systemIcon.on('click', () => {
       carouselContainer.show();
+      arrows.show();
       editContainer.hide();
       this.updateIconSelection('system');
     });

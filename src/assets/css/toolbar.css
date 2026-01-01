@@ -121,7 +121,6 @@
 
 .us-dt-style-icons svg {
   height: 24px;
-  margin-left: 4px;
 }
 
 /* Pin functionality */
@@ -330,7 +329,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
+  padding: 0 10px;
   order: 3; /* Same order as carousel track, replaces it when visible */
   min-width: 0;
   max-width: 520px; /* Match carousel track width */
@@ -338,11 +337,11 @@
 
 .us-dt-edit-row {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  padding: 8px;
-  background-color: white;
-  border-radius: 6px;
-  border: 1px solid #EEEFF8;
+  padding: 2px 8px;
+  border-bottom: 1px solid #EEEFF8;
+  gap: 8px;
 }
 
 .us-dt-edit-label {
@@ -350,6 +349,34 @@
   font-weight: 500;
   color: #54577A;
   min-width: 80px;
+}
+
+#us-arrow-line-width {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  background-color: #EEEFF8;
+  border-radius: 4px;
+  padding: 0px 8px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.us-connector-line-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.us-svg-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#us-arrow-line-width svg {
+  display: block;
 }
 
 .us-dt-style-preview-scale {
@@ -501,6 +528,15 @@
   font-weight: normal;
   font-style: normal;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  border-width: 0px;
+  background-color: #EEEFF8;
 }
 
 .us-bold { font-weight: bold; }
