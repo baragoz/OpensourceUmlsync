@@ -30,6 +30,10 @@ const exampleMap = {
     sequenceDiagram: {
         json: sequenceDiagramJson,
         title: "Sequence Diagram"
+    },
+    componentsDiagram: {
+        json: componentsDiagramJson,
+        title: "Components Diagram"
     }
 };
 
@@ -61,12 +65,125 @@ function loadExampleFromQuery() {
         const example = exampleMap[val];
         const jsonModel = JSON.parse(example.json);
         console.log("PARSED MODEL IS:", rect);
-        editor.loadDiagram(jsonModel, { width: rect.width, height: rect.height, editmode: false });
+        const editMode = true; // Default to edit mode
+        editor.loadDiagram(jsonModel, { width: rect.width, height: rect.height, editmode: editMode });
 
         // Update the header title
         $("h1 .h1-title").text(example.title);
+        
+        // Update Edit/View button text based on initial mode
+        $("#us-ex-edit-view").text(editMode ? "View" : "Edit");
+        $("#us-ex-edit-view").attr('title', editMode ? "Switch to View Mode" : "Switch to Edit Mode");
     }
 }
 
 // Load example on page load based on query parameter
-$(document).ready(loadExampleFromQuery);
+$(document).ready(() => {
+    loadExampleFromQuery();
+    setupHeaderButtons();
+});
+
+function setupHeaderButtons() {
+    // Undo button
+    $("#us-ex-undo").on('click', function() {
+        // TODO: Implement undo functionality
+        console.log("Undo clicked");
+        // Example: if (editor.digram && editor.digram.undo) {
+        //     editor.digram.undo();
+        // }
+    });
+
+    // Redo button
+    $("#us-ex-redo").on('click', function() {
+        // TODO: Implement redo functionality
+        console.log("Redo clicked");
+        // Example: if (editor.digram && editor.digram.redo) {
+        //     editor.digram.redo();
+        // }
+    });
+
+    // Show JSON button
+    $("#us-ex-show-json").on('click', function() {
+        if (editor.digram) {
+            const jsonModel = editor.digram.getDescription();
+            const jsonString = JSON.stringify(jsonModel, null, 2);
+            
+            // Create a modal or use window.prompt/alert for simplicity
+            // For better UX, you could create a modal dialog
+            const newWindow = window.open("", "_blank", "width=800,height=600");
+            if (newWindow) {
+                newWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>Diagram JSON Model</title>
+                            <style>
+                                body {
+                                    font-family: monospace;
+                                    padding: 20px;
+                                    background: #f5f5f5;
+                                }
+                                pre {
+                                    background: white;
+                                    padding: 15px;
+                                    border-radius: 5px;
+                                    overflow: auto;
+                                    border: 1px solid #ddd;
+                                }
+                                button {
+                                    padding: 10px 20px;
+                                    margin: 10px 5px;
+                                    cursor: pointer;
+                                    background: #007bff;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 4px;
+                                }
+                                button:hover {
+                                    background: #0056b3;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <h2>Diagram JSON Model</h2>
+                            <button onclick="copyToClipboard()">Copy to Clipboard</button>
+                            <button onclick="window.close()">Close</button>
+                            <pre id="json-content">${jsonString}</pre>
+                            <script>
+                                function copyToClipboard() {
+                                    const content = document.getElementById('json-content').textContent;
+                                    navigator.clipboard.writeText(content).then(() => {
+                                        alert('JSON copied to clipboard!');
+                                    });
+                                }
+                            </script>
+                        </body>
+                    </html>
+                `);
+                newWindow.document.close();
+            } else {
+                // Fallback to alert if popup is blocked
+                alert("Please allow popups to view JSON. JSON:\n\n" + jsonString);
+            }
+        } else {
+            alert("No diagram loaded");
+        }
+    });
+
+    // Edit/View toggle button
+    $("#us-ex-edit-view").on('click', function() {
+        if (!editor.digram) {
+            alert("No diagram loaded");
+            return;
+        }
+
+        const currentMode = editor.digram.options.editmode;
+        const newMode = !currentMode;
+        
+        // Update edit mode via editor
+        editor.setOption('editmode', newMode);
+        
+        // Update button text
+        $(this).text(newMode ? "View" : "Edit");
+        $(this).attr('title', newMode ? "Switch to View Mode" : "Switch to Edit Mode");
+    });
+}

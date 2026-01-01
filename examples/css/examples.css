@@ -14,7 +14,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--color-primary-100); /* Slightly lighter than h2 */
+    background-color: #555555; /* Dark gray matching index.html color scheme */
     color: white;
     padding: 0 1rem;
     margin: 0;
