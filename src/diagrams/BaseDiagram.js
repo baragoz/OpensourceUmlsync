@@ -100,7 +100,9 @@ class BaseDiagram extends BaseDiagramItem {
     this._init();
 
     // Add plugins, notify observers
-    this.renderer.onAddDiagram(this);
+    if (this.renderer) {
+      this.renderer.onAddDiagram(this);
+    }
 
     // Create widgets - elements and connectors
     this._createWidgets();
@@ -519,7 +521,9 @@ class BaseDiagram extends BaseDiagramItem {
     //
     // Define hover/resize/draggable etc
     //
-    this.renderer.onJsonModelChange("add:element", {element});
+    if (this.renderer) {
+      this.renderer.onJsonModelChange("add:element", {element});
+    }
 
     this.elements.push(element);
   }
@@ -884,7 +888,9 @@ class BaseDiagram extends BaseDiagramItem {
   //
   onAddConnector(connector) {
     // Notify rendrer's addon's if needed
-    this.renderer.onJsonModelChange("add:connector", {connector});
+    if (this.renderer) {
+      this.renderer.onJsonModelChange("add:connector", {connector});
+    }
     // Add to the list
     this.connectors.push(connector);
   }
@@ -947,7 +953,9 @@ class BaseDiagram extends BaseDiagramItem {
     //
     // notify observer about completion
     //
-    this.renderer.onRemoveDiagram(this);
+    if (this.renderer) {
+      this.renderer.onRemoveDiagram(this);
+    }
   }
 
 
