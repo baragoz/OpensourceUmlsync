@@ -73,6 +73,10 @@ class BaseElement extends BaseDiagramItem {
     return this.diagram;
   }
 
+  getId() {
+    return this.jsonModel.id;
+  }
+
   _create() {
     // if parent element is undefined, do nothing
     // create element at possition which described in jsonDesc

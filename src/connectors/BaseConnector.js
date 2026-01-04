@@ -56,15 +56,19 @@ class BaseConnector extends BaseDiagramItem {
     // Load diagram from JSON, find euid by id 
     //
     if (ep[0]['id'] || ep[ep.length - 1]['id'] != null) {
-      for (var i in this.diagram.elements) {
-        if (this.diagram.elements[i].jsonModel['id'] == ep[0]['id']) {
-          ep[0]['euid'] = this.diagram.elements[i].euid;
-          ep[0]['limit'] = this.diagram.elements[i].options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
+      if (ep[0]['id']) {
+        const element = this.diagram.getElementById(ep[0]['id']);
+        if (element) {
+          ep[0]['euid'] = element.euid;
+          ep[0]['limit'] = element.options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
         }
+      }
 
-        if (this.diagram.elements[i].jsonModel['id'] == ep[ep.length - 1]['id']) {
-          ep[ep.length - 1]['euid'] = this.diagram.elements[i].euid;
-          ep[ep.length - 1]['limit'] = this.diagram.elements[i].options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
+      if (ep[ep.length - 1]['id']) {
+        const element = this.diagram.getElementById(ep[ep.length - 1]['id']);
+        if (element) {
+          ep[ep.length - 1]['euid'] = element.euid;
+          ep[ep.length - 1]['limit'] = element.options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
         }
       }
     }

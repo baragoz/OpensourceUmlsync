@@ -176,10 +176,6 @@ class BaseDiagram extends BaseDiagramItem {
     }
   }
 
-  findElementRefById(id) {
-    return $("#" + this.options.prefix + "e" + id);
-  }
-  
   //
   // Each element of diagram should has a unique-id nunmber
   // Each diagram could has it's own unique-id,
@@ -484,6 +480,20 @@ class BaseDiagram extends BaseDiagramItem {
   //
   createElement(elementType, jsonModel, options) {
 
+  }
+
+  /**
+   * Find an element by its id
+   * @param {number|string} id - The element id to search for
+   * @returns {BaseElement|null} - The element with matching id, or null if not found
+   */
+  getElementById(id) {
+    for (var i in this.elements) {
+      if (this.elements[i].getId() == id) {
+        return this.elements[i];
+      }
+    }
+    return null;
   }
 
   removeElement(euid) {
