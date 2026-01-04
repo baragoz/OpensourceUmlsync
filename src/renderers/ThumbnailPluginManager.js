@@ -2,9 +2,9 @@ import { IDiagramObserver } from '../interfaces/IDiagramObserver';
 import {Blackboard} from '../utils/Blackboard';
 
 import {ClassExtras} from './Plugins/ClassExtras';
-import {DiagramContextMenu} from './Plugins/DiagramContextMenu';
+import {DiagramContextMenuEvents} from './Plugins/DiagramContextMenuEvents';
 import {DiagramMouseEvents} from './Plugins/DiagramMouseEvents';
-import {DiagramScroll} from './Plugins/DiagramScroll';
+import {DiagramScrollStartEvent} from './Plugins/DiagramScrollStartEvent';
 import {EditorContextMenu} from './Plugins/EditorContextMenu';
 import {EditorIconMenu} from './Plugins/EditorIconMenu';
 import {EditorSideMenu} from './Plugins/EditorSideMenu';

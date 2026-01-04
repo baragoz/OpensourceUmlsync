@@ -1,4 +1,4 @@
-class DiagramContextMenu {
+class DiagramContextMenuEvents {
     constructor(diagram, blackboard) {
         this.init(diagram, blackboard);
     }
@@ -33,4 +33,4 @@ class DiagramContextMenu {
     }
 }
 
-export { DiagramContextMenu }
+export { DiagramContextMenuEvents }

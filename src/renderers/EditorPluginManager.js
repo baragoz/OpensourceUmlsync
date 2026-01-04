@@ -6,11 +6,11 @@ import {Blackboard} from '../utils/Blackboard';
 
 import {ClassExtras} from './Plugins/ClassExtras';
 import { ConnectorLabels } from './Plugins/ConnectorLabels';
-import {DiagramContextMenu} from './Plugins/DiagramContextMenu';
+import {DiagramContextMenuEvents} from './Plugins/DiagramContextMenuEvents';
 import { DiagramDroppableElement } from './Plugins/DiagramDroppableElements';
 import { DiagramDroppableSQElement } from './Plugins/DiagramDroppableSQElement';
 import {DiagramMouseEvents} from './Plugins/DiagramMouseEvents';
-import {DiagramScroll} from './Plugins/DiagramScroll';
+import {DiagramScrollStartEvent} from './Plugins/DiagramScrollStartEvent';
 import {EditorContextMenu} from './Plugins/EditorContextMenu';
 import { EditorDetachedToolbarMenu } from './Plugins/EditorDetachedToolbarMenu';
 import {EditorIconMenu} from './Plugins/EditorIconMenu';
@@ -86,8 +86,8 @@ class EditorPluginManager extends IDiagramObserver {
     if (diagram.options.nameTemplate === 'sequenceDiagram') {
       diagram.setUserData("plugin-droppable", new DiagramDroppableSQElement(diagram, this.blackboard));
     }
-    diagram.setUserData("plugin-scroll", new DiagramScroll(diagram, this.blackboard));
-    diagram.setUserData("plugin-contextmenu", new DiagramContextMenu(diagram, this.blackboard));
+    diagram.setUserData("plugin-scroll", new DiagramScrollStartEvent(diagram, this.blackboard));
+    diagram.setUserData("plugin-contextmenu", new DiagramContextMenuEvents(diagram, this.blackboard));
 
     //
     // Editor Plugins

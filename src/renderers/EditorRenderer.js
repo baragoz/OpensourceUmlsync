@@ -1,7 +1,7 @@
 import { Blackboard } from "../utils/Blackboard";
-import { DiagramContextMenu } from "./Plugins/DiagramContextMenu";
+import { DiagramContextMenuEvents } from "./Plugins/DiagramContextMenuEvents";
 import { DiagramMouseEvents } from "./Plugins/DiagramMouseEvents";
-import { DiagramScroll } from "./Plugins/DiagramScroll";
+import { DiagramScroll } from "./Plugins/DiagramScrollStartEvent";
 import { ElementResizeable } from "./Plugins/ElementResizeable";
 
 
@@ -17,7 +17,7 @@ class EditorRenderer {
       this.diagram = diagram;
       // diagram.addPlugin(new DiagramScroll(diagram));
       diagram.addPlugin(new DiagramMouseEvents(diagram, this.blackboard));
-      // diagram.addPlugin(new DiagramContextMenu(diagram, this.blackboard));
+      // diagram.addPlugin(new DiagramContextMenuEvents(diagram, this.blackboard));
       // notify observers
       this.blackboard.notify("diagram:add", diagram);
     }

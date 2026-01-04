@@ -1,4 +1,4 @@
-class DiagramScroll {
+class DiagramScrollStartEvent {
     constructor(diagram, blackboard) {
       this.init(diagram, blackboard);
       this.previousTime = new Date();
@@ -22,4 +22,4 @@ class DiagramScroll {
     }
 }
 
-export { DiagramScroll }
+export { DiagramScrollStartEvent }
