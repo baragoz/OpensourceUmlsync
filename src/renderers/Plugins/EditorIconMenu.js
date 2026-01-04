@@ -206,8 +206,8 @@ class EditorIconMenu {
                     thisid,
                     {
                       epoints: [
-                        {x: 100, y: 100, id: fromElement.jsonModel["id"], euid: fromElement.euid},
-                        {x: position.left, y: position.top, id: toElement.jsonModel["id"], euid: toElement.euid},
+                        {x: 100, y: 100, id: fromElement.getId()},
+                        {x: position.left, y: position.top, id: toElement.getId()},
                       ],
                       ...iconMenuBuilder.connectorStyle
                     },

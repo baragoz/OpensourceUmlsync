@@ -643,14 +643,26 @@ class BaseConnector extends BaseDiagramItem {
   }
 
   getDescription() {
-    // jsonModel has a fromId and toId,
     // type == nameTemplate
     // epoints - the latest e-points
+
+    // Deep clone epoints, excluding euid and limit, and id if null
+    const clonedEpoints = this.epoints.map(point => {
+      const cloned = { ...point };
+      // Remove runtime properties
+      delete cloned.euid;
+      delete cloned.limit;
+      // Remove id if null
+      if (cloned.id === null) {
+        delete cloned.id;
+      }
+      return cloned;
+    });
 
     return {
       ...this.jsonModel,
       nameTemplate: this.options.nameTemplate,
-      epoints: [...this.epoints]
+      epoints: clonedEpoints
     };
   }
 

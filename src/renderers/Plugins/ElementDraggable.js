@@ -86,16 +86,18 @@ class ElementDraggable {
                 // Check if user dropped connector at another element
                 //
                 if (self.diagram.dropHelper) {
-                  var name =self.diagram.checkDropAtPosition(ui.position.left, ui.position.top);
-    
+                  var name = self.diagram.checkDropAtPosition(ui.position.left, ui.position.top);
+                  // ------------------------  THIS CODE DOES NOT WORK !!!
+                  // we need to get element instead of name at the previous step
+                  alert("REWORk DROP CONNECTOR");
+                  // --------------------------------------------------------------
                   var connectorType = self.diagram.dropHelper;
                   self.diagram.removeConnector(element.euid, "ConnectionHelper", connectorType);
     
                   if (name != undefined) {
-                    console.log("BBBBBBBBB " + element.euid);
                     self.diagram.Connector(connectorType, {
                       epoints: [
-                        {x:0, y:0, euid: element.euid}, {x: 100, y: 100, euid: name}
+                        {x:0, y:0, id: element.getId()}, {x: 100, y: 100, euid: name}
                       ]});
                   }
 
