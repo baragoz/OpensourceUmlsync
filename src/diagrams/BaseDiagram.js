@@ -79,8 +79,6 @@ class BaseDiagram extends BaseDiagramItem {
 
     if (this.options.editable) {
       this.renderer = observer; //new PluginsManager();
-    } else {
-      this.renderer = new ViewerRenderer();
     }
 
     //
