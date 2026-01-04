@@ -123,6 +123,7 @@ class EditorIconMenu {
             menu_id + '\'>' + cells + '</div>');
 
     var iconMenuBuilder = this;
+    var connetorHelperEuid = null;
 
     // Make it possible to click + drag images
     // ==========================================================================
@@ -158,12 +159,15 @@ class EditorIconMenu {
               //	  {'Id': iconMenuBuilder.currentElement,
               //'Id': iconMenuBuilder.currentElement});
               //			} else {
-              iconMenuBuilder.diagram.Connector(this.id, {
+              var connector = iconMenuBuilder.diagram.Connector(this.id, {
                 epoints: [
                   {x: 0, y: 0, euid: iconMenuBuilder.currentElementEuid, id:iconMenuBuilder.currentElementId},
                   {x: 100, y: 100, euid: 'ConnectionHelper'}
                 ]
               });
+              if (connector) {
+                connetorHelperEuid = connector.euid;
+              }
               //		}
             } else {
               return false;
@@ -188,9 +192,9 @@ class EditorIconMenu {
             if ((iconMenuBuilder.currentElement != undefined) &&
                 ((lcon == undefined) || (!lcon['oneway']))) {
               // Remove the temporary connector
-              iconMenuBuilder.diagram.removeConnector(
-                  iconMenuBuilder.currentElement.euid, 'ConnectionHelper',
-                  this.id);
+              if (connetorHelperEuid) {
+                iconMenuBuilder.diagram.removeConnectorByEuid(connetorHelperEuid);
+              }
               jsonModel.left = ui.position.left;
               jsonModel.top = ui.position.top;
               var fromElement = iconMenuBuilder.currentElement;
