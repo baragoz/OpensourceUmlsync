@@ -155,8 +155,8 @@ class EditorIconMenu {
               //(lcon['oneway'])) {
               //		  $.log("CONNECTOR: " + lcon.connector);
               //	  iconMenuBuilder.diagram.Connector(lcon.connector,
-              //	  {'fromId': iconMenuBuilder.currentElement,
-              //'toId': iconMenuBuilder.currentElement});
+              //	  {'Id': iconMenuBuilder.currentElement,
+              //'Id': iconMenuBuilder.currentElement});
               //			} else {
               iconMenuBuilder.diagram.Connector(this.id, {
                 epoints: [
@@ -211,7 +211,6 @@ class EditorIconMenu {
                       ],
                       ...iconMenuBuilder.connectorStyle
                     },
-                    // {'fromId': fromElement.jsonModel["id"], 'toId': toElement.jsonModel["id"], ...iconMenuBuilder.connectorStyle},
                     function(connector) {
                       if (fromElement.dropHelper)
                         fromElement.dropHelper(

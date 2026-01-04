@@ -244,7 +244,7 @@ class BaseDiagram extends BaseDiagramItem {
     }
 
     //
-    // list of connectors which is based on fromId and toId, which are unique because of
+    // list of connectors which is based on element's ids, which are unique because of
     // that globalId value
     //
     for (var c in this.connectors) {
@@ -496,12 +496,13 @@ class BaseDiagram extends BaseDiagramItem {
     return null;
   }
 
-  removeElement(euid) {
+  removeElement(euid, id) {
     //
     // Go from the end, which allow us to avoid an iterator issue
     //
     for (let i = this.connectors.length - 1; i >= 0; i--) {
-      if (this.connectors[i].fromId === euid || this.connectors[i].toId === euid) {
+      const [id1, id2] = this.connectors[i].getEndPointIds();
+      if (id === id1 || id === id2) {
         // notify observer about connector removal
         this.observer.onJsonModelChange("remove:connector", this.connectors[i].getDescription());
         // Remove instance
@@ -570,16 +571,6 @@ class BaseDiagram extends BaseDiagramItem {
 
   createConnector(connectorType, jsonModel) {
     // this.observer.onJsonModelChange("remove:connector", this.connectors[i].getDescription());
-  }
-
-  removeConnector(fromId, toId, name) {
-    this.connectors = this.connectors.filter(connector => {
-      // exclude a single connector
-      return !(connector.epoints[connector.epoints.length - 1]['euid'] == toId
-        && connector.epoints[0]['euid'] == fromId); 
-        // TODO: && connector.options.nameTemplate == name);
-    });
-    
   }
 
   removeConnectorByEuid(euid) {
@@ -973,6 +964,7 @@ class BaseDiagram extends BaseDiagramItem {
   // Element DND observer API
   //
   onElementDragStart(element, ui) {
+    console.log("ON ELEMENT DRAG START: ", element.euid);
     //
     // 
     //
@@ -988,6 +980,7 @@ class BaseDiagram extends BaseDiagramItem {
           ee.onDragStart(ui);
         }
       }  // elements
+    }
 
       // Update the list of draggable elements
       var draggable = [];
@@ -998,20 +991,37 @@ class BaseDiagram extends BaseDiagramItem {
         const ee = this.elements[i];
         if (ee.options["dragStart"]) {
           // add euid to the list
-          draggable.push(ee.euid);
+          draggable.push(ee.getId());
         }
       }
+    
 
       //
       // Update list of connectors to DND
       //
       for (var i in this.connectors) {
-        if (draggable.indexOf(this.connectors[i]['fromId']) >= 0 
-         && draggable.indexOf(this.connectors[i]['toId']) >= 0) {
+        var tmpConnector = this.connectors[i];
+        if (tmpConnector.options["selected"]) {
+          this.connectors[i].onDragStart(ui);
+          continue;
+        }
+
+        //
+        // Connector's both side elements are started to drag
+        // or one side element is dragged and the other is not attached (null)
+        //
+        const [id1, id2] = tmpConnector.getEndPointIds();
+        console.log("CONNECTOR END POINTS: ", id1, id2);
+        const id1InDraggable = id1 !== null && draggable.indexOf(id1) >= 0;
+        const id2InDraggable = id2 !== null && draggable.indexOf(id2) >= 0;
+        
+        if ((id1InDraggable && id2InDraggable) ||
+          (id1InDraggable && id2 === null) ||
+          (id2InDraggable && id1 === null)) {
           this.connectors[i].onDragStart(ui);
         }
       }  // connectors
-    }
+    
   }
 
 

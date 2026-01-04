@@ -130,8 +130,6 @@ class EditorSideMenu  {
 
             if (item.connector && item.connector != "") {
                 this.diagram.Connector(item.connector, {
-                    fromId: null,
-                    toId: null,
                     epoints: [ {x: 100, y: 100}, {x: 200, y: 100}]
                 });
             }

@@ -78,10 +78,6 @@ class DiagramMouseEvents {
           y = Math.round(e.pageY - p.top);
           var status = iDiagram.isPointOnLine(x,y);
           if (status) {
-            //dm.at.mouse = dm.at.mouse || {};
-            //dm.at.mouse.x = x;
-            //dm.at.mouse.y = y;
-            //$("#possition_locator").val("X:" + x + "  y:" + y + " on");
             e.stopPropagation();
           }
         })
@@ -100,7 +96,6 @@ class DiagramMouseEvents {
           if (e.which != 3 && !e.ctrlKey) {
             // Pre-process selection
             iDiagram.onMouseClick(null, e);
-
             iDiagram.startConnectorTransform(x,y);
           }
         })

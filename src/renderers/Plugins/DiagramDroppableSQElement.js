@@ -81,7 +81,7 @@ class DiagramDroppableSQElement {
     }
 
     onConnectorTransformEnd(connector) {
-        // Check toId and fromId
+        // Check end points
     }
 }
 

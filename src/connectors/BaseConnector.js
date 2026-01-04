@@ -463,8 +463,6 @@ class BaseConnector extends BaseDiagramItem {
       this.#attachElementToPoint(this.eppos, null);
     }
 
-
-
     //
     // No Point found let's add a new one
     //
@@ -666,6 +664,18 @@ class BaseConnector extends BaseDiagramItem {
     };
   }
 
+  /**
+   * Get the IDs of the two end points
+   * @returns {Array<number|null>} Array of 2 IDs, each can be an ID or null if the endpoint is not attached to an element
+   */
+  getEndPointIds() {
+    const firstId = (this.epoints.length > 0 && this.epoints[0]?.id !== undefined) ? this.epoints[0].id : null;
+    const lastId = (this.epoints.length > 1 && this.epoints[this.epoints.length - 1]?.id !== undefined) 
+      ? this.epoints[this.epoints.length - 1].id 
+      : null;
+    return [firstId, lastId];
+  }
+
   getCenterEdgePoint(pos, width, height, otherX, otherY) {
     const centerX = pos.left + width / 2;
     const centerY = pos.top + height / 2;
@@ -832,7 +842,7 @@ class BaseConnector extends BaseDiagramItem {
 
   //
   // This part is related to multiple elements DND
-  // When user select both: fromId and toId elements
+  // When user select both side elements of the connector
   //
   epoints_drag = [];
   labels_drag = [];

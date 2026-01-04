@@ -137,8 +137,6 @@ export class PreviewDiagramItemsDropdownComponent {
             if (item.connector && item.connector != "") {
                 let opt = this.toolbar.getDefaultConnectorOptions();
                 this.diagram.Connector(item.connector, {
-                    fromId: null,
-                    toId: null,
                     epoints: [ {x: 200, y: 300}, {x: 400, y: 200}],
                     ...opt
                 });

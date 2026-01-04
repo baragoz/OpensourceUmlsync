@@ -185,7 +185,12 @@ class EditorRenderer {
                 // drop helper - create uml element directly from connector type icons menu above element 
                 //
                 if (self.diagram.dropHelper) {
-                  self.diagram.Connector(self.diagram.dropHelper, {fromId: element.euid, toId: "ConnectionHelper"});
+                  self.diagram.Connector(self.diagram.dropHelper, 
+                    {
+                      epoints: [
+                      {x:0,   y: 0,   euid:  element.euid},
+                      {x:100, y: 100, euid: "ConnectionHelper"}
+                    ]});
                   return;
                 }
     
@@ -226,29 +231,7 @@ class EditorRenderer {
                     ui.position.left = 0;
                 }
   
-                //
-                // Check if user dropped connector at another element
-                //
-                if (self.diagram.dropHelper) {
-                  var name =self.diagram.checkDropAtPosition(ui.position.left, ui.position.top);
-    
-                  var connectorType = self.diagram.dropHelper;
-                  self.diagram.removeConnector(element.euid, "ConnectionHelper", connectorType);
-    
-                  if (name != undefined) {
-                    self.diagram.Connector(connectorType, {fromId: element.euid, toId: name});
-                  }
-
-                  // Remove selection from menu item
-                  $('.connector-selector').removeClass('selected');
-    
-                  // Remove the drop helper and re-draw connectors
-                  self.diagram.setDropHelper(null);
-                  self.diagram.draw();
-                  return;
-                }
-    
-                element.onElementDragStop({left:ui.position.left - self.operation_start.left, top:ui.position.top - self.operation_start.top});
+               element.onElementDragStop({left:ui.position.left - self.operation_start.left, top:ui.position.top - self.operation_start.top});
               },
               'scope': element.options['droppable'],
               'axis': axisDirections
