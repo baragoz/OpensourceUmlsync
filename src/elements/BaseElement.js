@@ -24,8 +24,8 @@ class BaseElement extends BaseDiagramItem {
   nativeRef = null;
 
   constructor(options, jsonModel, diagram) {
-    // Generate unique id
-    super({...defaultOptions, ...options});
+    // build common options and Generate unique id
+    super({...defaultOptions, ...options}, "e" + jsonModel.id);
 
     // Keep the reference on diagram
     this.diagram = diagram;

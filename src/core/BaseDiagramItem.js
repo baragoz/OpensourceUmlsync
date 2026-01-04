@@ -7,34 +7,20 @@ class BaseDiagramItem {
     // Unique ID for each element
     euid = "";
   
-    constructor(options) {
+    constructor(options, uid) {
       // Extend options
       this.options = {...defaultOptions, ...options};
 
       // generate unique id
-      this.euid = this.generateUniqueId();
+      this.euid = this.generateUniqueId(uid);
     }
   
     //
     // Generate unique id for each diagram element
     //
-    generateUniqueId() {
-      let extra = this.getUniquePrefix();
-      return `${this.options.nameTemplate}_${extra}${Math.random().toString(36).substr(2, 9)}`;
-    }
-
-    //
-    // Return a custom prefix, or generate a random
-    //
-    getUniquePrefix() {
-      return this.options.prefix || Date.now();
-    }
-
-    //
-    // Generate random suffix
-    //
-    getRandomSuffix() {
-      return `${Math.random().toString(36).substr(2, 9)}`
+    generateUniqueId(uid) {
+      let prefix = this.options.prefix || Date.now();
+      return `${prefix}${uid}`;
     }
 
     //

@@ -16,7 +16,7 @@ import {NoteElement} from '../elements/NoteElement.js';
 import {PackageElement} from '../elements/PackageElement.js';
 
 
-const defaultOptions = {
+const overrideDefaultOptions = {
   nameTemplate: 'classDiagram',
   type: 'class',
   acceptElements: ['class', 'package', 'note'],
@@ -31,7 +31,7 @@ class ClassDiagram extends BaseDiagram {
   //  or updated via setDimention
   //
   constructor(jsonModel, parentOptions, observer) {
-    super(defaultOptions, jsonModel, parentOptions, observer);
+    super(overrideDefaultOptions, jsonModel, parentOptions, observer);
     
   }
 

@@ -15,7 +15,7 @@ const defaultOptions = {
 
 class BaseConnector extends BaseDiagramItem {
   constructor(options, jsonModel, diagram) {
-    super({ ...defaultOptions, ...options });
+    super({ ...defaultOptions, ...options }, "c" + jsonModel.id);
     this.diagram = diagram;
     this.jsonModel = jsonModel;
 
@@ -51,6 +51,7 @@ class BaseConnector extends BaseDiagramItem {
     //
     var ep = this.jsonModel.epoints;
 
+    // TODO(connector): add prefix to the options, then no need to lookup euid 
     //
     // Load diagram from JSON, find euid by id 
     //
@@ -81,7 +82,7 @@ class BaseConnector extends BaseDiagramItem {
         // if we have one point, then let's assume that it is start point !!!!
         //
         if (ep[0]['euid']) {
-          this.jsonModel.epoints.push({ x: 200, y: 200 });
+          this.jsonModel.epoints.push({ x: ep[0].x + 200, y: ep[0].y + 200 });
         }
       }
       ep = this.jsonModel.epoints;
@@ -435,6 +436,7 @@ class BaseConnector extends BaseDiagramItem {
 
     let newPoint = { x: x1, y: y1 };
 
+    // TODO(connector): add prefix to the options, then no need to use euid
     //
     // Detach first point
     //
@@ -449,6 +451,8 @@ class BaseConnector extends BaseDiagramItem {
       this.epoints[this.eppos]['euid'] = null;
       this.epoints[this.eppos]['limit'] = null;
     }
+
+
 
     //
     // No Point found let's add a new one
@@ -580,10 +584,12 @@ class BaseConnector extends BaseDiagramItem {
     if (!needToRefreshPoints) {
       if (this.eppos === 0) {  // detached first point
         let val = this.diagram._dropConnector({ position: { top: y, left: x } });
+        // TODO(connector): add prefix to the options, then no need to use euid
         this.epoints[this.eppos]["euid"] = val ? val.euid : null;
         needToRefreshPoints ||= (val != null);
       } else if (this.eppos === this.epoints.length - 1) { // detached last point
         let val = this.diagram._dropConnector({ position: { top: y, left: x } });
+        // TODO(connector): add prefix to the options, then no need to use euid
         this.epoints[this.eppos]["euid"] = val ? val.euid : null;
         needToRefreshPoints ||= (val != null);
       }

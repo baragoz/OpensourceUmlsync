@@ -5,6 +5,10 @@ import { StateDiagram } from "../diagrams/StateDiagram";
 import { SequenceDiagram } from "../diagrams/SequenceDiagram";
 
 
+const defaultOptions = {
+  id: 1,
+};
+
 class DiagramViewer {
     constructor(domSelector, overrideOptions)  {
         this.parentSelector = domSelector;
@@ -44,7 +48,7 @@ class DiagramViewer {
         // e5 - element - 5th loaded
         // o3 - operations inside class element 3-rd instance
         jsonModel.id = this.getNextGlobalId();
-        let prefix = this.prefix + "d" + jsonModel.id;
+        let diagramPrefix = this.prefix + "d" + this.getNextGlobalId();
 
         const diagramMap = {
             classDiagram: ClassDiagram,
@@ -58,14 +62,16 @@ class DiagramViewer {
           
         if (DiagramClassRef) {
             const options = {
+              // TODO: define what could be controlled via potions ?
+              ...extraOptions,
+              // Make these options not overrideable for a while.
               width: this.options.width,
               height: this.options.height,
               // Check if editor do not want to allocate multiple canvas,
               // Uses for multi-tabs mode
               multicanvas: !this.options.shareCanvas,
-              prefix: prefix,
+              prefix: diagramPrefix,
               parentId: "#" + this.prefix + "-dw-uml-area",
-              ...extraOptions,
             };
           
             this.digram = new DiagramClassRef(jsonModel, options);

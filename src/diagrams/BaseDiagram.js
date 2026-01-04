@@ -4,6 +4,7 @@ import { BaseElement } from '../elements/BaseElement.js';
 import { IDiagramObserver } from '../interfaces/IDiagramObserver.js';
 
 const defaultOptions = {
+  prefix: "dm",
   multicanvas: true,
   nameTemplate: 'baseDiagram',
   editmode: false,
@@ -13,6 +14,7 @@ const defaultOptions = {
   minZIndex : 5000,
   acceptElements: []
 };
+
 const defaultModel = {
   width: 1200,
   height: 600
@@ -59,23 +61,23 @@ class BaseDiagram extends BaseDiagramItem {
   //
   //  Width/Height could be modified via options
   //
-  constructor(options, jsonModel, parentOptions, observer) {
-    super({...defaultOptions, ...options, ...parentOptions});
+  constructor(overrideDefaultOptions, jsonModel, constructionOptions, observer) {
+    super({...defaultOptions, ...overrideDefaultOptions, ...constructionOptions}, "dm" + jsonModel.id);
     
     /**
      * @type {IDiagramObserver}
      */
-    this.observer = this.options.editable ? observer : null;
+    this.observer =  observer;
 
     // update model data
     this.jsonModel = {...defaultModel, ...jsonModel};
 
-    this.parentId = parentOptions.parentId;
+    this.parentId = constructionOptions.parentId;
     //
     // we could not add it to chonfig, because w/h are changeable
     //
-    this.parentHeight = parentOptions.height || this.parentHeight;
-    this.parentWidth = parentOptions.width || this.parentWidth
+    this.parentHeight = constructionOptions.height || this.parentHeight;
+    this.parentWidth = constructionOptions.width || this.parentWidth
 
     //
     // Initial stub for error handler
@@ -174,6 +176,10 @@ class BaseDiagram extends BaseDiagramItem {
     }
   }
 
+  findElementRefById(id) {
+    return $("#" + this.options.prefix + "e" + id);
+  }
+  
   //
   // Each element of diagram should has a unique-id nunmber
   // Each diagram could has it's own unique-id,
@@ -449,7 +455,7 @@ class BaseDiagram extends BaseDiagramItem {
     // [WIP]: it is just an idea of a unique prefix for each
     //        diagram item
     //
-    let prefix = this.options.prefix + "e" + jsonModel.id + "-";
+    // let prefix = this.options.prefix + "e" + jsonModel.id + "-";
 
     //
     // It is allow us to do not write an entire list of possible elements
@@ -458,7 +464,7 @@ class BaseDiagram extends BaseDiagramItem {
     // For example: if class diagram should support class, package and note,
     //              then ClassDiagram.js is responsible for import of that elements 
     //
-    let objIntance = this.createElement(elementType, jsonModel, {prefix: prefix});
+    let objIntance = this.createElement(elementType, jsonModel, {prefix: this.options.prefix});
 
     console.log("Created element:" + objIntance.euid + " ID: " + objIntance.jsonModel.id);
     //

@@ -105,7 +105,7 @@ class DiagramEditor {
         // e5 - element - 5th loaded
         // o3 - operations inside class element 3-rd instance
         jsonModel.id = this.getNextGlobalId();
-        let prefix = this.prefix + "d" + jsonModel.id;
+        let prefix = this.prefix + "dm" + jsonModel.id;
 
         //
         // at this point we should provide a custom config
