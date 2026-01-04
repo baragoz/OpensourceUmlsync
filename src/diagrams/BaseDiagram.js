@@ -65,7 +65,7 @@ class BaseDiagram extends BaseDiagramItem {
     /**
      * @type {IDiagramObserver}
      */
-    this.observer = observer;
+    this.observer = this.options.editable ? observer : null;
 
     // update model data
     this.jsonModel = {...defaultModel, ...jsonModel};
@@ -76,10 +76,6 @@ class BaseDiagram extends BaseDiagramItem {
     //
     this.parentHeight = parentOptions.height || this.parentHeight;
     this.parentWidth = parentOptions.width || this.parentWidth
-
-    if (this.options.editable) {
-      this.renderer = observer; //new PluginsManager();
-    }
 
     //
     // Initial stub for error handler
@@ -98,8 +94,8 @@ class BaseDiagram extends BaseDiagramItem {
     this._init();
 
     // Add plugins, notify observers
-    if (this.renderer) {
-      this.renderer.onAddDiagram(this);
+    if (this.observer) {
+      this.observer.onAddDiagram(this);
     }
 
     // Create widgets - elements and connectors
@@ -519,8 +515,8 @@ class BaseDiagram extends BaseDiagramItem {
     //
     // Define hover/resize/draggable etc
     //
-    if (this.renderer) {
-      this.renderer.onJsonModelChange("add:element", {element});
+    if (this.observer) {
+      this.observer.onJsonModelChange("add:element", {element});
     }
 
     this.elements.push(element);
@@ -827,9 +823,9 @@ class BaseDiagram extends BaseDiagramItem {
     
     // Show "REFERENCE" for viewer mode   - MOVE TO PLUGIN
     // if (!this.isEditable() && (element.options.subdiagrams)) {
-    //  this.renderer.showElementRefs(element);
+    //  this.observer.showElementRefs(element);
     //  }
-    //    this.renderer.showElementRefs(element)
+    //    this.observer.showElementRefs(element)
   }
 
   onMouseLeave(element) {
@@ -886,8 +882,8 @@ class BaseDiagram extends BaseDiagramItem {
   //
   onAddConnector(connector) {
     // Notify rendrer's addon's if needed
-    if (this.renderer) {
-      this.renderer.onJsonModelChange("add:connector", {connector});
+    if (this.observer) {
+      this.observer.onJsonModelChange("add:connector", {connector});
     }
     // Add to the list
     this.connectors.push(connector);
@@ -951,8 +947,8 @@ class BaseDiagram extends BaseDiagramItem {
     //
     // notify observer about completion
     //
-    if (this.renderer) {
-      this.renderer.onRemoveDiagram(this);
+    if (this.observer) {
+      this.observer.onRemoveDiagram(this);
     }
   }
 
