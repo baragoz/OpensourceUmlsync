@@ -47,9 +47,13 @@ class BaseConnector extends BaseDiagramItem {
     }
 
     //
-    // Find elements from diagram for connector
+    // Clone epoint from original jsonModel.epoints
     //
-    var ep = this.jsonModel.epoints;
+    var ep = (this.jsonModel.epoints || []).map(point => ({ ...point }));
+    //
+    // point to the same object
+    //
+    this.epoints = ep;
 
     // TODO(connector): add prefix to the options, then no need to lookup euid 
     //
@@ -58,28 +62,21 @@ class BaseConnector extends BaseDiagramItem {
     if (ep[0]['id'] || ep[ep.length - 1]['id'] != null) {
       if (ep[0]['id']) {
         const element = this.diagram.getElementById(ep[0]['id']);
-        if (element) {
-          ep[0]['euid'] = element.euid;
-          ep[0]['limit'] = element.options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
-        }
+        this.#attachElementToPoint(0, element);
       }
 
       if (ep[ep.length - 1]['id']) {
         const element = this.diagram.getElementById(ep[ep.length - 1]['id']);
-        if (element) {
-          ep[ep.length - 1]['euid'] = element.euid;
-          ep[ep.length - 1]['limit'] = element.options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
-        }
+        this.#attachElementToPoint(ep.length - 1, element);
       }
     }
 
     //
-    // We need 2 points minimum to show the line
-    // - make a random line
+    // Errors handling:  via work-around.
     //
     if (ep.length < 2) {
       if (ep.length == 0) {
-        // Draw a lost points
+        // Draw a lost connector with defult potints
         this.jsonModel.epoints = [{ x: 40, y: 50 }, { x: 150, y: 50 }];
       } else {
         //
@@ -106,11 +103,6 @@ class BaseConnector extends BaseDiagramItem {
     }
 
     //
-    // point to the same object
-    //
-    this.epoints = ep;
-
-    //
     // Update points + indentations
     //
     this.points = this._getConnectionPoints(ep, this.diagram.getDiagramOffset());
@@ -131,6 +123,29 @@ class BaseConnector extends BaseDiagramItem {
     // Create a list of connector's labels at position
     //
     this.reloadLabels();
+  }
+
+  /**
+   * Attach or detach an element to/from an epoint
+   * @param {number} pointIndex - The index of the point in epoints array
+   * @param {BaseElement|null} element - The element to attach, or null to detach
+   */
+  #attachElementToPoint(pointIndex, element) {
+    if (pointIndex < 0 || pointIndex >= this.epoints.length) {
+      return;
+    }
+
+    if (element) {
+      // Attach element
+      this.epoints[pointIndex]['id'] = element.getId();
+      this.epoints[pointIndex]['euid'] = element.euid;
+      this.epoints[pointIndex]['limit'] = element.options.midpoint ? LimitMode.CENTER : LimitMode.NONE;
+    } else {
+      // Detach element
+      this.epoints[pointIndex]['id'] = null;
+      this.epoints[pointIndex]['euid'] = null;
+      this.epoints[pointIndex]['limit'] = null;
+    }
   }
 
   _baseInit() {
@@ -442,18 +457,10 @@ class BaseConnector extends BaseDiagramItem {
 
     // TODO(connector): add prefix to the options, then no need to use euid
     //
-    // Detach first point
+    // Detach first or last point if being transformed
     //
-    if (this.eppos === 0 && this.epoints[this.eppos]['euid']) {
-      this.epoints[this.eppos]['euid'] = null;
-      this.epoints[this.eppos]['limit'] = null;
-    }
-    //
-    // Detach last point
-    //
-    else if (this.eppos === this.epoints.length - 1 && this.epoints[this.eppos]['euid']) {
-      this.epoints[this.eppos]['euid'] = null;
-      this.epoints[this.eppos]['limit'] = null;
+    if ((this.eppos === 0 || this.eppos === this.epoints.length - 1) && this.epoints[this.eppos]['euid']) {
+      this.#attachElementToPoint(this.eppos, null);
     }
 
 
@@ -586,15 +593,10 @@ class BaseConnector extends BaseDiagramItem {
     // on current step we need to check end points
     //
     if (!needToRefreshPoints) {
-      if (this.eppos === 0) {  // detached first point
+      if (this.eppos === 0 || this.eppos === this.epoints.length - 1) {
         let val = this.diagram._dropConnector({ position: { top: y, left: x } });
         // TODO(connector): add prefix to the options, then no need to use euid
-        this.epoints[this.eppos]["euid"] = val ? val.euid : null;
-        needToRefreshPoints ||= (val != null);
-      } else if (this.eppos === this.epoints.length - 1) { // detached last point
-        let val = this.diagram._dropConnector({ position: { top: y, left: x } });
-        // TODO(connector): add prefix to the options, then no need to use euid
-        this.epoints[this.eppos]["euid"] = val ? val.euid : null;
+        this.#attachElementToPoint(this.eppos, val);
         needToRefreshPoints ||= (val != null);
       }
     }
