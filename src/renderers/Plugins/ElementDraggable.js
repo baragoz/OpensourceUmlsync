@@ -29,17 +29,22 @@ class ElementDraggable {
             'grid': [2,2],
             'scroll': true,
             'start': function(event, ui) {
+                console.log("ElementDraggable START callback called", {
+                  elementEuid: element.euid,
+                  dropHelper: self.diagram.dropHelper
+                });
                 self.operation_start = {left: ui.position.left, top: ui.position.top};
                 //
                 // drop helper - create uml element directly from connector type icons menu above element 
                 //
                 if (self.diagram.dropHelper) {
-                  console.log("AAAAAAAAAAAAAAAAA " + element.euid);
+                  console.log("START: dropHelper is set! Creating connector and returning early", element.euid);
                   self.diagram.Connector(self.diagram.dropHelper, {
                     epoints: [
                       {x:0,   y: 0,   euid:  element.euid},
                       {x:100, y: 100, euid: "ConnectionHelper"}
                     ]});
+                  console.log("START: About to return early - drag should still proceed");
                   return;
                 }
     
@@ -67,6 +72,11 @@ class ElementDraggable {
                    top:ui.position.top - self.operation_start.top});
             },
             'stop': function(event, ui) {
+                console.log("ElementDraggable STOP callback called", {
+                  elementEuid: element.euid,
+                  dropHelper: self.diagram.dropHelper,
+                  position: {left: ui.position.left, top: ui.position.top}
+                });
 
                 //
                 // Check boundaries. It is possible to scroll right and bottom
@@ -81,35 +91,9 @@ class ElementDraggable {
                     $(elmt).css("left", 0);
                     ui.position.left = 0;
                 }
-  
-                //
-                // Check if user dropped connector at another element
-                //
-                if (self.diagram.dropHelper) {
-                  var name = self.diagram.checkDropAtPosition(ui.position.left, ui.position.top);
-                  // ------------------------  THIS CODE DOES NOT WORK !!!
-                  // we need to get element instead of name at the previous step
-                  alert("REWORk DROP CONNECTOR");
-                  // --------------------------------------------------------------
-                  var connectorType = self.diagram.dropHelper;
-                  self.diagram.removeConnector(element.euid, "ConnectionHelper", connectorType);
     
-                  if (name != undefined) {
-                    self.diagram.Connector(connectorType, {
-                      epoints: [
-                        {x:0, y:0, id: element.getId()}, {x: 100, y: 100, euid: name}
-                      ]});
-                  }
-
-                  // Remove selection from menu item
-                  $('.connector-selector').removeClass('selected');
-    
-                  // Remove the drop helper and re-draw connectors
-                  self.diagram.setDropHelper(null);
-                  self.diagram.draw();
-                  return;
-                }
-    
+                // Notify diagram on drag stop to
+                // stop multiple elements DND process.
                 self.diagram.onElementDragStop(element,
                   {
                     left:ui.position.left - self.operation_start.left,

@@ -1037,6 +1037,7 @@ class BaseDiagram extends BaseDiagramItem {
   onElementDragStop(element, ui) {
     element.onDragStop(ui, true);
 
+    // In case of multiple elements DND.
     for (var i in this.elements) {
       var ee = this.elements[i];
       if (ee.options["dragStart"]

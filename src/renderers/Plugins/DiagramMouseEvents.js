@@ -74,8 +74,8 @@ class DiagramMouseEvents {
         //
         .mousemove(function(e) {  // DEBUG FUNCTIONALITY.
           var p = $(this).offset(),
-          x = e.pageX - p.left,
-          y = e.pageY - p.top;
+          x = Math.round(e.pageX - p.left),
+          y = Math.round(e.pageY - p.top);
           var status = iDiagram.isPointOnLine(x,y);
           if (status) {
             //dm.at.mouse = dm.at.mouse || {};
@@ -87,15 +87,15 @@ class DiagramMouseEvents {
         })
         .mouseup(function(e) {
           var p = $(this).offset(),
-          x = e.pageX - p.left,
-          y = e.pageY - p.top;
+          x = Math.round(e.pageX - p.left),
+          y = Math.round(e.pageY - p.top);
           iDiagram.stopConnectorTransform(x,y);
         })
         .mousedown(function(e) { 
     
           var p = $(this).offset(),
-          x = e.pageX - p.left,
-          y = e.pageY - p.top;
+          x = Math.round(e.pageX - p.left),
+          y = Math.round(e.pageY - p.top);
     
           if (e.which != 3 && !e.ctrlKey) {
             // Pre-process selection

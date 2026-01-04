@@ -34,7 +34,9 @@ class EditorRenderer {
         // make element resizeable
         element.addPlugin(new ElementResizeable(element, nativeBorderRef, this.blackboard));
         //this.initResizeable(element, nativeBorderRef);
-        this.initDraggable(element, nativeBorderRef);
+        element.addPlugin(new ElementDraggable(element, nativeBorderRef, this.blackboard));
+        // this.initDraggable(element, nativeBorderRef);
+        console.log("IINIT DRAGGABLE SKIPPED");
         this.initContextMenu(element, nativeBorderRef);
         this.initMouseEvents(element, nativeBorderRef);
 
