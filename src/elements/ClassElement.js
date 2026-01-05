@@ -26,10 +26,15 @@ class ClassElement extends BaseElement {
             // Top-template prefix like Interface/Template/ORM etc...
             //
             if (this.jsonModel['aux'] && (this.jsonModel['aux'] != "")) {
-                var aux2 = this._getAux(this.jsonModel['aux']);
-                if (aux2 != "") {
-                  aux = "&lt&lt " + aux2 + " &gt&gt";
-                  templateHeader = (this.options['aux'] != 'Template') ? "" : "<div id='template' data-key='aux' class='editablefield us-class-template'>" + (this.jsonModel['template'] || "T")+"</div>";
+                var aux2 = this.jsonModel['aux']; // this.#getAux(this.jsonModel['aux']);
+                // Template class
+                if (aux2 == 'template') {
+                  templateHeader = "<div id='template' data-key='aux' class='editablefield us-class-template'>" + (this.jsonModel['template'] || "T")+"</div>";
+                } else if (aux2 == 'custom') { // Custom class
+                  aux = "&lt&lt <div id='template' data-key='auxText' class='editablefield us-class-custom-aux'>"
+                   + (this.jsonModel['auxText'] || "Custom")+"</div> &gt&gt";
+                } else if (aux2 !== "") { // Other classes enumeration (interface, enum, primitive, ORM, ORMComponent)
+                    aux = "&lt&lt " + aux2 + " &gt&gt";
                 }
             }
      
@@ -71,13 +76,14 @@ class ClassElement extends BaseElement {
            //  Make a final class element
            //
            let innerHtmlClassInfo = '\
-             <div id="' + this.euid + '" class="us-class grElement">'+ templateHeader +'\
-             <div class="us-class-header">\
-             <a id="name" data-key="name" class="editablefield us-class-name">' + this.jsonModel['name'] + '</a><br>\
-             <a id="aux" class="us-class-aux">'+ aux +'</a>\
-             </div>\
-             <div class="us-class-attributes"><ul class="us-sortable">' +  attributes + '</ul></div>\
-             <div class="us-class-operations us-element-resizable-area"><ul class="us-sortable">' +  operations + '</ul></div>\
+             <div id="' + this.euid + '" class="us-class grElement">\
+               <div class="us-class-header">\
+                 <a id="name" data-key="name" class="editablefield us-class-name">' + this.jsonModel['name'] + '</a><br>\
+                 <a id="aux" class="us-class-aux">'+ aux +'</a>\
+               </div>\
+               <div class="us-class-attributes"><ul class="us-sortable">' +  attributes + '</ul></div>\
+               <div class="us-class-operations us-element-resizable-area"><ul class="us-sortable">' +  operations + '</ul></div>\
+               '+ templateHeader +'\
              </div>\
            ';
 
@@ -136,7 +142,7 @@ class ClassElement extends BaseElement {
         }
     }
 
-  _getAux(aux) {
+  #getAux(aux) {
     if (!aux)
       return "";
 
