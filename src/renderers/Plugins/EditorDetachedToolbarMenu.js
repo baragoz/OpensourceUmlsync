@@ -959,6 +959,9 @@ ${this.getHtmlToolbar()}
     //
     let textAlign = this.nativeRef.find('#us-text-align');
     this.textAlignComponent = new PreviewAlignComponent(textAlign);
+    this.textAlignComponent.onSelect((alignmentString) => { 
+      self.setOptionForElement('alignment', alignmentString);
+    });
 
     //
     // B U I - bold/italic/underline

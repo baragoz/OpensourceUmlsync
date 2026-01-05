@@ -202,6 +202,53 @@
     margin: 0 auto;
     border: 1px solid black;
     text-align: center;
+    display: flex;
+  }
+  
+  /* Alignment classes for #name inside .us-package-body */
+  .us-package-body.us-package-align-left-top {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  .us-package-body.us-package-align-left-center {
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .us-package-body.us-package-align-left-bottom {
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+  
+  .us-package-body.us-package-align-center-top {
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .us-package-body.us-package-align-center-center {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .us-package-body.us-package-align-center-bottom {
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .us-package-body.us-package-align-right-top {
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+  
+  .us-package-body.us-package-align-right-center {
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .us-package-body.us-package-align-right-bottom {
+    justify-content: flex-end;
+    align-items: flex-end;
   }
   
   .us-alt-body {

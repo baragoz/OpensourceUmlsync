@@ -36,9 +36,30 @@ class PackageElement extends BaseElement {
     }
 
     _updateJsonModel( key, value ) {
-        console.log("UPDATE JSON MODEL: " + key + " " + value);
         if (key === "color") {
             this.nativeRef.children("div").css("background-color", value || "none");
+            this.jsonModel[key] = value;
+        } else if (key === "alignment") {
+            // Remove all existing alignment classes
+            const alignmentClasses = [
+                'us-package-align-left-top',
+                'us-package-align-left-center',
+                'us-package-align-left-bottom',
+                'us-package-align-center-top',
+                'us-package-align-center-center',
+                'us-package-align-center-bottom',
+                'us-package-align-right-top',
+                'us-package-align-right-center',
+                'us-package-align-right-bottom'
+            ];
+            const packageBody = this.nativeRef.find('.us-package-body');
+            alignmentClasses.forEach(cls => packageBody.removeClass(cls));
+            
+            // Add the new alignment class if value is provided
+            if (value) {
+                const alignmentClass = 'us-package-align-' + value;
+                packageBody.addClass(alignmentClass);
+            }
             this.jsonModel[key] = value;
         } else {
             super._updateJsonModel(key, value);
