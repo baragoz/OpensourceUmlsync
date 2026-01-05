@@ -13,6 +13,7 @@ import {DiagramMouseEvents} from './Plugins/DiagramMouseEvents';
 import {DiagramScrollStartEvent} from './Plugins/DiagramScrollStartEvent';
 import {EditorContextMenu} from './Plugins/EditorContextMenu';
 import { EditorDetachedToolbarMenu } from './Plugins/EditorDetachedToolbarMenu';
+import {EditorHotKeysEvents} from './Plugins/EditorHotKeysEvents';
 import {EditorIconMenu} from './Plugins/EditorIconMenu';
 import {ElementContextMenu} from './Plugins/ElementContextMenu';
 import {ElementDraggable} from './Plugins/ElementDraggable';
@@ -96,6 +97,7 @@ class EditorPluginManager extends IDiagramObserver {
     //diagram.setUserData("plugin-editor-sidemenu", new EditorSideMenu(
     //    this.getSidebarPlaceholder(diagram), diagram, this.blackboard));
     diagram.setUserData("plugin-editor-contextmenu", new EditorContextMenu(diagram, this.blackboard, null));
+    diagram.setUserData("plugin-editor-hotkeys", new EditorHotKeysEvents(diagram, this.blackboard, null));
 
     //
     // NOTE: must be initiliazed after the icon menu, because icon menu is subscribed on
