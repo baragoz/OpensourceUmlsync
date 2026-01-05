@@ -360,6 +360,17 @@ class BaseConnector extends BaseDiagramItem {
     }
 
     //
+    // Check if gip is initialized (it's initialized in redraw method)
+    // If not, return false since we can't determine if point is on line
+    //
+    if (!this.gip || this.gip.length === 0) {
+      // TODO(bug): connector should contain of 2 or more points,
+      //            so this error should never happen
+      console.log("ERROR: gip array is not initialized or length is 0");
+      return false;
+    }
+
+    //
     // Check if mouse is near to some extra point
     //
     for (var c = 0; c < this.epoints.length; ++c) {
