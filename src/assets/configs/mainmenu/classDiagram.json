@@ -17,7 +17,7 @@
           "name": "Class",
           "aux": "template"
         },
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M17 12L18.6302 9.5547C18.8541 9.2188 18.8541 8.7812 18.6302 8.4453L17 6' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M7 6L5.3698 8.4453C5.14587 8.7812 5.14587 9.2188 5.3698 9.5547L7 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M12 11.5V6.5M12 6.5H14.5M12 6.5H9.5' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M22 3.75V7.25C22 8.3 21.4167 9 20.0556 9H16.9444C15.5833 9 15 8.3 15 7.25V3.75C15 2.7 15.5833 2 16.9444 2H20.0556C21.4167 2 22 2.7 22 3.75Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M17 4.5H18.5M20 4.5H18.5M18.5 4.5V6.5' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M5 9H12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
       },
       {
         "element": "class",
@@ -26,7 +26,7 @@
           "name": "Class",
           "aux": "interface"
         },
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M17 12L18.6302 9.5547C18.8541 9.2188 18.8541 8.7812 18.6302 8.4453L17 6' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M7 6L5.3698 8.4453C5.14587 8.7812 5.14587 9.2188 5.3698 9.5547L7 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M12 11.5V6.5M12 6.5H14.5M12 6.5H9.5' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M5 15H19' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M17 12L18.6302 9.5547C18.8541 9.2188 18.8541 8.7812 18.6302 8.4453L17 6' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M7 6L5.3698 8.4453C5.14587 8.7812 5.14587 9.2188 5.3698 9.5547L7 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path  d='M12 6.5V11.5     M9.5 6.5H14.5     M9.5 11.5H14.5'  stroke='#292D32'  stroke-width='1.5'  stroke-linecap='round'/></svg>"
       },
       {
         "element": "class",
