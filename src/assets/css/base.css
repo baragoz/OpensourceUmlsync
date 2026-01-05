@@ -342,6 +342,57 @@
     margin: 0 auto;
     text-align: center;
     border: 1px solid black;
+    display: flex;
+  }
+  
+  .us-component-content {
+    position: relative;
+  }
+  
+  /* Alignment classes for .us-component-content inside .us-component */
+  .us-component.us-component-align-left-top {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  .us-component.us-component-align-left-center {
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .us-component.us-component-align-left-bottom {
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+  
+  .us-component.us-component-align-center-top {
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .us-component.us-component-align-center-center {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .us-component.us-component-align-center-bottom {
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .us-component.us-component-align-right-top {
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+  
+  .us-component.us-component-align-right-center {
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .us-component.us-component-align-right-bottom {
+    justify-content: flex-end;
+    align-items: flex-end;
   }
   
   /*** STATE DIAGRAM ***/
