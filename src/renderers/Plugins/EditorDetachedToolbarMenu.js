@@ -468,7 +468,7 @@ ${this.getHtmlToolbar()}
         // item is element
         //
         if (item instanceof BaseElement) {
-          item._setOption(key, value);
+          item._updateJsonModel(key, value);
         }
       });
     } else {

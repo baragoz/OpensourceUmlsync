@@ -145,16 +145,16 @@ class EditorToolbarMenu  {
         let self = this;
         this.nativeRef.find('#us-text-font-style').on('change', function() {
             const value = $(this).val();
-            if (self.selectedItem && self.selectedItem._setOption) {
-                self.selectedItem._setOption("font-family", value);
+            if (self.selectedItem && self.selectedItem._updateJsonModel) {
+                self.selectedItem._updateJsonModel("font-family", value);
             }
           });
 
         this.nativeRef.find('#us-text-font-size').on('change', function() {
             const value = $(this).val();
-            if (self.selectedItem && self.selectedItem._setOption) {
+            if (self.selectedItem && self.selectedItem._updateJsonModel) {
                 let x = [13, 8, 10, 12, 14, 18, 24, 36]
-                self.selectedItem._setOption("font-size", x[value]);
+                self.selectedItem._updateJsonModel("font-size", x[value]);
             }
           });
 
@@ -205,12 +205,12 @@ class EditorToolbarMenu  {
             ["Connector Color", "Label Text Color", "Label Background"]);
 
             this.connectorsColorPicker.onSelect((index, color) => {
-                if (this.selectedItem && this.selectedItem._setOption) {
+                if (this.selectedItem && this.selectedItem._updateJsonModel) {
 
                     if (index === 0) {
-                      this.selectedItem._setOption("color", color);
+                      this.selectedItem._updateJsonModel("color", color);
                     } else if (index === 1) {
-                      this.selectedItem._setOption("font-color", color);
+                      this.selectedItem._updateJsonModel("font-color", color);
                     }
                 }
             });

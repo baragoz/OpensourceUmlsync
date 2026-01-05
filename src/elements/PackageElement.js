@@ -35,11 +35,13 @@ class PackageElement extends BaseElement {
         this.diagram.nativeRef.append(innerHtml);
     }
 
-    _setOption(key, value) {
+    _updateJsonModel( key, value ) {
+        console.log("UPDATE JSON MODEL: " + key + " " + value);
         if (key === "color") {
-            this.nativeRef.children("div").css("background-color", value || "");
+            this.nativeRef.children("div").css("background-color", value || "none");
+            this.jsonModel[key] = value;
         } else {
-            super._setOption(key, value);
+            super._updateJsonModel(key, value);
         }
     }
 }

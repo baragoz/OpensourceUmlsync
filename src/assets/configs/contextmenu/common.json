@@ -49,6 +49,32 @@
             "extend": "element:contextmenu",
             "commands": [
                 {
+                    "title": "Change Aux",
+                    "handler": "command:contextmenu:toggle",
+                    "commands": [
+                        {
+                            "title": "None",
+                            "handler": "command:class:aux:none"
+                        },
+                        {
+                            "title": "Interaface",
+                            "handler": "command:class:aux::interface"
+                        },
+                        {
+                            "title": "Template",
+                            "handler": "command:class:aux:template"
+                        },
+                        {
+                            "title": "Enumeration",
+                            "handler": "command:class:aux::enum"
+                        },
+                        {
+                            "title": "Custom",
+                            "handler": "command:class:aux::custom"
+                        }
+                    ]
+                },
+                {
                     "title": "Add Field",
                     "handler": "command:class:add_field"
                 },

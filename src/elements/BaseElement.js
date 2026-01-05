@@ -132,6 +132,7 @@ class BaseElement extends BaseDiagramItem {
   }
 
   _setOption( key, value ) {
+    console.log("SET OPTION: " + key + " " + value);
     this.options[key] = value;
     if (key == "font-color") {
       this.nativeBorderRef.find("a").css("color", value);
