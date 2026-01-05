@@ -29,7 +29,7 @@ class ClassElement extends BaseElement {
                 var aux2 = this.jsonModel['aux']; // this.#getAux(this.jsonModel['aux']);
                 // Template class
                 if (aux2 == 'template') {
-                  templateHeader = "<div id='template' data-key='aux' class='editablefield us-class-template'>" + (this.jsonModel['template'] || "T")+"</div>";
+                  templateHeader = "<div id='template' data-key='auxText' class='editablefield us-class-template'>" + (this.jsonModel['auxText'] || "T")+"</div>";
                 } else if (aux2 == 'custom') { // Custom class
                   aux = "&lt&lt <div id='template' data-key='auxText' class='editablefield us-class-custom-aux'>"
                    + (this.jsonModel['auxText'] || "Custom")+"</div> &gt&gt";

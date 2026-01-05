@@ -17,14 +17,13 @@ class ElementEditable {
         // Make Wrapped element resizeable
         //
         nativeBorderRef.find(".editablefield").editable({
-            onSubmit:  (data) => { // function(data) {
-                /* let key = $(this).data("key");
+            onSubmit:  function(data) {
+                let key = $(this).data("key");
                 if (!key || key === '') {
                     console.error("Failed to find key data for element:" + element.options.nameTemplate);
                     key = "name";
                 }
-                    */
-                   let key = "name";
+                console.log("KEY: " + key);
                 element.jsonModel[key] = data.current;
             }
         });
