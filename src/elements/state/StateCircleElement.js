@@ -63,6 +63,14 @@ class StateCircleElement extends BaseElement {
 
         this.diagram.nativeRef.append(innerHtml);
     }
+
+    _updateJsonModel( key, value ) {
+        if (key === "color") {
+            this.nativeRef.find(".grElement").css("background-color", value || "none");
+        } else {
+            super._updateJsonModel(key, value);
+        }
+    }
 }
 
 export { StateCircleElement }

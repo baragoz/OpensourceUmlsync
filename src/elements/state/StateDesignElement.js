@@ -30,6 +30,16 @@ class StateDesignElement extends BaseElement {
 
         this.diagram.nativeRef.append(innerHtml);
     }
+
+    _updateJsonModel( key, value ) {
+        if (key === "color") {
+            this.nativeRef.find(".grElement").css("background-color", value || "none");
+            this.jsonModel[key] = value;
+        } else {
+            super._updateJsonModel(key, value);
+        }
+    }
+
 }
 
 export {  StateDesignElement }

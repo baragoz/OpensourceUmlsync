@@ -31,6 +31,14 @@ class StateFinalElement extends BaseElement {
 
         this.diagram.nativeRef.append(innerHtml);
     }
+
+    _updateJsonModel( key, value ) {
+        if (key === "color") {
+            // ignore color update
+        } else {
+            super._updateJsonModel(key, value);
+        }
+    }
 }
 
 export {  StateFinalElement }
