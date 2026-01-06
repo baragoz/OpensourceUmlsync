@@ -407,6 +407,80 @@
     width: 100%;
     height: 100%;
   }
+
+  .us-state-signal-send {
+    border: 1px solid black;
+    border-right: none;
+    position: relative;
+    text-align: center;
+    background-color: #87CEEB;
+    -webkit-border-radius: 20px 0 0 20px;
+    -moz-border-radius: 20px 0 0 20px;
+    border-radius: 20px 0 0 20px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .us-state-signal-send::after {
+    content: '';
+    position: absolute;
+    right: -17px;
+    top: -1px;
+    width: 17px;
+    height: calc(100% + 2px);
+    background-color: black;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  .us-state-signal-send::before {
+    content: '';
+    position: absolute;
+    right: -15px;
+    top: 0;
+    width: 15px;
+    height: 100%;
+    background-color: #87CEEB;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  .us-state-signal-receipt {
+    border: 1px solid black;
+    border-left: none;
+    position: relative;
+    text-align: center;
+    background-color: #87CEEB;
+    -webkit-border-radius: 0 20px 20px 0;
+    -moz-border-radius: 0 20px 20px 0;
+    border-radius: 0 20px 20px 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .us-state-signal-receipt::after {
+    content: '';
+    position: absolute;
+    left: -17px;
+    top: -1px;
+    width: 17px;
+    height: calc(100% + 2px);
+    background-color: black;
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    -webkit-clip-path: polygon(100% 0, 0 50%, 100% 100%);
+  }
+
+  .us-state-signal-receipt::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 0;
+    width: 15px;
+    height: 100%;
+    background-color: #87CEEB;
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    -webkit-clip-path: polygon(100% 0, 0 50%, 100% 100%);
+  }
   
   .us-entity {
     padding: 0px;
@@ -1006,6 +1080,55 @@ div.us-class-custom-aux {
   width: calc(100% - 2px); /* Make it 2px smaller in width */
   height: calc(100% - 2px); /* Make it 2px smaller in height */
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.us-state-circle {
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.us-state-circle-h {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  color: black;
+}
+
+.us-state-circle-star {
+  font-size: 16px;
+  vertical-align: super;
+}
+
+.us-state-circle-x {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.us-state-circle-x::before,
+.us-state-circle-x::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 2px;
+  background-color: black;
+  transform-origin: center;
+}
+
+.us-state-circle-x::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.us-state-circle-x::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 /**************** Sequence diagram *************/

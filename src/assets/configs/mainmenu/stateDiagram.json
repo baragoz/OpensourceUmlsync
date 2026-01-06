@@ -27,34 +27,38 @@
         "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='12' cy='12' r='5' fill='#292D32'/></svg>"
       },
       {
-        "element": "statefinal",
-        "description": "Lost Message state",
+        "element": "statecircle",
+        "description": "Entry point",
         "jsonModel": {
-          "name": "Finish"
-        },
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M8.29395 8.29413L11.9998 12M15.7057 15.7059L11.9998 12M11.9998 12L15.7057 8.29413M11.9998 12L8.29395 15.7059' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
-      },
-      {
-        "element": "statefinal",
-        "description": "History state",
-        "jsonModel": {
-          "name": "Finish"
-        },
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 8V12M8 16V12M8 12H16M16 12V8M16 12V16' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
-      },
-      {
-        "element": "statefinal",
-        "description": "Empty state",
-        "jsonModel": {
-          "name": "Finish"
+          "name": "Entry point",
+          "state": ""
         },
         "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
-        "element": "statefinal",
-        "description": "multiple state",
+        "element": "statecircle",
+        "description": "Exit point",
         "jsonModel": {
-          "name": "Finish"
+          "name": "Exit point",
+          "state": "x"
+        },
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M8.29395 8.29413L11.9998 12M15.7057 15.7059L11.9998 12M11.9998 12L15.7057 8.29413M11.9998 12L8.29395 15.7059' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
+      },
+      {
+        "element": "statecircle",
+        "description": "History state",
+        "jsonModel": {
+          "name": "History",
+          "state": "h"
+        },
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 8V12M8 16V12M8 12H16M16 12V8M16 12V16' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
+      },
+      {
+        "element": "statecircle",
+        "description": "Deep history",
+        "jsonModel": {
+          "name": "Deep history",
+          "state": "h*"
         },
         "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 9.6906L12 12M16 14.3094L12 12M12 12L16 9.33333M12 12L8 14.3094M12 12V16M12 12V8' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
       },
@@ -72,7 +76,12 @@
         "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M19 14L21 12L19 10' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M14 12L21 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M6 18L8 16L6 14' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M2 16H8' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M6 11L8 9L6 7' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M2 9H8' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M14 5.5V18.5C14 20 13.25 21 11.5 21C9.75 21 9 20 9 18.5V5.5C9 4 9.75 3 11.5 3C13.25 3 14 4 14 5.5Z' fill='#292D32' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
-        "element": "statefinal",
+        "element": "statefork",
+        "description": "State fork",
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>  <g transform='rotate(90 12 12)'>    <path d='M19 14L21 12L19 10' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>    <path d='M14 12L21 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/>    <path d='M6 18L8 16L6 14' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>    <path d='M2 16H8' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/>    <path d='M6 11L8 9L6 7' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>    <path d='M2 9H8' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/>    <path d='M14 5.5V18.5C14 20 13.25 21 11.5 21C9.75 21 9 20 9 18.5V5.5C9 4 9.75 3 11.5 3C13.25 3 14 4 14 5.5Z'          fill='#292D32'          stroke='#292D32'          stroke-width='1.5'          stroke-miterlimit='10'          stroke-linecap='round'          stroke-linejoin='round'/>  </g></svg>"
+      },
+      {
+        "element": "statesignalsend",
         "description": "Send Message",
         "jsonModel": {
           "name": "Finish"
@@ -80,8 +89,8 @@
         "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3.0001 12.1L3.0001 10.9C3.0001 7.4 4.4001 6 7.9001 6L16.1001 6L21.5 11.5L16.1001 17L7.9001 17C4.4001 17 3.0001 15.6 3.0001 12.1Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
-        "element": "statefinal",
-        "description": "Receive Message state",
+        "element": "statesignalreceipt",
+        "description": "Receive Message",
         "jsonModel": {
           "name": "Finish"
         },
