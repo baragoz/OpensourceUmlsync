@@ -727,6 +727,25 @@ class BaseDiagram extends BaseDiagramItem {
     this.selectedItems = [];
   }
 
+  selectAll() {
+    // Reset current selection first
+    this.#resetSelectedItems();
+
+    // Build array with all elements and connectors
+    this.selectedItems = [...this.elements, ...this.connectors];
+
+    // Set selected option to true for each item
+    this.selectedItems.forEach((item) => {
+      item._setOption('selected', true);
+    });
+
+    // Notify observer about selection change
+    this.observer.onSelectDiagramItem(this.selectedItems);
+
+    // Redraw the diagram to reflect selection changes
+    this.draw();
+  }
+
   _setOption( key, value ) {
     this.options[key] = value;
     if (key == "editmode") {
