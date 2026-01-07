@@ -11,6 +11,14 @@
         "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M10.3 21H15.7C20.2 21 22 19.2 22 14.7V9.3C22 4.8 20.2 3 15.7 3H10.3C5.8 3 4 4.8 4 9.3V14.7C4 19.2 5.8 21 10.3 21Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M9 5.75V9.25C9 10.3 8.41667 11 7.05556 11H3.94444C2.58333 11 2 10.3 2 9.25V5.75C2 4.7 2.58333 4 3.94444 4H7.05556C8.41667 4 9 4.7 9 5.75Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M9 14.75V18.25C9 19.3 8.41667 20 7.05556 20H3.94444C2.58333 20 2 19.3 2 18.25V14.75C2 13.7 2.58333 13 3.94444 13H7.05556C8.41667 13 9 13.7 9 14.75Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
+        "description": "Subsystem",
+        "element": "component_subsystem",
+        "jsonModel": {
+          "name": "Component Subsystem"
+        },
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>  <path d='M10.3 21H15.7C20.2 21 22 19.2 22 14.7V9.3C22 4.8 20.2 3 15.7 3H10.3C5.8 3 4 4.8 4 9.3V14.7C4 19.2 5.8 21 10.3 21Z'        fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M9 5.75V9.25C9 10.3 8.41667 11 7.05556 11H3.94444C2.58333 11 2 10.3 2 9.25V5.75C2 4.7 2.58333 4 3.94444 4H7.05556C8.41667 4 9 4.7 9 5.75Z'        fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M9 14.75V18.25C9 19.3 8.41667 20 7.05556 20H3.94444C2.58333 20 2 19.3 2 18.25V14.75C2 13.7 2.58333 13 3.94444 13H7.05556C8.41667 13 9 13.7 9 14.75Z'        fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M14.6 9.5L10.7 16H18.7L14.8 9.5'        stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+      },
+      {
         "element": "interface",
         "description": "Interface",
         "jsonModel": {

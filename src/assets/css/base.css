@@ -395,6 +395,8 @@
     text-align: center;
     border: 1px solid black;
     display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .us-component-content {
@@ -445,6 +447,49 @@
   .us-component.us-component-align-right-bottom {
     justify-content: flex-end;
     align-items: flex-end;
+  }
+  
+  .us-component-subsystem {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .us-component-subsystem-header {
+    width: 100%;
+    border-bottom: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    box-sizing: border-box;
+  }
+  
+  .us-component-subsystem-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-align: left;
+    margin-right: 8px;
+  }
+  
+  .us-component-subsystem-svg {
+    flex-shrink: 0;
+  }
+  
+  .us-component-subsystem-content {
+    flex: 1;
+    position: relative;
   }
   
   /*** STATE DIAGRAM ***/

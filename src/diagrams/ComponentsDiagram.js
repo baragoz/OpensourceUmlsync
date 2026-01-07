@@ -1,6 +1,7 @@
 import { BaseDiagram } from './BaseDiagram.js';
 import { NoteElement } from '../elements/NoteElement.js';
 import { ComponentElement } from '../elements/component/ComponentElement.js';
+import { ComponentSubsystemElement } from '../elements/component/ComponentSubsystemElement.js';
 import { PackageElement } from '../elements/PackageElement.js';
 import { PortElement } from '../elements/component/ComponentPortElement.js';
 import { InterfaceElement } from '../elements/component/ComponentInterfaceElement.js';
@@ -15,7 +16,7 @@ import { NestedConnector } from '../connectors/NestedConnector.js';
 const defaultOptions = {
     nameTemplate: 'componentsDiagram',
     type: 'component',
-    acceptElements: ['component', 'port', 'interface', 'instance_specification', 'note']
+    acceptElements: ['component', 'component_subsystem', 'port', 'interface', 'instance_specification', 'note']
 };
 
 class ComponentsDiagram extends BaseDiagram {
@@ -30,6 +31,8 @@ class ComponentsDiagram extends BaseDiagram {
         let object = null;
         if (elementType == 'component') {
             object = new ComponentElement({}, jsonModel, this);
+        } else if (elementType == 'component_subsystem') {
+            object = new ComponentSubsystemElement({}, jsonModel, this);
         } else if (elementType == 'port') {
             object = new PortElement({}, jsonModel, this);
         } else if (elementType == 'interface') {
