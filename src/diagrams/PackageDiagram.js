@@ -12,11 +12,12 @@ import { RealizationConnector } from '../connectors/RealizationConnector.js';
 // Elements
 import { NoteElement } from '../elements/NoteElement.js';
 import { PackageElement } from '../elements/PackageElement.js';
+import { PackageSubsystemElement } from '../elements/PackageSubsystemElement.js';
 
 const defaultOptions = {
     nameTemplate: 'packageDiagram',
     type: 'package',
-    acceptElements: ['package', 'note']
+    acceptElements: ['package', 'subsystem', 'note']
 };
 
 class PackageDiagram extends BaseDiagram {
@@ -31,6 +32,9 @@ class PackageDiagram extends BaseDiagram {
         let object = null;
         if (elementType == 'package') {
             object = new PackageElement({}, jsonModel, this);
+        } else if (elementType == 'subsystem') {
+          alert("subsystem");
+            object = new PackageSubsystemElement({}, jsonModel, this);
         } else if (elementType == 'note') {
             object = new NoteElement({}, jsonModel, this);
         }

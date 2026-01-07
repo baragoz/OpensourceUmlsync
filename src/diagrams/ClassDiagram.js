@@ -14,12 +14,13 @@ import { SelfAssociationConnector } from '../connectors/SelfAssociationConnector
 import {ClassElement} from '../elements/ClassElement.js';
 import {NoteElement} from '../elements/NoteElement.js';
 import {PackageElement} from '../elements/PackageElement.js';
+import {PackageSubsystemElement} from '../elements/PackageSubsystemElement.js';
 
 
 const overrideDefaultOptions = {
   nameTemplate: 'classDiagram',
   type: 'class',
-  acceptElements: ['class', 'package', 'note'],
+  acceptElements: ['class', 'package', 'subsystem', 'note'],
   acceptConnectors: ['aggregation', 'association', 'selfassociation',
     'realization', 'composition', 'dependency', 'generalization', 'anchor'],
   editable: true
@@ -30,8 +31,8 @@ class ClassDiagram extends BaseDiagram {
   //  Width/Height could be modified via jsonModel options,
   //  or updated via setDimention
   //
-  constructor(jsonModel, parentOptions, observer) {
-    super(overrideDefaultOptions, jsonModel, parentOptions, observer);
+  constructor(jsonModel, constructorOptions, observer) {
+    super(overrideDefaultOptions, jsonModel, constructorOptions, observer);
     
   }
 
@@ -41,6 +42,8 @@ class ClassDiagram extends BaseDiagram {
       object = new ClassElement(options, jsonModel, this);
     } else if (elementType == 'package') {
       object = new PackageElement(options, jsonModel, this);
+    } else if (elementType == 'subsystem') {
+      object = new PackageSubsystemElement(options, jsonModel, this);
     } else if (elementType == 'note') {
       object = new NoteElement(options, jsonModel, this);
     }
