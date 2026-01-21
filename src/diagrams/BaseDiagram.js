@@ -594,6 +594,11 @@ class BaseDiagram extends BaseDiagramItem {
     this.parentWidth = width;
     this.parentHeight = height;
 
+    var $par = $(this.parentId);
+    $par.width(this.parentWidth);
+    $par.height(this.parentHeight);
+
+
     this.nativeRef.width(this.parentWidth);
     this.nativeRef.height(this.parentHeight);
 

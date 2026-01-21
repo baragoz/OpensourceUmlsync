@@ -32,7 +32,11 @@ class DiagramEditor {
         //
         // Update dimentions of the editor if hardcoded by page.
         //
-        this.#updateDimention(this.options.width, this.options.height)
+        this.#updateDimention(this.options.width, this.options.height);
+        //
+        // Subscribe to parent selector resize events
+        //
+        this.#subscribeToResize();
     }
 
     getNextGlobalId() {
@@ -204,6 +208,31 @@ class DiagramEditor {
 
         // TODO: resize diagram beacause of show/hide side menu
         // this.#updateDimention();
+    }
+
+    #subscribeToResize() {
+        const $parent = $(this.parentSelector);
+        if (!$parent.length) {
+            return;
+        }
+
+        // Store initial dimensions to detect changes
+        let lastWidth = $parent.width();
+        let lastHeight = $parent.height();
+
+        // Subscribe to window resize events and check if parent element size changed
+        $(window).on('resize.' + this.prefix, () => {
+            console.log("RESIZE EVENT FIRED "  + this.parentSelector);
+            const currentWidth = $parent.width();
+            const currentHeight = $parent.height();
+            
+            // Only update if dimensions actually changed
+            if (currentWidth !== lastWidth || currentHeight !== lastHeight) {
+                lastWidth = currentWidth;
+                lastHeight = currentHeight;
+                this.#updateDimention();
+            }
+        });
     }
 
 
