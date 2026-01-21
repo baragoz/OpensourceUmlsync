@@ -9,7 +9,6 @@ class EditorRenderer {
     constructor() {
         this.plugins = [];
         this.blackboard = new Blackboard();
-        alert("AAAAAAAAAAAAAAAAA");
     }
 
     
