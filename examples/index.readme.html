@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMLSync - About</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/examples.css">
+    <style>
+        .readme-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .readme-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .readme-header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+            color: #444;
+        }
+        
+        .readme-header .github-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .readme-header .github-link:hover {
+            background-color: #555;
+        }
+        
+        .readme-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .readme-section h2 {
+            font-size: 1.8rem;
+            color: #555;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .readme-section h3 {
+            font-size: 1.4rem;
+            color: #666;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .readme-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        
+        .readme-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .readme-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .readme-section .value-item {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-left: 4px solid #5D689A;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+        }
+        
+        .readme-section .value-item h3 {
+            margin-top: 0;
+            color: #5D689A;
+        }
+        
+        .note-box {
+            background-color: #fff9e6;
+            border-left: 4px solid #f0c020;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .highlight {
+            background-color: #fff9e6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="readme-container">
+        <div class="readme-header">
+            <h1>UMLSync — Open-Source UML Editor</h1>
+            <p style="font-size: 1.2rem; color: #666; margin: 0;">For Software Architecture</p>
+            <a href="https://github.com" class="github-link" target="_blank">Follow me on GitHub</a>
+        </div>
+        
+        <div class="readme-section">
+            <p>
+                <strong>UMLSync</strong> is an open-source, browser-based UML editor designed for software architects and developers who need a fast, practical way to create and maintain architecture diagrams.
+            </p>
+            <p>
+                It focuses on clarity, speed, and documentation-friendly workflows, without relying on heavyweight desktop tools or noisy automatic diagram generation.
+            </p>
+        </div>
+        
+        <div class="readme-section">
+            <h2>What UMLSync Is</h2>
+            <ul>
+                <li>A web-based UML editor that runs in any modern browser</li>
+                <li>Fully open source</li>
+                <li>Optimized for manual and semi-automated diagram creation</li>
+                <li>Designed to keep architecture diagrams close to documentation</li>
+            </ul>
+            <p>
+                UMLSync is not tied to any specific platform or IDE and can be used independently in different environments.
+            </p>
+        </div>
+        
+        <div class="readme-section">
+            <h2>Core Principles</h2>
+            
+            <div class="value-item">
+                <h3>⚡ Fast and Intentional Diagram Creation</h3>
+                <p>
+                    Many developers avoid UML because traditional tools are slow and overcomplicated.
+                </p>
+                <p>
+                    UMLSync avoids fully automated diagram generation, which often produces large and hard-to-read diagrams. Instead, it encourages creating only meaningful elements, focusing on architectural intent rather than completeness.
+                </p>
+                <p>
+                    <strong>Typical results:</strong>
+                </p>
+                <ul>
+                    <li>Traditional tools: ~10 minutes per diagram (existing code)</li>
+                    <li>UMLSync: ~2 minutes for a focused, useful diagram</li>
+                </ul>
+            </div>
+            
+            <div class="value-item">
+                <h3>📝 Diagrams as Part of Documentation</h3>
+                <p>
+                    Architecture diagrams are most useful when they live next to the explanation.
+                </p>
+                <p>
+                    UMLSync is designed to integrate naturally with:
+                </p>
+                <ul>
+                    <li>Markdown documentation</li>
+                    <li>Design notes</li>
+                    <li>Architecture descriptions</li>
+                </ul>
+                <p>
+                    This removes the need to maintain multiple representations of the same diagram (editor format + exported images) and helps documentation stay consistent across time and revisions.
+                </p>
+            </div>
+            
+            <div class="value-item">
+                <h3>🔗 Easy Sharing</h3>
+                <p>
+                    Diagrams can be:
+                </p>
+                <ul>
+                    <li>stored as regular files</li>
+                    <li>referenced from documentation</li>
+                    <li>shared with colleagues as links or embedded content</li>
+                </ul>
+                <p>
+                    The goal is to make architectural diagrams easy to share, review, and evolve without additional tooling or format conversions.
+                </p>
+            </div>
+        </div>
+        
+        <div class="readme-section">
+            <h2>Target Audience</h2>
+            <p>UMLSync is built for:</p>
+            <ul>
+                <li>Software architects documenting systems based on existing code</li>
+                <li>Developers maintaining architectural documentation</li>
+                <li>Open-source contributors providing internal design documentation</li>
+                <li>Technical writers and developer bloggers</li>
+                <li>Teams that need lightweight UML without enterprise tooling overhead</li>
+            </ul>
+        </div>
+        
+        <div class="readme-section">
+            <h2>Roadmap & Future Integrations</h2>
+            <p>
+                UMLSync is not a GitHub-specific tool today, but future integrations are planned.
+            </p>
+            <p>
+                <strong>Ideas under consideration:</strong>
+            </p>
+            <ul>
+                <li>Chrome extension for rendering embedded UML diagrams on GitHub</li>
+                <li>VS Code extension for viewing and editing UML diagrams inside the editor</li>
+                <li>Embeddable UML viewers for external documentation platforms</li>
+            </ul>
+            <div class="note-box">
+                <strong>Note:</strong> These are future goals, not current features.
+            </div>
+        </div>
+        
+        <div class="readme-section">
+            <h2>Extended Project Scope</h2>
+            <ul>
+                <li>Framework for UML-related tools and extensions</li>
+                <li>Integration with Markdown and content editors</li>
+                <li>Embeddable diagram viewers for external platforms</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
