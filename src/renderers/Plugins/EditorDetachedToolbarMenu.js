@@ -814,24 +814,22 @@ ${this.getHtmlToolbar()}
 
     this.styleCarousel = new PreviewStyleCarouselComponent(
       $carouselContainer,
-      this.styleManager.getSystemStyles(),
+      this.#getSortedSystemStyles(),
       {
         trackId: 'us-ds-carousel-track',
-        onSave: (style) => {
-          this.styleManager.saveUserStyle(style);
-          this.savedStyleCarousel.refresh(this.styleManager.getUserStyles());
-        }
+        onPin: (style) => this.#togglePin(style, this.styleCarousel, () => this.#getSortedSystemStyles())
       });
 
     this.savedStyleCarousel = new PreviewStyleCarouselComponent(
       $carouselContainer,
-      this.styleManager.getUserStyles(),
+      this.#getSortedUserStyles(),
       {
         trackId: 'us-ds-saved-carousel-track',
         onRemove: (id) => {
           this.styleManager.removeUserStyle(id);
-          this.savedStyleCarousel.refresh(this.styleManager.getUserStyles());
+          this.savedStyleCarousel.refresh(this.#getSortedUserStyles());
         },
+        onPin: (style) => this.#togglePin(style, this.savedStyleCarousel, () => this.#getSortedUserStyles()),
         emptyState: {
           title: 'Saved styles will be visible here',
           message: 'Save a style from the Style panel to quickly access it here.'
@@ -843,6 +841,13 @@ ${this.getHtmlToolbar()}
       this.#extractProjectStyles(),
       {
         trackId: 'us-ds-used-carousel-track',
+        onSave: (style) => {
+          if (this.#isStyleAlreadySaved(style)) {
+            return;
+          }
+          this.styleManager.saveUserStyle(style);
+          this.savedStyleCarousel.refresh(this.#getSortedUserStyles());
+        },
         emptyState: {
           icon: PROJECT_EMPTY_ICON,
           title: 'No styles in this project yet',
@@ -1185,6 +1190,37 @@ ${this.getHtmlToolbar()}
   }
 
   //
+  // Private: pinning support for the system/saved style carousels. Pinned
+  // styles sort first within their own list; the pin icon itself is filled
+  // (dark) when pinned, muted when not - see PreviewStyleCarouselComponent.
+  //
+  #getSortedSystemStyles() {
+    return this.#sortByPin(this.styleManager.getSystemStyles());
+  }
+
+  #getSortedUserStyles() {
+    return this.#sortByPin(this.styleManager.getUserStyles());
+  }
+
+  #sortByPin(styles) {
+    const pinnedIds = new Set(this.styleManager.getPinnedStyleIds());
+    const annotated = styles.map((style) => ({ ...style, pinned: pinnedIds.has(style.id) }));
+    return [
+      ...annotated.filter((style) => style.pinned),
+      ...annotated.filter((style) => !style.pinned)
+    ];
+  }
+
+  #togglePin(style, carousel, getSortedStyles) {
+    if (style.pinned) {
+      this.styleManager.unpinStyle(style.id);
+    } else {
+      this.styleManager.pinStyle(style.id);
+    }
+    carousel.refresh(getSortedStyles());
+  }
+
+  //
   // Private: derive the styles currently used in this project (diagram) from
   // its live elements/connectors. Not persisted and not part of the
   // IStyleManager API - recomputed on demand each time the "used" tab is
@@ -1266,6 +1302,18 @@ ${this.getHtmlToolbar()}
       }
     });
     return result;
+  }
+
+  //
+  // Compares by connector/element content, not id - a project style's id is
+  // synthesized per-extraction (see #extractProjectStyles()) so it never
+  // matches a saved style's persisted id even when the style is identical.
+  //
+  #isStyleAlreadySaved(style) {
+    const key = JSON.stringify({ connector: style.connector || {}, element: style.element || {} });
+    return this.styleManager.getUserStyles().some((savedStyle) =>
+      JSON.stringify({ connector: savedStyle.connector || {}, element: savedStyle.element || {} }) === key
+    );
   }
 }
 

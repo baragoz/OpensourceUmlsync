@@ -21,6 +21,14 @@ class IStyleManager {
   // Returns true if a user style with `id` was found and removed.
   removeUserStyle(id) { throw new Error("IStyleManager.removeUserStyle() not implemented"); }
 
+  // Pinning: keeps a style (system or user, identified by id) at the front
+  // of its own list. Pure presentation state - it doesn't move a style
+  // between the system/user lists, it only marks it as pinned within
+  // whichever list it already belongs to.
+  getPinnedStyleIds() { throw new Error("IStyleManager.getPinnedStyleIds() not implemented"); }
+  pinStyle(id) { throw new Error("IStyleManager.pinStyle() not implemented"); }
+  unpinStyle(id) { throw new Error("IStyleManager.unpinStyle() not implemented"); }
+
   // The style currently applied to newly created elements/connectors.
   getDefaultStyle() { throw new Error("IStyleManager.getDefaultStyle() not implemented"); }
   setDefaultStyle(style) { throw new Error("IStyleManager.setDefaultStyle() not implemented"); }

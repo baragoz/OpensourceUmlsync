@@ -254,6 +254,18 @@ class DiagramEditor {
         return this.styleManager.removeUserStyle(id);
     }
 
+    getPinnedStyleIds() {
+        return this.styleManager.getPinnedStyleIds();
+    }
+
+    pinStyle(id) {
+        this.styleManager.pinStyle(id);
+    }
+
+    unpinStyle(id) {
+        this.styleManager.unpinStyle(id);
+    }
+
     getDefaultStyle() {
         return this.styleManager.getDefaultStyle();
     }

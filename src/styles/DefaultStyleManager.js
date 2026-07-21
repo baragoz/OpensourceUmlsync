@@ -16,6 +16,7 @@ class DefaultStyleManager extends IStyleManager {
     // in-memory fallback, used when localStorage access throws
     this.memoryUserStyles = [];
     this.memoryDefaultStyle = null;
+    this.memoryPinnedIds = [];
     this.styleCounter = 0;
   }
 
@@ -51,6 +52,26 @@ class DefaultStyleManager extends IStyleManager {
     }
     this.#writeUserStyles(filtered);
     return true;
+  }
+
+  getPinnedStyleIds() {
+    return this.#readPinnedIds();
+  }
+
+  pinStyle(id) {
+    const ids = this.#readPinnedIds();
+    if (!ids.includes(id)) {
+      ids.push(id);
+      this.#writePinnedIds(ids);
+    }
+  }
+
+  unpinStyle(id) {
+    const ids = this.#readPinnedIds();
+    const filtered = ids.filter((pinnedId) => pinnedId !== id);
+    if (filtered.length !== ids.length) {
+      this.#writePinnedIds(filtered);
+    }
   }
 
   getDefaultStyle() {
@@ -100,6 +121,23 @@ class DefaultStyleManager extends IStyleManager {
       window.localStorage.setItem(`${this.storageKey}:default`, JSON.stringify(style));
     } catch (e) {
       this.memoryDefaultStyle = style;
+    }
+  }
+
+  #readPinnedIds() {
+    try {
+      const raw = window.localStorage.getItem(`${this.storageKey}:pinned`);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return this.memoryPinnedIds;
+    }
+  }
+
+  #writePinnedIds(ids) {
+    try {
+      window.localStorage.setItem(`${this.storageKey}:pinned`, JSON.stringify(ids));
+    } catch (e) {
+      this.memoryPinnedIds = ids;
     }
   }
 }

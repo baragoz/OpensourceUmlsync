@@ -113,6 +113,10 @@ editor.removeUserStyle(id)        // -> boolean, true if a user style was remove
 
 editor.getDefaultStyle()          // -> { connector, element } applied to newly created items
 editor.setDefaultStyle(style)     // persist a new default style
+
+editor.getPinnedStyleIds()        // -> string[] ids of pinned styles (system or user)
+editor.pinStyle(id)               // pin a style - it sorts first within its own list (system/user)
+editor.unpinStyle(id)             // unpin a style
 ```
 
 The default implementation, `DefaultStyleManager` (`src/styles/DefaultStyleManager.js`),

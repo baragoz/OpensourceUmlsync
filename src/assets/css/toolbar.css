@@ -388,6 +388,26 @@
   background-color: #EEEFF8;
 }
 
+.us-ds-carousel-pin {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.us-ds-carousel-pin:hover {
+  background-color: #EEEFF8;
+}
+
 .us-ds-carousel-wrapper > .us-ds-carousel-empty {
   display: flex;
   align-items: center;
