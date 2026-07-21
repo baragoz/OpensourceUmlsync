@@ -31,13 +31,14 @@ const defaultState = {
 
 class EditorDetachedToolbarMenu {
   /**
-   * 
-   * @param { string } placeholder 
-   * @param { BaseDiagram } diagram 
-   * @param { Blackboard } blackboard 
-   * @param { Boolean } isDevMode 
+   *
+   * @param { string } placeholder
+   * @param { BaseDiagram } diagram
+   * @param { Blackboard } blackboard
+   * @param { Boolean } isDevMode
+   * @param { import("../../styles/IStyleManager").IStyleManager } styleManager
    */
-  constructor(placeholder, diagram, blackboard, isDevMode) {
+  constructor(placeholder, diagram, blackboard, isDevMode, styleManager) {
     this.placeholder = placeholder;
     this.nativeRef = $(placeholder);
 
@@ -45,6 +46,7 @@ class EditorDetachedToolbarMenu {
     this.blackboard = blackboard;
     this.toolbarElement = null;
     this.isDevMode = isDevMode;
+    this.styleManager = styleManager;
 
     // clone state
     this.state = { ...defaultState };
@@ -123,8 +125,8 @@ class EditorDetachedToolbarMenu {
   <path d="M12 14.5C13.3807 14.5 14.5 13.3807 14.5 12C14.5 10.6193 13.3807 9.5 12 9.5C10.6193 9.5 9.5 10.6193 9.5 12C9.5 13.3807 10.6193 14.5 12 14.5Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
     </div>
-<!-- icon for liked style list -->
-    <div id="us-icon-liked" class="us-dt-style-icon">
+<!-- icon for saved style list (user styles, via the style API) -->
+    <div id="us-icon-saved" class="us-dt-style-icon">
 <svg
   width="24"
   height="24"
@@ -153,8 +155,8 @@ class EditorDetachedToolbarMenu {
   />
 </svg>
     </div>
-<!-- icon for created/saved style list -->
-    <div id="us-icon-saved" class="us-dt-style-icon">
+<!-- icon for styles used in this diagram (not the API; computed from applied styles - not implemented yet) -->
+    <div id="us-icon-used" class="us-dt-style-icon">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
   <path d="M20.2743 7.6333L17.466 18.9083C17.266 19.75 16.516 20.3333 15.6493 20.3333H4.69929C3.44096 20.3333 2.54097 19.0999 2.91597 17.8916L6.4243 6.625C6.66597 5.84167 7.39098 5.29993 8.20765 5.29993H18.4576C19.2493 5.29993 19.9076 5.78326 20.1826 6.44993C20.341 6.80826 20.3743 7.21663 20.2743 7.6333Z" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10"/>
@@ -197,6 +199,10 @@ class EditorDetachedToolbarMenu {
     </div>
     <div class="us-ds-carousel-track" id="us-ds-carousel-track">
       <div class="us-ds-carousel-wrapper" id="us-ds-carousel-wrapper"></div>
+    </div>
+    <!-- saved (user) styles track, hidden until the saved tab is selected -->
+    <div class="us-ds-carousel-track" id="us-ds-saved-carousel-track" style="display: none;">
+      <div class="us-ds-carousel-wrapper" id="us-ds-saved-carousel-wrapper"></div>
     </div>
     <!-- edit container for editing current style -->
     <div class="us-dt-edit-container" id="us-dt-edit-container" style="display: none;">
@@ -703,8 +709,6 @@ ${this.getHtmlToolbar()}
 
     // Initialize style icon click handlers
     this.initStyleIcons();
-
-    this.initStyleIcons();
     this.initElementRow();
     this.initConnectorRow();
     this.initStyleCarouselRow();
@@ -718,7 +722,7 @@ ${this.getHtmlToolbar()}
     });
 
     this.defaultStylePreview =
-      new PreviewStyleComponent(this.nativeRef.find('.us-dt-style-preview'));
+      new PreviewStyleComponent(this.nativeRef.find('.us-dt-style-preview'), this.styleManager.getDefaultStyle());
 
     //
     // PIN / UN-PIN ROW
@@ -730,36 +734,45 @@ ${this.getHtmlToolbar()}
   }
 
   initStyleIcons() {
-    const carouselContainer = this.nativeRef.find('#us-ds-carousel-track');
+    const systemContainer = this.nativeRef.find('#us-ds-carousel-track');
+    const savedContainer = this.nativeRef.find('#us-ds-saved-carousel-track');
     const arrows = this.nativeRef.find('.us-ds-carousel-arrow');
     const editContainer = this.nativeRef.find('#us-dt-edit-container');
     const systemIcon = this.nativeRef.find('#us-icon-system');
-    const likedIcon = this.nativeRef.find('#us-icon-liked');
+    // Backed by the style API's user styles (getUserStyles/saveUserStyle/removeUserStyle).
     const savedIcon = this.nativeRef.find('#us-icon-saved');
+    // Not backed by the style API - reserved for a future "styles used in this
+    // diagram" view computed from applied element/connector styles.
+    const usedIcon = this.nativeRef.find('#us-icon-used');
     const editIcon = this.nativeRef.find('#us-icon-edit');
 
     // Handle icon clicks
     systemIcon.on('click', () => {
-      carouselContainer.show();
+      systemContainer.show();
+      savedContainer.hide();
       arrows.show();
       editContainer.hide();
       this.updateIconSelection('system');
     });
 
-    likedIcon.on('click', () => {
-      carouselContainer.show();
-      editContainer.hide();
-      this.updateIconSelection('liked');
-    });
-
     savedIcon.on('click', () => {
-      carouselContainer.show();
+      systemContainer.hide();
+      savedContainer.show();
+      arrows.show();
       editContainer.hide();
       this.updateIconSelection('saved');
     });
 
+    usedIcon.on('click', () => {
+      systemContainer.show();
+      savedContainer.hide();
+      editContainer.hide();
+      this.updateIconSelection('used');
+    });
+
     editIcon.on('click', () => {
-      carouselContainer.hide();
+      systemContainer.hide();
+      savedContainer.hide();
       arrows.hide();
       editContainer.show();
       this.updateIconSelection('edit');
@@ -775,13 +788,38 @@ ${this.getHtmlToolbar()}
   }
 
   initStyleCarouselRow() {
+    const $carouselContainer = this.nativeRef.find('.us-ds-carousel-container');
+
     this.styleCarousel = new PreviewStyleCarouselComponent(
-      this.nativeRef.find('.us-ds-carousel-container'));
+      $carouselContainer,
+      this.styleManager.getSystemStyles(),
+      {
+        trackId: 'us-ds-carousel-track',
+        onSave: (style) => {
+          this.styleManager.saveUserStyle(style);
+          this.savedStyleCarousel.refresh(this.styleManager.getUserStyles());
+        }
+      });
+
+    this.savedStyleCarousel = new PreviewStyleCarouselComponent(
+      $carouselContainer,
+      this.styleManager.getUserStyles(),
+      {
+        trackId: 'us-ds-saved-carousel-track',
+        onRemove: (id) => {
+          this.styleManager.removeUserStyle(id);
+          this.savedStyleCarousel.refresh(this.styleManager.getUserStyles());
+        },
+        emptyState: {
+          title: 'Saved styles will be visible here',
+          message: 'Save a style from the Style panel to quickly access it here.'
+        }
+      });
 
     // Initialize carousel scroll functionality
     this.initCarouselScroll();
 
-    this.styleCarousel.setListener((options) => {
+    const onStyleSelected = (options) => {
 
       if (!this.state.pinRows)
         this.dispatch('showStyleRow', 'toggle-row');
@@ -809,12 +847,17 @@ ${this.getHtmlToolbar()}
         delete clone.connector.text;
         this.defaultStylePreview.updateOptions(clone);
 
+        this.styleManager.setDefaultStyle(this.defaultStylePreview.options);
+
         //
         // TODO: Sync up element/connector rows!!!!
         //
         this.postDefaultStylesOnBlackboard();
       }
-    });
+    };
+
+    this.styleCarousel.setListener(onStyleSelected);
+    this.savedStyleCarousel.setListener(onStyleSelected);
   }
 
   initCarouselScroll() {

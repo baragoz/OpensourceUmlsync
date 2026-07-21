@@ -9,6 +9,7 @@ import { PackageDiagram } from "../diagrams/PackageDiagram";
 import { ComponentsDiagram } from "../diagrams/ComponentsDiagram";
 import { StateDiagram } from "../diagrams/StateDiagram";
 import { SequenceDiagram } from "../diagrams/SequenceDiagram";
+import { DefaultStyleManager } from "../styles/DefaultStyleManager";
 
 
 class DiagramEditor {
@@ -41,6 +42,17 @@ class DiagramEditor {
         // Subscribe to parent selector resize events
         //
         this.#subscribeToResize();
+
+        //
+        // Style manager: system/user style catalog + default style, shared by
+        // every diagram loaded into this editor (unlike hotKeyManager, it is
+        // NOT re-created per loadDiagram() call - styles are editor-wide, not
+        // diagram-scoped). `styleManager` option unset -> default
+        // DefaultStyleManager (localStorage-backed); a class -> instantiated
+        // once instead, given `{ storageKey }`.
+        //
+        const StyleManagerClass = this.options.styleManager || DefaultStyleManager;
+        this.styleManager = new StyleManagerClass({ storageKey: `umlsync:styles:${this.options.id}` });
     }
 
     getNextGlobalId() {
@@ -121,7 +133,8 @@ class DiagramEditor {
         //
         let pm = new EditorPluginManager({
             devmode: this.options.devmode,
-            hotKeyManager: this.options.hotKeyManager
+            hotKeyManager: this.options.hotKeyManager,
+            styleManager: this.styleManager
         });
 
         const diagramMap = {
@@ -220,6 +233,33 @@ class DiagramEditor {
             return;
         }
         blackboard.addEventListener('opman:changed', () => this.#notifyUndoRedoListeners());
+    }
+
+    //
+    // Style API - see src/styles/IStyleManager.js
+    //
+    getSystemStyles() {
+        return this.styleManager.getSystemStyles();
+    }
+
+    getUserStyles() {
+        return this.styleManager.getUserStyles();
+    }
+
+    saveUserStyle(style) {
+        return this.styleManager.saveUserStyle(style);
+    }
+
+    removeUserStyle(id) {
+        return this.styleManager.removeUserStyle(id);
+    }
+
+    getDefaultStyle() {
+        return this.styleManager.getDefaultStyle();
+    }
+
+    setDefaultStyle(style) {
+        this.styleManager.setDefaultStyle(style);
     }
 
     setOption(key, value) {

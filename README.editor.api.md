@@ -28,6 +28,7 @@ new DiagramEditor(domSelector, options)
 | `fitToParent` | `false` | If set, the editor ignores `width`/`height` and always resizes to match the parent element's bounding rect (also re-applied on window resize). |
 | `shareCanvas` | `false` | If set, diagrams don't allocate their own `<canvas>` (`multicanvas: false`) — for multi-tab setups sharing one canvas. |
 | `hotKeyManager` | unset | `unset` → default `EditorHotKeysEvents` (Ctrl+A/X/C/V, Delete, Ctrl+Z/Y); `false` → no hotkey manager at all; a class → instantiated instead of the default, given `(diagram, blackboard, editorConfig)`. See [README.hotkeys.md](README.hotkeys.md). |
+| `styleManager` | unset | `unset` → default `DefaultStyleManager` (localStorage-backed); a class → instantiated once instead, given `{ storageKey }`. Unlike `hotKeyManager`, it is built once per `DiagramEditor` and shared across every `loadDiagram()`/`createDiagram()` call, since styles are editor-wide rather than diagram-scoped. See "Styles" below. |
 
 ## Loading a diagram
 
@@ -95,6 +96,30 @@ fresh diagram always starts with `canUndo`/`canRedo` both `false`). Ctrl+Z / Ctr
 needs `onUndoRedoChange` for toolbar button state, not to make the hotkeys work.
 
 See `examples/jsm/example.js` (`#us-ex-undo`/`#us-ex-redo`) for a working example.
+
+## Styles
+
+A `style` is `{ id, connector: {...}, element: {...} }` (`connector`/`element` use the
+same option keys as the toolbar's style editing rows - `color`, `font-family`,
+`font-size`, `font-color`, `bold`, etc.). Style storage/retrieval is delegated to a
+`styleManager` (see `styleManager` option above and `src/styles/IStyleManager.js`),
+built once per `DiagramEditor` and shared across every diagram loaded into it:
+
+```js
+editor.getSystemStyles()          // -> [{ id, connector, element }, ...] read-only presets
+editor.getUserStyles()            // -> [{ id, connector, element }, ...] user-saved styles
+editor.saveUserStyle(style)       // persists { connector, element }, returns the new id
+editor.removeUserStyle(id)        // -> boolean, true if a user style was removed
+
+editor.getDefaultStyle()          // -> { connector, element } applied to newly created items
+editor.setDefaultStyle(style)     // persist a new default style
+```
+
+The default implementation, `DefaultStyleManager` (`src/styles/DefaultStyleManager.js`),
+persists user styles and the default style to `localStorage`, namespaced per editor
+`id` option, seeded with the built-in presets in `src/styles/defaultSystemStyles.js`.
+Pass a class implementing `IStyleManager` as `styleManager` to back styles with
+something else (e.g. a server-backed store) instead.
 
 ## Reusable editor actions
 

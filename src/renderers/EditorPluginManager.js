@@ -126,7 +126,7 @@ class EditorPluginManager extends IDiagramObserver {
     //       the default style values
     //
     diagram.setUserData("plugin-editor-toolbar", new EditorDetachedToolbarMenu(
-      this.getToolbarPlaceholder(diagram), diagram, this.blackboard, this.options.devmode));
+      this.getToolbarPlaceholder(diagram), diagram, this.blackboard, this.options.devmode, this.options.styleManager));
 
     // notify observers
     this.blackboard.notify('diagram:add', diagram);

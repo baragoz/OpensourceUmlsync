@@ -1,84 +1,36 @@
 import { PreviewStyleComponent } from "./PreviewStyleComponent";
 
-
-const randomFontTypes = [
-    'Vernada',
-    'Serif',
-    'Arial',
-    'Roboto',
-    'Nunito Sans'
-];
-
-const randomBackgroundColors = [
-    '#FFD700', // Gold
-    '#87CEEB', // Sky Blue
-    '#90EE90', // Light Green
-    '#FFB6C1', // Light Pink
-    '#FFA07A', // Light Salmon
-    '#9370DB', // Medium Purple
-    '#F0E68C', // Khaki
-    '#00CED1', // Dark Turquoise
-    '#F5DEB3', // Wheat
-    '#DDA0DD', // Plum
-    '#A9A9A9', // Dark Gray
-    '#40E0D0'  // Turquoise
-  ];
-
-  const umlFontColors = [
-    '#5A4100', // for #FFD700 (Gold) – deep brown
-    '#084C61', // for #87CEEB (Sky Blue) – steel blue
-    '#14532D', // for #90EE90 (Light Green) – forest green
-    '#A00040', // for #FFB6C1 (Light Pink) – deep rose
-    '#7B2D00', // for #FFA07A (Light Salmon) – brick orange
-    '#E6D6FF', // for #9370DB (Medium Purple) – soft lilac
-    '#665C00', // for #F0E68C (Khaki) – mustard olive
-    '#004F59', // for #00CED1 (Dark Turquoise) – ocean teal
-    '#6B4E16', // for #F5DEB3 (Wheat) – earthy brown
-    '#5E3366', // for #DDA0DD (Plum) – muted violet
-    '#F0F0F0', // for #A9A9A9 (Dark Gray) – light silver gray
-    '#005A63'  // for #40E0D0 (Turquoise) – cool navy
-  ];
-  
-
-  function makeRandomStyles() {
-    const previewStyles = Array.from({ length: 12 }, (_, i) => ({
-      connector: {
-        // text: `Label ${i + 1}`,
-        text: 'Label',
-        'font-family': 'Arial',
-        'font-size': `${12 + i}px`,
-        'font-color': `#${Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')}`,
-        'font-bg': '#ffffff',
-        bold: false,
-        italic: false,
-        underline: false,
-        color: `#${Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')}`, // for line color
-        'line-width': 1 + (i % 4)
-      },
-      element: {
-        //text: `Box ${i + 1}`,
-        text: "Box",
-        'font-family': randomFontTypes[i % 5],
-        'font-size': `${10 + 2 * i % 10}px`,
-        'font-color': umlFontColors[i % 12],
-        color: randomBackgroundColors[i % 12],
-        bold: false,
-        italic: false,
-        underline: false
-      }
-    }));
-    return previewStyles;
-}
-
 class PreviewStyleCarouselComponent {
-    constructor($container, styles) {
+    /**
+     * @param {*} $container
+     * @param {Array<{id, connector, element}>} styles
+     * @param {Object} [options]
+     * @param {(id: string) => void} [options.onRemove] when set, each swatch
+     *   gets a remove ("x") control that calls back with the swatch's style
+     *   id - used for the "saved styles" carousel.
+     * @param {(style: {id, connector, element}) => void} [options.onSave]
+     *   when set, each swatch gets a bookmark/save control that calls back
+     *   with the swatch's style - used for the "system styles" carousel, to
+     *   save a preset into the user's saved styles.
+     * @param {string} [options.trackId] id of the track element to render
+     *   into, for containers with more than one track (system vs. saved
+     *   styles) - the matching wrapper is assumed to be
+     *   `${trackId replace 'track' -> 'wrapper'}`.
+     * @param {{title: string, message: string}} [options.emptyState] when
+     *   set and `styles` is empty, a placeholder with this title/message is
+     *   rendered instead of no swatches at all.
+     */
+    constructor($container, styles, { onRemove, onSave, trackId = "us-ds-carousel-track", emptyState } = {}) {
         this.$container = $container;
-        this.$track = $container.find("#us-ds-carousel-track");
-        this.$wrapper = $container.find("#us-ds-carousel-wrapper");
+        this.$track = $container.find(`#${trackId}`);
+        this.$wrapper = $container.find(`#${trackId.replace("-track", "-wrapper")}`);
         // Use wrapper if it exists, otherwise fall back to track
         this.$contentContainer = this.$wrapper.length ? this.$wrapper : this.$track;
         this.currentOffset = 0;
-        this.init(styles || makeRandomStyles());
+        this.onRemove = onRemove;
+        this.onSave = onSave;
+        this.emptyState = emptyState;
+        this.init(styles || []);
         // Arrow binding is now handled in EditorDetachedToolbarMenu.initCarouselScroll()
         // this.bindArrows();
 
@@ -90,10 +42,15 @@ class PreviewStyleCarouselComponent {
 
         this.listener = null;
       }
-  
+
       init(styles) {
+        if (!styles.length && this.emptyState) {
+          this.renderEmptyState();
+          return;
+        }
+
         styles.forEach(style => {
-          new PreviewStyleComponent(this.$contentContainer, style, (styleValue) => {
+          const preview = new PreviewStyleComponent(this.$contentContainer, style, (styleValue) => {
             //
             // apply listener
             //
@@ -101,7 +58,60 @@ class PreviewStyleCarouselComponent {
                 this.listener(styleValue);
             }
           });
+
+          if (this.onRemove) {
+            const $removeBtn = $('<button type="button" class="us-ds-carousel-remove" title="Remove style">&times;</button>');
+            $removeBtn.on('click', (e) => {
+              e.stopPropagation();
+              this.onRemove(style.id);
+            });
+            preview.$el.append($removeBtn);
+          }
+
+          if (this.onSave) {
+            const $saveBtn = $(`
+              <button type="button" class="us-ds-carousel-save" title="Save style">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
+                  <path d="M5.5 4.75C5.5 4.06 6.06 3.5 6.75 3.5H17.25C17.94 3.5 18.5 4.06 18.5 4.75V20L12 16.45L5.5 20V4.75Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 6.75H15" stroke="#54577A" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>`);
+            $saveBtn.on('click', (e) => {
+              e.stopPropagation();
+              this.onSave(style);
+            });
+            preview.$el.append($saveBtn);
+          }
         });
+      }
+
+      renderEmptyState() {
+        const { title, message } = this.emptyState;
+        const $empty = $(`
+          <div class="us-ds-carousel-empty">
+            <div class="us-ds-carousel-empty-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.5 4.75C5.5 4.06 6.06 3.5 6.75 3.5H17.25C17.94 3.5 18.5 4.06 18.5 4.75V20L12 16.45L5.5 20V4.75Z" stroke="#B7BAD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 6.75H15" stroke="#B7BAD1" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="us-ds-carousel-empty-text">
+              <div class="us-ds-carousel-empty-title"></div>
+              <div class="us-ds-carousel-empty-subtitle"></div>
+            </div>
+          </div>`);
+        $empty.find('.us-ds-carousel-empty-title').text(title);
+        $empty.find('.us-ds-carousel-empty-subtitle').text(message);
+        this.$contentContainer.append($empty);
+      }
+
+      //
+      // Replace the currently rendered swatches, e.g. after a save/remove.
+      //
+      refresh(styles) {
+        this.$contentContainer.empty();
+        this.init(styles || []);
       }
 
       //

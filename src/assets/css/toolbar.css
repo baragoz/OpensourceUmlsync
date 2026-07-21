@@ -348,6 +348,88 @@
   gap: 8px;
 }
 
+.us-ds-carousel-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  line-height: 16px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(84, 87, 122, 0.8);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.us-ds-carousel-remove:hover {
+  background-color: #A00040;
+}
+
+.us-ds-carousel-save {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.us-ds-carousel-save:hover {
+  background-color: #EEEFF8;
+}
+
+.us-ds-carousel-wrapper > .us-ds-carousel-empty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: none;
+  margin-right: 0;
+  padding: 16px;
+  border: 1px dashed #C7CAE0;
+  border-radius: 10px;
+  background-color: #FAFBFF;
+  white-space: normal;
+  vertical-align: top;
+}
+
+.us-ds-carousel-wrapper > .us-ds-carousel-empty:hover {
+  border: 1px dashed #C7CAE0;
+}
+
+.us-ds-carousel-empty-icon {
+  flex: 0 0 auto;
+  display: flex;
+}
+
+.us-ds-carousel-empty-text {
+  min-width: 0;
+}
+
+.us-ds-carousel-empty-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2E3050;
+  margin-bottom: 2px;
+}
+
+.us-ds-carousel-empty-subtitle {
+  font-size: 13px;
+  color: #8E92BC;
+  line-height: 1.4;
+  white-space: normal;
+}
+
 .us-dt-edit-label {
   font-size: 14px;
   font-weight: 500;
@@ -391,6 +473,7 @@
 
 /* Preview style component */
 .us-dc-preview-style {
+  position: relative;
   font-family: sans-serif;
   display: inline-block;
   padding: 10px;
