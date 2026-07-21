@@ -21,6 +21,22 @@ class SQDestroyElement extends BaseElement {
         super._update();
     }
 
+    _updateJsonModel( key, value ) {
+        if (key === "color") {
+            // always black X lines, color is not configurable
+            return;
+        }
+        super._updateJsonModel(key, value);
+    }
+
+    _setOption( key, value ) {
+        if (key === "color") {
+            // always black X lines, color is not configurable
+            return;
+        }
+        super._setOption(key, value);
+    }
+
     _create() {
         // it is just X - SVG element, no coloring options, may be 
         // slighttly resizeable

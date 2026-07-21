@@ -22,7 +22,16 @@ class SQObjectInstanceElement extends BaseElement {
     _update() {
         super._update();
         // Additional option for update
-        
+
+    }
+
+    _updateJsonModel( key, value ) {
+        if (key === "color") {
+            this.nativeRef.find(".grElement").css("background-color", value || "none");
+            this.jsonModel[key] = value;
+        } else {
+            super._updateJsonModel(key, value);
+        }
     }
 
     _create() {
