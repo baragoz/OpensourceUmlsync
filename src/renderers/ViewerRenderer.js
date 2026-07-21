@@ -1,7 +1,7 @@
 class ViewerRenderer {
-    constructor(diagram) {
-        this.diagram = diagram;
-    }
+  constructor(diagram) {
+    this.diagram = diagram;
+  }
 }
 
-export {ViewerRenderer}
+export { ViewerRenderer };

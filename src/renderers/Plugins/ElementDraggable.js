@@ -4,7 +4,9 @@ class ElementDraggable {
     this.diagram = element.diagram;
     this.init(element, nativeBorderRef, blackboard);
     blackboard.addEventListener(
-      'storage:editmode', this.onEditModeChange.bind(this));
+      "storage:editmode",
+      this.onEditModeChange.bind(this),
+    );
   }
 
   //
@@ -14,49 +16,53 @@ class ElementDraggable {
     //
     // Check element has a DND limitations
     //
-    const axisDirections = element.options['axis'] || false;
+    const axisDirections = element.options["axis"] || false;
 
     this.diagram = element.diagram;
 
     // Keep ref on self
     let self = this;
 
-
     // Make element draggable
     nativeBorderRef.draggable({
       // to prevent jumping of element on resize start
-      'containment': "#" + self.diagram.euid,
-      'grid': [2, 2],
-      'scroll': true,
-      'start': function (event, ui) {
+      containment: "#" + self.diagram.euid,
+      grid: [2, 2],
+      scroll: true,
+      start: function (event, ui) {
         console.log("ElementDraggable START callback called", {
           elementEuid: element.euid,
-          dropHelper: self.diagram.dropHelper
+          dropHelper: self.diagram.dropHelper,
         });
         self.operation_start = { left: ui.position.left, top: ui.position.top };
         //
         // drop helper - create uml element directly from connector type icons menu above element
         //
         if (self.diagram.dropHelper) {
-          console.log("START: dropHelper is set! Creating connector and returning early", element.euid);
+          console.log(
+            "START: dropHelper is set! Creating connector and returning early",
+            element.euid,
+          );
           if (self.diagram.opman) {
             self.diagram.opman.record(() => {
               self.diagram.Connector(self.diagram.dropHelper, {
                 epoints: [
                   { x: 0, y: 0, euid: element.euid },
-                  { x: 100, y: 100, euid: "ConnectionHelper" }
-                ]
+                  { x: 100, y: 100, euid: "ConnectionHelper" },
+                ],
               });
             });
           } else {
             self.diagram.Connector(self.diagram.dropHelper, {
               epoints: [
                 { x: 0, y: 0, euid: element.euid },
-                { x: 100, y: 100, euid: "ConnectionHelper" }
-              ]
+                { x: 100, y: 100, euid: "ConnectionHelper" },
+              ],
             });
           }
-          console.log("START: About to return early - drag should still proceed");
+          console.log(
+            "START: About to return early - drag should still proceed",
+          );
           return;
         }
 
@@ -70,7 +76,7 @@ class ElementDraggable {
         // broadcast
         blackboard.notify("element:drag:start", element);
       },
-      'drag': function (event, ui) {
+      drag: function (event, ui) {
         // re-draw connectors
         self.diagram.draw();
 
@@ -83,17 +89,16 @@ class ElementDraggable {
         if (element.$moveit != undefined) {
           $("#" + element.$moveit).css("left", 200);
         }
-        self.diagram.onElementDragMove(element,
-          {
-            left: ui.position.left - self.operation_start.left,
-            top: ui.position.top - self.operation_start.top
-          });
+        self.diagram.onElementDragMove(element, {
+          left: ui.position.left - self.operation_start.left,
+          top: ui.position.top - self.operation_start.top,
+        });
       },
-      'stop': function (event, ui) {
+      stop: function (event, ui) {
         console.log("ElementDraggable STOP callback called", {
           elementEuid: element.euid,
           dropHelper: self.diagram.dropHelper,
-          position: { left: ui.position.left, top: ui.position.top }
+          position: { left: ui.position.left, top: ui.position.top },
         });
 
         //
@@ -112,11 +117,10 @@ class ElementDraggable {
 
         // Notify diagram on drag stop to
         // stop multiple elements DND process.
-        self.diagram.onElementDragStop(element,
-          {
-            left: ui.position.left - self.operation_start.left,
-            top: ui.position.top - self.operation_start.top
-          });
+        self.diagram.onElementDragStop(element, {
+          left: ui.position.left - self.operation_start.left,
+          top: ui.position.top - self.operation_start.top,
+        });
 
         element._update();
 
@@ -127,14 +131,16 @@ class ElementDraggable {
         // Notify another plugins ....
         blackboard.notify("element:drag:stop", element);
       },
-      'scope': element.options['droppable'],
-      'axis': axisDirections
+      scope: element.options["droppable"],
+      axis: axisDirections,
     });
   }
 
   onEditModeChange(change) {
-    this.element.nativeBorderRef.draggable(change.newValue ? "enable" : "disable");
+    this.element.nativeBorderRef.draggable(
+      change.newValue ? "enable" : "disable",
+    );
   }
 }
 
-export { ElementDraggable }
+export { ElementDraggable };

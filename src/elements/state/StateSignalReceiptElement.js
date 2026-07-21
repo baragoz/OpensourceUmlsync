@@ -1,39 +1,48 @@
 import { BaseElement } from "../BaseElement";
 
 class StateSignalReceiptElement extends BaseElement {
-    constructor(options, jsonModel, diagram) {
-        let defaultOptions = {
-            nameTemplate: "statesignalreceipt",
-            droppable: false,
-            midpoint: true,
-            ...options
-        };
-        let defaultjsonModel = {
-            'width': 130,
-            'height': 35,
-            ...jsonModel
-        };
+  constructor(options, jsonModel, diagram) {
+    let defaultOptions = {
+      nameTemplate: "statesignalreceipt",
+      droppable: false,
+      midpoint: true,
+      ...options,
+    };
+    let defaultjsonModel = {
+      width: 130,
+      height: 35,
+      ...jsonModel,
+    };
 
-        super(defaultOptions, defaultjsonModel, diagram);
+    super(defaultOptions, defaultjsonModel, diagram);
+  }
+
+  _update() {
+    super._update();
+  }
+
+  _updateJsonModel(key, value) {
+    if (key === "color") {
+      this.nativeRef
+        .find(".grElement")
+        .css("background-color", value || "none");
+      this.nativeRef
+        .find("#us-triangle-top-colored>svg>polygon")
+        .css("fill", value || "none");
+      this.nativeRef
+        .find("#us-triangle-bottom-colored>svg>polygon")
+        .css("fill", value || "none");
+      this.jsonModel[key] = value;
+    } else {
+      super._updateJsonModel(key, value);
     }
+  }
 
-    _update() {
-        super._update();
-    }
-
-    _updateJsonModel( key, value ) {
-        if (key === "color") {
-            this.nativeRef.find(".grElement").css("background-color", value || "none");
-            this.nativeRef.find("#us-triangle-top-colored>svg>polygon").css("fill", value || "none");
-            this.nativeRef.find("#us-triangle-bottom-colored>svg>polygon").css("fill", value || "none");
-            this.jsonModel[key] = value;
-        } else {
-            super._updateJsonModel(key, value);
-        }
-    }
-
-    _create() {
-        let innerHtml = '<div id="' + this.euid + '" class="us-state-signal-receipt us-element-resizable-area">\
+  _create() {
+    let innerHtml =
+      '<div id="' +
+      this.euid +
+      '" class="us-state-signal-receipt us-element-resizable-area">\
                         <div class="us-state-signal-receipt-container">\
                             <div class="us-triangle-container">\
                                 <div class="us-triangle-top">\
@@ -61,13 +70,14 @@ class StateSignalReceiptElement extends BaseElement {
                                     </div>\
                                 </div>\
                             </div>\
-                            <a class="editablefield grElement us-state-signal-receipt-text" tabindex="1">' + this.jsonModel.name + '</a>\
+                            <a class="editablefield grElement us-state-signal-receipt-text" tabindex="1">' +
+      this.jsonModel.name +
+      "</a>\
                         </div>\
-                        </div>';
+                        </div>";
 
-        this.diagram.nativeRef.append(innerHtml);
-    }
+    this.diagram.nativeRef.append(innerHtml);
+  }
 }
 
-export { StateSignalReceiptElement }
-
+export { StateSignalReceiptElement };

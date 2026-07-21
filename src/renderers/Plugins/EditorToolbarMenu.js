@@ -4,73 +4,86 @@ import { PreviewAlignComponent } from "./components/PreviewAlignComonent";
 import { PreviewColorPickerComponent } from "./components/PreviewColorPickerComponent";
 import { PreviewDiagramItemsDropdownComponent } from "./components/PreviewDiagramItemsDropdownComponent";
 
-class EditorToolbarMenu  {
-    constructor(placeholder, diagram, blackboard) {
-        this.placeholder = placeholder;
-        this.nativeRef = $(placeholder);
+class EditorToolbarMenu {
+  constructor(placeholder, diagram, blackboard) {
+    this.placeholder = placeholder;
+    this.nativeRef = $(placeholder);
 
-        this.diagram = diagram;
-        this.blackboard = blackboard;
-        this.toolbarElement = null;
+    this.diagram = diagram;
+    this.blackboard = blackboard;
+    this.toolbarElement = null;
 
-        /**
-         * @type {BaseElement}
-         */
-        this.selectedItem = null;
+    /**
+     * @type {BaseElement}
+     */
+    this.selectedItem = null;
 
-        this.jsonFiles =
-            ["componentDiagram", "classDiagram", "packageDiagram", "sequenceDiagram", "stateDiagram"];
-        
-        // Reference on diagram
-        this.setDiagram(diagram);
+    this.jsonFiles = [
+      "componentDiagram",
+      "classDiagram",
+      "packageDiagram",
+      "sequenceDiagram",
+      "stateDiagram",
+    ];
 
-        this.blackboard.addEventListener(
-            'storage:editmode', this.onEditModeChange.bind(this));
+    // Reference on diagram
+    this.setDiagram(diagram);
 
-        this.blackboard.addEventListener('diagram:item:select', this.onSelectItems.bind(this));
+    this.blackboard.addEventListener(
+      "storage:editmode",
+      this.onEditModeChange.bind(this),
+    );
 
+    this.blackboard.addEventListener(
+      "diagram:item:select",
+      this.onSelectItems.bind(this),
+    );
+  }
+
+  setDiagram(diagram) {
+    this.diagram = diagram;
+    if (!this.toolbarElement) this.loadToolbar();
+  }
+
+  async loadDropdowMenu(idx) {
+    const diagrams = await this.loadJSON(this.jsonFiles[idx]);
+
+    diagrams.forEach((diagram) => {
+      //
+      // Menu - elements
+      //
+      this.elementsPreview = new PreviewDiagramItemsDropdownComponent(
+        this.diagram,
+        ".us-placeholder-elements-dropdown",
+        diagram.elements,
+      );
+      //
+      // Menu - connectors
+      //
+      this.connectorsPreview = new PreviewDiagramItemsDropdownComponent(
+        this.diagram,
+        ".us-placeholder-connectors-dropdown",
+        diagram.connectors,
+      );
+    });
+  }
+
+  async loadJSON(file) {
+    try {
+      var x = configLoader.getConfig(file);
+      if (x) {
+        return x;
+      }
+      const response = await fetch("assets/config/" + file + ".json");
+      return await response.json();
+    } catch (error) {
+      console.error("Error loading JSON:", file, error);
+      return [];
     }
+  }
 
-    setDiagram(diagram) {
-        this.diagram = diagram;
-        if (!this.toolbarElement)
-          this.loadToolbar();
-    }
-
-    async loadDropdowMenu(idx) {
-
-        const diagrams = await this.loadJSON(this.jsonFiles[idx]);
-
-        diagrams.forEach(diagram => {
-            //
-            // Menu - elements
-            //
-            this.elementsPreview = new PreviewDiagramItemsDropdownComponent(
-                this.diagram, ".us-placeholder-elements-dropdown", diagram.elements);
-            //
-            // Menu - connectors
-            //
-            this.connectorsPreview = new PreviewDiagramItemsDropdownComponent(
-                this.diagram, ".us-placeholder-connectors-dropdown", diagram.connectors);
-        });
-    }
-
-    async loadJSON(file) {
-        try {
-            var x = configLoader.getConfig(file);
-            if (x) {
-                return x;
-            }
-            const response = await fetch("assets/config/" + file + ".json");
-            return await response.json();
-        } catch (error) {
-            console.error("Error loading JSON:", file, error);
-            return [];
-        }
-    }
-
-    async loadToolbar() {
-        this.toolbarElement = $(`
+  async loadToolbar() {
+    this.toolbarElement = $(`
   <div class="us-toolbar">
     <div class="us-placeholder-elements-dropdown"></div>
     <div class="us-div-separator"></div>
@@ -132,119 +145,115 @@ class EditorToolbarMenu  {
     </button>
   </div>`);
 
-        $(this.placeholder).empty();
-        $(this.placeholder).append(this.toolbarElement);
+    $(this.placeholder).empty();
+    $(this.placeholder).append(this.toolbarElement);
 
-        this.loadDropdowMenu(1, "class");
+    this.loadDropdowMenu(1, "class");
 
-        this.initToolbar();
-    }
+    this.initToolbar();
+  }
 
-    initToolbar() {
+  initToolbar() {
+    let self = this;
+    this.nativeRef.find("#us-text-font-style").on("change", function () {
+      const value = $(this).val();
+      if (self.selectedItem && self.selectedItem._updateJsonModel) {
+        self.selectedItem._updateJsonModel("font-family", value);
+      }
+    });
 
-        let self = this;
-        this.nativeRef.find('#us-text-font-style').on('change', function() {
-            const value = $(this).val();
-            if (self.selectedItem && self.selectedItem._updateJsonModel) {
-                self.selectedItem._updateJsonModel("font-family", value);
-            }
-          });
+    this.nativeRef.find("#us-text-font-size").on("change", function () {
+      const value = $(this).val();
+      if (self.selectedItem && self.selectedItem._updateJsonModel) {
+        let x = [13, 8, 10, 12, 14, 18, 24, 36];
+        self.selectedItem._updateJsonModel("font-size", x[value]);
+      }
+    });
 
-        this.nativeRef.find('#us-text-font-size').on('change', function() {
-            const value = $(this).val();
-            if (self.selectedItem && self.selectedItem._updateJsonModel) {
-                let x = [13, 8, 10, 12, 14, 18, 24, 36]
-                self.selectedItem._updateJsonModel("font-size", x[value]);
-            }
-          });
-
-        let textAlign = this.nativeRef.find("#us-text-align");
-        //
-        // B U I - bold/italic/underline
-        //
-        this.nativeRef.find("#us-text-bold").on("click", function() {
-                if (self.selectedItem && self.selectedItem._setOption) {
-                    if ($(this).hasClass("us-text-biu-active") ){
-                        $(this).removeClass("us-text-biu-active");
-                        self.selectedItem._setOption("font-weight", "normal");
-                    } else {
-                        $(this).addClass("us-text-biu-active");
-                        self.selectedItem._setOption("font-weight", "bold");
-                    }
-                }
-
-            
-        });
-        this.nativeRef.find("#us-text-italic").on("click", function() {
-            if (self.selectedItem && self.selectedItem._setOption) {
-                if ($(this).hasClass("us-text-biu-active") ){
-                    $(this).removeClass("us-text-biu-active");
-                    self.selectedItem._setOption("font-style", "normal");
-                } else {
-                    $(this).addClass("us-text-biu-active");
-                    self.selectedItem._setOption("font-style", "italic");
-                }
-            }
-        });
-        this.nativeRef.find("#us-text-underline").on("click", function() {
-            if (self.selectedItem && self.selectedItem._setOption) {
-                if ($(this).hasClass("us-text-biu-active") ){
-                    $(this).removeClass("us-text-biu-active");
-                    self.selectedItem._setOption("text-decoration", "none");
-                } else {
-                    $(this).addClass("us-text-biu-active");
-                    self.selectedItem._setOption("text-decoration", "underline");
-                }
-            }
-        });
-        //
-        // Color picker
-        //
-        this.connectorsColorPicker = new PreviewColorPickerComponent(
-            this.nativeRef.find("#us-text-color-picker"),
-            ["Connector Color", "Label Text Color", "Label Background"]);
-
-            this.connectorsColorPicker.onSelect((index, color) => {
-                if (this.selectedItem && this.selectedItem._updateJsonModel) {
-
-                    if (index === 0) {
-                      this.selectedItem._updateJsonModel("color", color);
-                    } else if (index === 1) {
-                      this.selectedItem._updateJsonModel("font-color", color);
-                    }
-                }
-            });
-
-        this.textAlign = new PreviewAlignComponent(textAlign, 1);
-
-        this.nativeRef.find("#us-text-save-button").on("click", function() {
-            if (self.selectedItem && self.selectedItem.diagram) {
-                let d = self.selectedItem.diagram.getDescription();
-                console.log("DESCRIPTION:");
-                console.log(JSON.stringify(d));
-            }
-        });
-    }
-
-    showColorPicker(show = true) {
-        this.loadColorPicker();
-
-        if (!this.colorPicker) {
-            return;
-        }
-
-        if (show) {
-            this.colorPicker.show();
+    let textAlign = this.nativeRef.find("#us-text-align");
+    //
+    // B U I - bold/italic/underline
+    //
+    this.nativeRef.find("#us-text-bold").on("click", function () {
+      if (self.selectedItem && self.selectedItem._setOption) {
+        if ($(this).hasClass("us-text-biu-active")) {
+          $(this).removeClass("us-text-biu-active");
+          self.selectedItem._setOption("font-weight", "normal");
         } else {
-            this.colorPicker.hide();
+          $(this).addClass("us-text-biu-active");
+          self.selectedItem._setOption("font-weight", "bold");
         }
+      }
+    });
+    this.nativeRef.find("#us-text-italic").on("click", function () {
+      if (self.selectedItem && self.selectedItem._setOption) {
+        if ($(this).hasClass("us-text-biu-active")) {
+          $(this).removeClass("us-text-biu-active");
+          self.selectedItem._setOption("font-style", "normal");
+        } else {
+          $(this).addClass("us-text-biu-active");
+          self.selectedItem._setOption("font-style", "italic");
+        }
+      }
+    });
+    this.nativeRef.find("#us-text-underline").on("click", function () {
+      if (self.selectedItem && self.selectedItem._setOption) {
+        if ($(this).hasClass("us-text-biu-active")) {
+          $(this).removeClass("us-text-biu-active");
+          self.selectedItem._setOption("text-decoration", "none");
+        } else {
+          $(this).addClass("us-text-biu-active");
+          self.selectedItem._setOption("text-decoration", "underline");
+        }
+      }
+    });
+    //
+    // Color picker
+    //
+    this.connectorsColorPicker = new PreviewColorPickerComponent(
+      this.nativeRef.find("#us-text-color-picker"),
+      ["Connector Color", "Label Text Color", "Label Background"],
+    );
+
+    this.connectorsColorPicker.onSelect((index, color) => {
+      if (this.selectedItem && this.selectedItem._updateJsonModel) {
+        if (index === 0) {
+          this.selectedItem._updateJsonModel("color", color);
+        } else if (index === 1) {
+          this.selectedItem._updateJsonModel("font-color", color);
+        }
+      }
+    });
+
+    this.textAlign = new PreviewAlignComponent(textAlign, 1);
+
+    this.nativeRef.find("#us-text-save-button").on("click", function () {
+      if (self.selectedItem && self.selectedItem.diagram) {
+        let d = self.selectedItem.diagram.getDescription();
+        console.log("DESCRIPTION:");
+        console.log(JSON.stringify(d));
+      }
+    });
+  }
+
+  showColorPicker(show = true) {
+    this.loadColorPicker();
+
+    if (!this.colorPicker) {
+      return;
     }
 
-    loadColorPicker() {
-        if (this.colorPicker)
-          return;
+    if (show) {
+      this.colorPicker.show();
+    } else {
+      this.colorPicker.hide();
+    }
+  }
 
-        this.colorPicker = $(`
+  loadColorPicker() {
+    if (this.colorPicker) return;
+
+    this.colorPicker = $(`
           <div class="us-color-picker" style="display: none;" onclick="event.stopPropagation()">
             <div class="us-color-labels">
               <span>Text Color</span>
@@ -262,50 +271,49 @@ class EditorToolbarMenu  {
             </div>
           </div>`);
 
-        $(this.placeholder).append(this.colorPicker);
-    }
+    $(this.placeholder).append(this.colorPicker);
+  }
 
+  //
+  // @valuePair - oldValue/newValue
+  //
+  onEditModeChange(valueChange) {
     //
-    // @valuePair - oldValue/newValue
+    // Show/hide an entire menu
     //
-    onEditModeChange(valueChange) {
-        //
-        // Show/hide an entire menu
-        //
-        if (valueChange.newValue) {
-            $("#dw-uml-sidebar").addClass("us-show-sidemenu").show();
-        } else {
-            $("#dw-uml-sidebar").removeClass("us-show-sidemenu").hide();
-        }
+    if (valueChange.newValue) {
+      $("#dw-uml-sidebar").addClass("us-show-sidemenu").show();
+    } else {
+      $("#dw-uml-sidebar").removeClass("us-show-sidemenu").hide();
     }
+  }
 
-    onSelectItems(listOfItems) {
+  onSelectItems(listOfItems) {
+    console.log("ON ITEMS SELECT", listOfItems);
 
-        console.log("ON ITEMS SELECT", listOfItems);
+    let item = listOfItems.length > 0 ? listOfItems[0] : null;
 
-        let item = listOfItems.length > 0 ? listOfItems[0] : null;
-
-        if (this.selectedItem == item) {
-            // nothing change
-            return;
-        }
-        this.selectedItem = item;
-        this.toggleElementEditing(item === null)
+    if (this.selectedItem == item) {
+      // nothing change
+      return;
     }
+    this.selectedItem = item;
+    this.toggleElementEditing(item === null);
+  }
 
-    toggleElementEditing(disable) {
-        $("#us-text-font-style").prop("disabled", disable);
-        $("#us-text-font-size").prop("disabled", disable);
-        $("#us-text-color-picker").prop("disabled", disable);
+  toggleElementEditing(disable) {
+    $("#us-text-font-style").prop("disabled", disable);
+    $("#us-text-font-size").prop("disabled", disable);
+    $("#us-text-color-picker").prop("disabled", disable);
 
-        this.nativeRef.find("#us-text-align").prop("disabled", disable);
-        //
-        // B U I - bold/italic/underline
-        //
-        this.nativeRef.find("#us-text-bold").prop("disabled", disable);
-        this.nativeRef.find("#us-text-italic").prop("disabled", disable);
-        this.nativeRef.find("#us-text-underline").prop("disabled", disable);
-    }
+    this.nativeRef.find("#us-text-align").prop("disabled", disable);
+    //
+    // B U I - bold/italic/underline
+    //
+    this.nativeRef.find("#us-text-bold").prop("disabled", disable);
+    this.nativeRef.find("#us-text-italic").prop("disabled", disable);
+    this.nativeRef.find("#us-text-underline").prop("disabled", disable);
+  }
 }
 
-export { EditorToolbarMenu }
+export { EditorToolbarMenu };

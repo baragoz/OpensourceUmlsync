@@ -1,37 +1,37 @@
-import {BaseConnector} from '../BaseConnector';
+import { BaseConnector } from "../BaseConnector";
 
 const defaultOptions = {
-  nameTemplate: 'sqselfmessage'
-}
+  nameTemplate: "sqselfmessage",
+};
 
 class SQSelfMessageConnector extends BaseConnector {
   constructor(options, jsonModel, diagram) {
-    super({...defaultOptions, ...options}, jsonModel, diagram);
+    super({ ...defaultOptions, ...options }, jsonModel, diagram);
   }
 
   draw(c, points, color) {
-    if ((points == null) || (points.length < 2)) {
+    if (points == null || points.length < 2) {
       return;
     }
-    var ep = points.length-1;
+    var ep = points.length - 1;
     var x2 = points[ep].x,
-    x1 = points[ep-1].x,
-    y2 = points[ep].y,
-    y1 = points[ep-1].y;
+      x1 = points[ep - 1].x,
+      y2 = points[ep].y,
+      y1 = points[ep - 1].y;
 
     var x = 10,
-        dx = x2 -x1,
-        dy = y2 -y1,
-        gip = Math.sqrt(dx*dx + dy*dy);
+      dx = x2 - x1,
+      dy = y2 - y1,
+      gip = Math.sqrt(dx * dx + dy * dy);
 
-    var sina = dy/gip,
-    cosa = dx/gip,
-    x3 = x2 - Math.sqrt(x*x*3/4)*cosa,
-    y3 = y2 - Math.sqrt(x*x*3/4)*sina,
-    x4 = x3 + x * sina/2,
-    y4 = y3 - x * cosa/2,
-    x5 = x3 - x * sina/2,
-    y5 = y3 + x * cosa/2;
+    var sina = dy / gip,
+      cosa = dx / gip,
+      x3 = x2 - Math.sqrt((x * x * 3) / 4) * cosa,
+      y3 = y2 - Math.sqrt((x * x * 3) / 4) * sina,
+      x4 = x3 + (x * sina) / 2,
+      y4 = y3 - (x * cosa) / 2,
+      x5 = x3 - (x * sina) / 2,
+      y5 = y3 + (x * cosa) / 2;
 
     c.beginPath();
     c.fillStyle = color;
@@ -39,10 +39,10 @@ class SQSelfMessageConnector extends BaseConnector {
 
     // TODO: NO lines needed ....
     for (var i = 1; i <= ep; ++i) {
-        context2.lineTo(points[i].x, points[i].y);
+      context2.lineTo(points[i].x, points[i].y);
     }
 
-    if (gip<x) {
+    if (gip < x) {
       c.stroke();
       c.closePath();
       return;
@@ -59,4 +59,4 @@ class SQSelfMessageConnector extends BaseConnector {
   }
 }
 
-export {SQSelfMessageConnector}
+export { SQSelfMessageConnector };

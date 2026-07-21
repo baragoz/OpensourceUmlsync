@@ -24,7 +24,7 @@ class DefaultStyleManager extends IStyleManager {
     return this.systemStyles.map((style) => ({
       id: style.id,
       connector: { ...style.connector },
-      element: { ...style.element }
+      element: { ...style.element },
     }));
   }
 
@@ -38,7 +38,7 @@ class DefaultStyleManager extends IStyleManager {
     styles.push({
       id,
       connector: { ...(style.connector || {}) },
-      element: { ...(style.element || {}) }
+      element: { ...(style.element || {}) },
     });
     this.#writeUserStyles(styles);
     return id;
@@ -80,13 +80,16 @@ class DefaultStyleManager extends IStyleManager {
       return stored;
     }
     const [firstSystemStyle] = this.getSystemStyles();
-    return { connector: { ...firstSystemStyle.connector }, element: { ...firstSystemStyle.element } };
+    return {
+      connector: { ...firstSystemStyle.connector },
+      element: { ...firstSystemStyle.element },
+    };
   }
 
   setDefaultStyle(style) {
     this.#writeDefaultStyle({
       connector: { ...(style.connector || {}) },
-      element: { ...(style.element || {}) }
+      element: { ...(style.element || {}) },
     });
   }
 
@@ -101,7 +104,10 @@ class DefaultStyleManager extends IStyleManager {
 
   #writeUserStyles(styles) {
     try {
-      window.localStorage.setItem(`${this.storageKey}:user`, JSON.stringify(styles));
+      window.localStorage.setItem(
+        `${this.storageKey}:user`,
+        JSON.stringify(styles),
+      );
     } catch (e) {
       this.memoryUserStyles = styles;
     }
@@ -118,7 +124,10 @@ class DefaultStyleManager extends IStyleManager {
 
   #writeDefaultStyle(style) {
     try {
-      window.localStorage.setItem(`${this.storageKey}:default`, JSON.stringify(style));
+      window.localStorage.setItem(
+        `${this.storageKey}:default`,
+        JSON.stringify(style),
+      );
     } catch (e) {
       this.memoryDefaultStyle = style;
     }
@@ -135,11 +144,14 @@ class DefaultStyleManager extends IStyleManager {
 
   #writePinnedIds(ids) {
     try {
-      window.localStorage.setItem(`${this.storageKey}:pinned`, JSON.stringify(ids));
+      window.localStorage.setItem(
+        `${this.storageKey}:pinned`,
+        JSON.stringify(ids),
+      );
     } catch (e) {
       this.memoryPinnedIds = ids;
     }
   }
 }
 
-export { DefaultStyleManager }
+export { DefaultStyleManager };

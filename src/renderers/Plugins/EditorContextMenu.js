@@ -1,4 +1,4 @@
-import configLoader from '../../utils/ConfigLoader';
+import configLoader from "../../utils/ConfigLoader";
 
 class EditorContextMenu {
   constructor(diagram, blackboard, editorConfig) {
@@ -19,49 +19,77 @@ class EditorContextMenu {
 
     // Show menu
     this.blackboard.addEventListener(
-        'diagram:contextmenu', this.onDiagramContextMenu.bind(this));
+      "diagram:contextmenu",
+      this.onDiagramContextMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'element:contextmenu', this.onElementContextMenu.bind(this));
+      "element:contextmenu",
+      this.onElementContextMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'connector:contextmenu', this.onConnectorContextMenu.bind(this));
+      "connector:contextmenu",
+      this.onConnectorContextMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'connector:label:contextmenu', this.onConnectorLabelContextMenu.bind(this));
-
+      "connector:label:contextmenu",
+      this.onConnectorLabelContextMenu.bind(this),
+    );
 
     // Class menu
     this.blackboard.addEventListener(
-      'class:method:contextmenu', this.onClassMethodContextMenu.bind(this));
+      "class:method:contextmenu",
+      this.onClassMethodContextMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-      'class:field:contextmenu', this.onClassFieldContextMenu.bind(this));
+      "class:field:contextmenu",
+      this.onClassFieldContextMenu.bind(this),
+    );
 
     // Hide menu on regular click
     this.blackboard.addEventListener(
-        'diagram:click', this.onHideMenu.bind(this));
+      "diagram:click",
+      this.onHideMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'diagram:scroll:start', this.onHideMenu.bind(this));
+      "diagram:scroll:start",
+      this.onHideMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'diagram:dbclick', this.onHideMenu.bind(this));
-  
+      "diagram:dbclick",
+      this.onHideMenu.bind(this),
+    );
+
     this.blackboard.addEventListener(
-        'element:click', this.onHideMenu.bind(this));
+      "element:click",
+      this.onHideMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'connector:click', this.onHideMenu.bind(this));
+      "connector:click",
+      this.onHideMenu.bind(this),
+    );
 
     // Hide menu on element resize
     this.blackboard.addEventListener(
-        'element:resize:start', this.onHideMenu.bind(this));
+      "element:resize:start",
+      this.onHideMenu.bind(this),
+    );
 
     // Hide menu on drag start
     this.blackboard.addEventListener(
-        'element:drag:start', this.onHideMenu.bind(this));
+      "element:drag:start",
+      this.onHideMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'connector:drag:start', this.onHideMenu.bind(this));
+      "connector:drag:start",
+      this.onHideMenu.bind(this),
+    );
 
     // Disable/enable sortable and resizeable areas
     this.isEditMode = this.blackboard.getStorageValue("editmode");
     this.blackboard.addEventListener(
-          'storage:editmode', this.onEditModeChange.bind(this));
-    
+      "storage:editmode",
+      this.onEditModeChange.bind(this),
+    );
   }
 
   onEditModeChange(change) {
@@ -75,42 +103,55 @@ class EditorContextMenu {
     }
   }
 
-
   loadMenu(menuJson) {
     const menu_id = menuJson.id;
-    if ($('#' + this.diagram.euid + ' .ctx-menu-' + menu_id).is('div')) {
+    if ($("#" + this.diagram.euid + " .ctx-menu-" + menu_id).is("div")) {
       return menu_id;
     }
 
     var htmlIcons = [];
-    for (var c in menuJson['commands']) {
-      let item = menuJson['commands'][c];
+    for (var c in menuJson["commands"]) {
+      let item = menuJson["commands"][c];
       if (item.title == "---") {
         htmlIcons.push('<hr class="divider"></hr>');
       } else {
         htmlIcons.push(
-            '<li data-handler=' + item['handler'] + '>' + item['title'] + '</li>');
+          "<li data-handler=" + item["handler"] + ">" + item["title"] + "</li>",
+        );
       }
     }
 
-    var menuItems = htmlIcons.join('');
+    var menuItems = htmlIcons.join("");
 
     // Append menu to the diagram
-    $('#' + this.diagram.euid)
-        .append(
-            '<div class=\'us-context-menu ctx-menu-' +
-            menu_id + '\'><ul>' + menuItems + '</ul></div>');
-    
+    $("#" + this.diagram.euid).append(
+      "<div class='us-context-menu ctx-menu-" +
+        menu_id +
+        "'><ul>" +
+        menuItems +
+        "</ul></div>",
+    );
+
     let self = this;
-    $('#' + this.diagram.euid + ' .ctx-menu-' + menu_id + '>ul>li').on('click', function () {
-        var handlerName = $(this).data('handler'); // Get the handler name
+    $("#" + this.diagram.euid + " .ctx-menu-" + menu_id + ">ul>li").on(
+      "click",
+      function () {
+        var handlerName = $(this).data("handler"); // Get the handler name
         console.log("CLICKED ON THE CONTEXT MENU " + handlerName);
         if (handlerName && handlerName !== "" && self.currentElement != null) {
-          console.log("CLICKED ON THE CONTEXT MENU OK, got to command ", self.currentElement);
-          console.log("Current Data is ",  self.currentData);
-          configLoader.executeCommand(handlerName, self.currentElement, self.currentData);
+          console.log(
+            "CLICKED ON THE CONTEXT MENU OK, got to command ",
+            self.currentElement,
+          );
+          console.log("Current Data is ", self.currentData);
+          configLoader.executeCommand(
+            handlerName,
+            self.currentElement,
+            self.currentData,
+          );
         }
-    });
+      },
+    );
     // TODO: add command send on click
     return menu_id;
   }
@@ -135,16 +176,27 @@ class EditorContextMenu {
   // Class specific context menus
   //
   onClassMethodContextMenu(element, data) {
-    this.onCommonContextMenu("element", element, "class:method" , data);
+    this.onCommonContextMenu("element", element, "class:method", data);
   }
 
   onClassFieldContextMenu(element, data) {
-    this.onCommonContextMenu("element", element, "class:field", data)
+    this.onCommonContextMenu("element", element, "class:field", data);
   }
 
   getContextMenuFor(defaultTarget, elementTarget, subTarget) {
-    console.log("GET CONTEXT MENU FOR: " + defaultTarget + "  " + elementTarget + "  " + subTarget);
-    return configLoader.getTargetContextMenu(defaultTarget, elementTarget, subTarget);
+    console.log(
+      "GET CONTEXT MENU FOR: " +
+        defaultTarget +
+        "  " +
+        elementTarget +
+        "  " +
+        subTarget,
+    );
+    return configLoader.getTargetContextMenu(
+      defaultTarget,
+      elementTarget,
+      subTarget,
+    );
     /*
     if (target == "element") {
         return configLoader.getElementContextMenu(diagramItem.options.nameTemplate);
@@ -155,13 +207,12 @@ class EditorContextMenu {
     } */
   }
 
-
   onCommonContextMenu(baseTarget, element, subTartget, data) {
     //
     // Do nothing if it is ctrl + cotext menu
     // TODO: no idea if we need to show menu in that case
-    // 
-    // TODO: remove !isEditMode, if we define an 
+    //
+    // TODO: remove !isEditMode, if we define an
     //
     if ((data && data.ctrl) || !this.isEditMode) {
       this.onHideMenu();
@@ -171,7 +222,7 @@ class EditorContextMenu {
     // Cache clicked element
     this.currentElement = element;
     this.currentData = data;
-    this.currentElementId = element.jsonModel['id'];
+    this.currentElementId = element.jsonModel["id"];
     //
     // User should select element to see connectors icon menu
     //
@@ -180,20 +231,24 @@ class EditorContextMenu {
     // }
 
     // Load menu if it is available in the configuration
-    const menuJson = this.getContextMenuFor(baseTarget, element.options.nameTemplate, subTartget);
+    const menuJson = this.getContextMenuFor(
+      baseTarget,
+      element.options.nameTemplate,
+      subTartget,
+    );
     if (menuJson) {
       console.log("DRAWING CONTEXT MENU:", menuJson);
       let menuId = this.loadMenu(menuJson);
       if (menuId) {
-        $('.us-context-menu').hide();
+        $(".us-context-menu").hide();
 
         console.log("DRAWING CONTEXT MENU + " + menuId);
         // Relay on provided data position
-        $('.ctx-menu-' + menuId)
-            .stop()
-            .css('left', data.x)
-            .css('top', data.y)
-            .animate({opacity: '1'});
+        $(".ctx-menu-" + menuId)
+          .stop()
+          .css("left", data.x)
+          .css("top", data.y)
+          .animate({ opacity: "1" });
 
         // Hide another menu type, otherwise user could see 2 menus
         if (this.activeMenuId && this.activeMenuId != menuId) {
@@ -209,24 +264,23 @@ class EditorContextMenu {
 
   onEnableMenu() {
     if (!this.activeMenuId) return;
-    $('.ctx-menu-' + this.activeMenuId).show();
+    $(".ctx-menu-" + this.activeMenuId).show();
   }
 
   onDisableMenu() {
     if (!this.activeMenuId) return;
-    $('.ctx-menu-' + this.activeMenuId).hide();
+    $(".ctx-menu-" + this.activeMenuId).hide();
     this.activeMenuId = null;
   }
 
   onHideMenu() {
     // Let's hide icon menu
-    $('.us-context-menu').hide();
+    $(".us-context-menu").hide();
     // Reset data
     this.currentElement = null;
     this.currentData = null;
     this.currentElementId = -1;
   }
-
 }
 
-export {EditorContextMenu};
+export { EditorContextMenu };

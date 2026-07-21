@@ -4,13 +4,11 @@ import { DiagramMouseEvents } from "./Plugins/DiagramMouseEvents";
 import { DiagramScroll } from "./Plugins/DiagramScrollStartEvent";
 import { ElementResizeable } from "./Plugins/ElementResizeable";
 
-
 class EditorRenderer {
   constructor() {
     this.plugins = [];
     this.blackboard = new Blackboard();
   }
-
 
   onAddDiagram(diagram) {
     this.diagram = diagram;
@@ -25,16 +23,19 @@ class EditorRenderer {
     this.blackboard.notify("connector:add", connector);
   }
 
-
   onAddElement(element) {
     // Show border on hover.
     this.wrapWithBorder(element);
-    let nativeBorderRef = $('#' + element.euid + '_Border');
+    let nativeBorderRef = $("#" + element.euid + "_Border");
 
     // Make element resizeable.
-    element.addPlugin(new ElementResizeable(element, nativeBorderRef, this.blackboard));
+    element.addPlugin(
+      new ElementResizeable(element, nativeBorderRef, this.blackboard),
+    );
     // Make element draggable.
-    element.addPlugin(new ElementDraggable(element, nativeBorderRef, this.blackboard));
+    element.addPlugin(
+      new ElementDraggable(element, nativeBorderRef, this.blackboard),
+    );
 
     // add context menu and mouse events support
     this.initContextMenu(element, nativeBorderRef);
@@ -49,28 +50,46 @@ class EditorRenderer {
   //
   wrapWithBorder(element) {
     var poz = "";
-    if ((element.jsonModel['left'] != undefined)
-      && (element.jsonModel['top'] != undefined)) {
-      poz = " style='top:" + element.jsonModel['top'] + "px;left:" + element.jsonModel['left'] + "px;' ";
+    if (
+      element.jsonModel["left"] != undefined &&
+      element.jsonModel["top"] != undefined
+    ) {
+      poz =
+        " style='top:" +
+        element.jsonModel["top"] +
+        "px;left:" +
+        element.jsonModel["left"] +
+        "px;' ";
     }
 
-    $(element.nativeRef).wrap('<div id="' + element.euid + '_Border"' + poz + ' class="us-element-border"></div>');
+    $(element.nativeRef).wrap(
+      '<div id="' +
+        element.euid +
+        '_Border"' +
+        poz +
+        ' class="us-element-border"></div>',
+    );
   }
 
   initCrossReferences(element, nativeBorderRef) {
     let refN = 0;
     element.jsonModel.references = this.element.references || new Array();
 
-    var subDiagramPaths = element.jsonModel['subdiagrams'] || element.jsonModel['references'] || {};
-    var subDiagramRefs = "<div class='us-references us-list'><ul class='context-menu-3'><li id='reference-new'><a>new reference</a></li>";
+    var subDiagramPaths =
+      element.jsonModel["subdiagrams"] || element.jsonModel["references"] || {};
+    var subDiagramRefs =
+      "<div class='us-references us-list'><ul class='context-menu-3'><li id='reference-new'><a>new reference</a></li>";
     subDiagramRefs += "</ul></div>";
 
-    element.nativeRef.append("\
-            <img id='" + this.euid + "_REF' title='REFERENCE' src='./images/reference.png'\
-             class='us-element-ref' style='z-index:99999;visibility:hidden;'></img>");
+    element.nativeRef.append(
+      "\
+            <img id='" +
+        this.euid +
+        "_REF' title='REFERENCE' src='./images/reference.png'\
+             class='us-element-ref' style='z-index:99999;visibility:hidden;'></img>",
+    );
 
-    nativeBorderRef
-      .append(subDiagramRefs);
+    nativeBorderRef.append(subDiagramRefs);
 
     for (var g in subDiagramPaths) {
       element.addReference({ text: subDiagramPaths[g] }, true);
@@ -78,26 +97,23 @@ class EditorRenderer {
 
     // Hide references by default and
     // prevent propagation of click event
-    $('#' + element.euid + '_Border .us-references')
+    $("#" + element.euid + "_Border .us-references")
       .hide()
       .click(function (e) {
         e.stopPropagation();
       });
 
-    $('#' + element.euid + "_Border #reference-new a").editable({
+    $("#" + element.euid + "_Border #reference-new a").editable({
       onSubmit: function (data) {
-        if (data["current"] == data["previous"])
-          return;
+        if (data["current"] == data["previous"]) return;
 
         $(this).text("new reference");
-        if (data["current"] == "")
-          return;
+        if (data["current"] == "") return;
 
         element.addReference({ text: data["current"] });
         return true;
-      }
+      },
     });
-
   }
   /*    
       initResizeable(element, nativeBorderRef) {
@@ -238,16 +254,20 @@ class EditorRenderer {
   */
   initContextMenu(element, nativeBorderRef) {
     let self = this;
-    nativeBorderRef.bind('contextmenu', function (e) {
+    nativeBorderRef.bind("contextmenu", function (e) {
       e.preventDefault();
 
       // hide all editable fields
       self.hideAllEditable();
 
-
       // diagram should select which context menu to show
-      self.diagram.showContextMenu(element, null /* sub-element */, e.pageX, e.pageY);
-    })
+      self.diagram.showContextMenu(
+        element,
+        null /* sub-element */,
+        e.pageX,
+        e.pageY,
+      );
+    });
   }
 
   initMouseEvents(element, nativeBorderRef) {
@@ -264,30 +284,33 @@ class EditorRenderer {
       .mouseenter(self, function (event) {
         if (!element.options.selected && !element.highlighted) {
           element.highlighted = true;
-          var $bw = $('#' + this.id + '_Border').css({ 'border-width': '3px' });
-          var bw = $bw.css('border-left-width');
-          $bw.css({ left: '-=' + bw, top: '-=' + bw });
+          var $bw = $("#" + this.id + "_Border").css({ "border-width": "3px" });
+          var bw = $bw.css("border-left-width");
+          $bw.css({ left: "-=" + bw, top: "-=" + bw });
         }
 
         self.diagram.onMouseEnter(element);
       })
       .mouseleave(self, function (event) {
         if (!element.options.selected && element.highlighted) {
-          var $bw = $('#' + self.euid + '_Border');
-          var bw = $bw.css('border-left-width');
-          $bw.css({ 'border-width': '0px' }).css({ left: '+=' + bw, top: '+=' + bw });
+          var $bw = $("#" + self.euid + "_Border");
+          var bw = $bw.css("border-left-width");
+          $bw
+            .css({ "border-width": "0px" })
+            .css({ left: "+=" + bw, top: "+=" + bw });
           element.highlighted = false;
         }
 
         self.diagram.onMouseLeave(element);
         self.toggleElementRefs(element, false);
-      })
+      });
   }
 
   toggleElementRefs(element, isShow) {
-
-    $('#' + this.id + '_REF').css({ 'visibility': 'hidden' });
-    $('#' + element.euid + '_REF').css({ 'visibility': (isShow ? 'visible' : 'hidden') });
+    $("#" + this.id + "_REF").css({ visibility: "hidden" });
+    $("#" + element.euid + "_REF").css({
+      visibility: isShow ? "visible" : "hidden",
+    });
   }
 
   showElementRefs() {
@@ -298,11 +321,9 @@ class EditorRenderer {
     $("#" + this.diagram.euid + " .us-references").hide();
   }
 
-
   hideAllEditable() {
     // Do nothing for  a while
   }
-
 }
 
-export { EditorRenderer }
+export { EditorRenderer };

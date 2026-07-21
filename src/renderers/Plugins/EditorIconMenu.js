@@ -1,4 +1,4 @@
-import configLoader from '../../utils/ConfigLoader';
+import configLoader from "../../utils/ConfigLoader";
 
 class EditorIconMenu {
   constructor(diagram, blackboard) {
@@ -20,47 +20,75 @@ class EditorIconMenu {
     // TODO: Preload config data
     //
     this.blackboard.addEventListener(
-        'element:click', this.onShowMenu.bind(this));
+      "element:click",
+      this.onShowMenu.bind(this),
+    );
 
     this.blackboard.addEventListener(
-        'diagram:contextmenu', this.onHideMenu.bind(this));
+      "diagram:contextmenu",
+      this.onHideMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'element:contextmenu', this.onHideMenu.bind(this));
+      "element:contextmenu",
+      this.onHideMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'connector:contextmenu', this.onHideMenu.bind(this));
+      "connector:contextmenu",
+      this.onHideMenu.bind(this),
+    );
 
     // Changed selection => menu should be disabled
     this.blackboard.addEventListener(
-        'diagram:click', this.onDisableMenu.bind(this));
+      "diagram:click",
+      this.onDisableMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'connector:click', this.onDisableMenu.bind(this));
+      "connector:click",
+      this.onDisableMenu.bind(this),
+    );
 
     // Hide menu on element resize
     this.blackboard.addEventListener(
-        'element:resize:start', this.onHideMenu.bind(this));
+      "element:resize:start",
+      this.onHideMenu.bind(this),
+    );
 
     // Hide menu on drag start
     this.blackboard.addEventListener(
-        'element:drag:start', this.onHideMenu.bind(this));
+      "element:drag:start",
+      this.onHideMenu.bind(this),
+    );
     this.blackboard.addEventListener(
-        'connector:drag:start', this.onHideMenu.bind(this));
+      "connector:drag:start",
+      this.onHideMenu.bind(this),
+    );
 
     // Hide menu on drag/resize Start
     // and update icon menu position on Stop
     this.blackboard.addEventListener(
-        'element:resize:stop', this.onElementReposition.bind(this));
+      "element:resize:stop",
+      this.onElementReposition.bind(this),
+    );
     this.blackboard.addEventListener(
-        'element:drag:stop', this.onElementReposition.bind(this));
+      "element:drag:stop",
+      this.onElementReposition.bind(this),
+    );
 
     this.isEditMode = blackboard.getStorageValue("editmode");
     // Disable/enable sortable and resizeable areas
     blackboard.addEventListener(
-      'storage:editmode', this.onEditModeChange.bind(this));
+      "storage:editmode",
+      this.onEditModeChange.bind(this),
+    );
 
     blackboard.addEventListener(
-      'storage:element:style', this.onElementStyleChange.bind(this));
+      "storage:element:style",
+      this.onElementStyleChange.bind(this),
+    );
     blackboard.addEventListener(
-      'storage:connector:style', this.onConnectorStyleChange.bind(this));
+      "storage:connector:style",
+      this.onConnectorStyleChange.bind(this),
+    );
   }
 
   onConnectorStyleChange(dataDiff) {
@@ -84,7 +112,7 @@ class EditorIconMenu {
 
   loadMenu(menuJson) {
     const menu_id = menuJson.id;
-    if ($('#' + this.diagram.euid + ' .elmenu-' + menu_id).is('div')) {
+    if ($("#" + this.diagram.euid + " .elmenu-" + menu_id).is("div")) {
       return menu_id;
     }
 
@@ -92,35 +120,47 @@ class EditorIconMenu {
     const items = menuJson.items;
     for (var c in items) {
       let item = items[c];
-      for (var r in item['cs'])  // connector descriptor
-        if (item['cs'][r].svg) {
+      for (var r in item["cs"]) // connector descriptor
+        if (item["cs"][r].svg) {
           htmlIcons.push(
-            '<div  id=\'' +
-            item['cs'][r].connector +  // unique ID == connection type
-            '\' title=\'' + (item['cs'][r]['alt'] || item['cs'][r].connector) +  // hover tip
-            (item['cs'][r]['force_create'] ? ('\' data-force_create=\'' + item['cs'][r]['force_create']) : "") +  // force create
-            '\' data-element=\'' + item['el'] +             // element to create
-            '\' class="us-icon-menu-svg-wrapper">' + item['cs'][r].svg + '</div>');
-
+            "<div  id='" +
+              item["cs"][r].connector + // unique ID == connection type
+              "' title='" +
+              (item["cs"][r]["alt"] || item["cs"][r].connector) + // hover tip
+              (item["cs"][r]["force_create"]
+                ? "' data-force_create='" + item["cs"][r]["force_create"]
+                : "") + // force create
+              "' data-element='" +
+              item["el"] + // element to create
+              '\' class="us-icon-menu-svg-wrapper">' +
+              item["cs"][r].svg +
+              "</div>",
+          );
         } else {
           htmlIcons.push(
-            '<div class=\'icons-sprite ' +
-            item['cs'][r].css +  // Sprite icon css
-            '\' id=\'' +
-            item['cs'][r].connector +  // unique ID == connection type
-            '\' title=\'' + item['cs'][r].connector +  // hover tip
-            '\' element=\'' + item['el'] +             // element to create
-            '\'></div>');
+            "<div class='icons-sprite " +
+              item["cs"][r].css + // Sprite icon css
+              "' id='" +
+              item["cs"][r].connector + // unique ID == connection type
+              "' title='" +
+              item["cs"][r].connector + // hover tip
+              "' element='" +
+              item["el"] + // element to create
+              "'></div>",
+          );
         }
     }
 
-    var cells = htmlIcons.join('');
+    var cells = htmlIcons.join("");
 
     // Append menu to the diagram
-    $('#' + this.diagram.euid)
-        .append(
-            '<div style=\'position:absolute;top:0px;left:0px;z-index:19999998;display:flex;\' class=\'elmenu-' +
-            menu_id + '\'>' + cells + '</div>');
+    $("#" + this.diagram.euid).append(
+      "<div style='position:absolute;top:0px;left:0px;z-index:19999998;display:flex;' class='elmenu-" +
+        menu_id +
+        "'>" +
+        cells +
+        "</div>",
+    );
 
     var iconMenuBuilder = this;
     var connetorHelperEuid = null;
@@ -132,140 +172,149 @@ class EditorIconMenu {
     //               :) ONE FOR USUAL MENU AND ANOTHER ONE FOR SELF-CONNECTABLE
     //               ITEMS WHICH DOESN'T REQUIRE THE 2-nd ELEMENT
     var kl;
-    $('#' + this.diagram.euid + ' .elmenu-' + menu_id + ' div')
-        .draggable({
-          'appendTo': '#' + this.diagram.euid,
-          'helper': function(event) {
-            // Use the double wrapper because of element's structrure
-            return $(
-                '<div id=\'ConnectionHelper_Border\' style=\'border:solid black;border-width:1px;\'>' +
-                '<div id=\'ConnectionHelper\' style=\'border:solid yellow;border-width:1px;\'> [ x ]</div></div>');
-          },
-          'start': function(event) {
-            if (iconMenuBuilder.diagram) {
-              if (iconMenuBuilder.diagram.opman) {
-                iconMenuBuilder.diagram.opman.begin();
-              }
-
-              var tid = $(this).attr('element');
-
-              var element = tid,  // iconMenuBuilder.dmb.getElementById(tid),
-                  lcon =
-                      this.id;  // iconMenuBuilder.dmb.getConnectorById(this.id);
-
-              // Do not need to pre-load element
-              // if (element != undefined)
-              //  dm.dm.loader.LoadElement(element);
-              //			if ((lcon != undefined) &&
-              //(lcon['oneway'])) {
-              //		  $.log("CONNECTOR: " + lcon.connector);
-              //	  iconMenuBuilder.diagram.Connector(lcon.connector,
-              //	  {'Id': iconMenuBuilder.currentElement,
-              //'Id': iconMenuBuilder.currentElement});
-              //			} else {
-              var connector = iconMenuBuilder.diagram.Connector(this.id, {
-                epoints: [
-                  {x: 0, y: 0, euid: iconMenuBuilder.currentElementEuid, id:iconMenuBuilder.currentElementId},
-                  {x: 100, y: 100, euid: 'ConnectionHelper'}
-                ]
-              });
-              if (connector) {
-                connetorHelperEuid = connector.euid;
-              }
-              //		}
-            } else {
-              return false;
-            }
-          },
-          'drag': function(event, ui) {
-            // Force diagram to re-draw connectors
-            if (iconMenuBuilder.diagram) {
-              iconMenuBuilder.diagram.draw();
-            }
-          },
-          'stop': function(event, ui) {
-            if (!iconMenuBuilder.diagram) return false;
-
-            const opman = iconMenuBuilder.diagram.opman;
-
-            var tid = $(this).data('element'),
-                force_create = $(this).data('force_create'),
-                jsonModel = {},  //$.extend({},
-                                 //iconMenuBuilder.dmb.getElementById(tid)),
-                lcon =
-                    this.id;  // iconMenuBuilder.dmb.getConnectorById(this.id);
-
-            if ((iconMenuBuilder.currentElement != undefined) &&
-                ((lcon == undefined) || (!lcon['oneway']))) {
-              // Remove the temporary connector
-              if (connetorHelperEuid) {
-                iconMenuBuilder.diagram.removeConnectorByEuid(connetorHelperEuid);
-              }
-              jsonModel.left = ui.position.left;
-              jsonModel.top = ui.position.top;
-              var fromElement = iconMenuBuilder.currentElement;
-              var thisid = this.id;
-              var expected_type = tid;
-
-              //
-              // Local helper method
-              //
-              var handleConnector = function(toElement, isElFound, position) {
-
-                iconMenuBuilder.diagram.Connector(
-                    thisid,
-                    {
-                      epoints: [
-                        {x: 100, y: 100, id: fromElement.getId()},
-                        {x: position.left, y: position.top, id: toElement.getId()},
-                      ],
-                      ...iconMenuBuilder.connectorStyle
-                    },
-                    function(connector) {
-                      if (fromElement.dropHelper)
-                        fromElement.dropHelper(
-                            ui, connector, {isElFound: true});
-                      if (toElement.dropHelper)
-                        toElement.dropHelper(
-                            ui, connector,
-                            {isElFound: isElFound, expected: expected_type});
-                      if (connector._updateEPoints)
-                        connector._updateEPoints(ui);
-                    });  // Connector
-              };
-              // Create an element or get element which was drop on
-              var el = null;
-              if (!force_create) {
-                el = iconMenuBuilder.diagram._dropConnector(ui);
-              }
-              // Create a dropped element type
-              if (!el) {
-                let clone =  {...jsonModel, ...iconMenuBuilder.elementStyle};
-                el = iconMenuBuilder.diagram.Element(tid, clone);
-              }
-
-              if (el) {
-                handleConnector(el, true, ui.position);
-              }
-
-              //
-              // Force Re-draw connectors
-              //
-              iconMenuBuilder.diagram.draw();
+    $("#" + this.diagram.euid + " .elmenu-" + menu_id + " div")
+      .draggable({
+        appendTo: "#" + this.diagram.euid,
+        helper: function (event) {
+          // Use the double wrapper because of element's structrure
+          return $(
+            "<div id='ConnectionHelper_Border' style='border:solid black;border-width:1px;'>" +
+              "<div id='ConnectionHelper' style='border:solid yellow;border-width:1px;'> [ x ]</div></div>",
+          );
+        },
+        start: function (event) {
+          if (iconMenuBuilder.diagram) {
+            if (iconMenuBuilder.diagram.opman) {
+              iconMenuBuilder.diagram.opman.begin();
             }
 
-            if (opman) {
-              opman.commit();
+            var tid = $(this).attr("element");
+
+            var element = tid, // iconMenuBuilder.dmb.getElementById(tid),
+              lcon = this.id; // iconMenuBuilder.dmb.getConnectorById(this.id);
+
+            // Do not need to pre-load element
+            // if (element != undefined)
+            //  dm.dm.loader.LoadElement(element);
+            //			if ((lcon != undefined) &&
+            //(lcon['oneway'])) {
+            //		  $.log("CONNECTOR: " + lcon.connector);
+            //	  iconMenuBuilder.diagram.Connector(lcon.connector,
+            //	  {'Id': iconMenuBuilder.currentElement,
+            //'Id': iconMenuBuilder.currentElement});
+            //			} else {
+            var connector = iconMenuBuilder.diagram.Connector(this.id, {
+              epoints: [
+                {
+                  x: 0,
+                  y: 0,
+                  euid: iconMenuBuilder.currentElementEuid,
+                  id: iconMenuBuilder.currentElementId,
+                },
+                { x: 100, y: 100, euid: "ConnectionHelper" },
+              ],
+            });
+            if (connector) {
+              connetorHelperEuid = connector.euid;
             }
+            //		}
+          } else {
+            return false;
           }
-        })
-        .parent()
-        .mouseenter(function() {
-          $(this).stop().animate({opacity: '1'});
-        })
-        .mouseleave(function() {
-          $(this).stop().animate({opacity: '0'});
-        });
+        },
+        drag: function (event, ui) {
+          // Force diagram to re-draw connectors
+          if (iconMenuBuilder.diagram) {
+            iconMenuBuilder.diagram.draw();
+          }
+        },
+        stop: function (event, ui) {
+          if (!iconMenuBuilder.diagram) return false;
+
+          const opman = iconMenuBuilder.diagram.opman;
+
+          var tid = $(this).data("element"),
+            force_create = $(this).data("force_create"),
+            jsonModel = {}, //$.extend({},
+            //iconMenuBuilder.dmb.getElementById(tid)),
+            lcon = this.id; // iconMenuBuilder.dmb.getConnectorById(this.id);
+
+          if (
+            iconMenuBuilder.currentElement != undefined &&
+            (lcon == undefined || !lcon["oneway"])
+          ) {
+            // Remove the temporary connector
+            if (connetorHelperEuid) {
+              iconMenuBuilder.diagram.removeConnectorByEuid(connetorHelperEuid);
+            }
+            jsonModel.left = ui.position.left;
+            jsonModel.top = ui.position.top;
+            var fromElement = iconMenuBuilder.currentElement;
+            var thisid = this.id;
+            var expected_type = tid;
+
+            //
+            // Local helper method
+            //
+            var handleConnector = function (toElement, isElFound, position) {
+              iconMenuBuilder.diagram.Connector(
+                thisid,
+                {
+                  epoints: [
+                    { x: 100, y: 100, id: fromElement.getId() },
+                    {
+                      x: position.left,
+                      y: position.top,
+                      id: toElement.getId(),
+                    },
+                  ],
+                  ...iconMenuBuilder.connectorStyle,
+                },
+                function (connector) {
+                  if (fromElement.dropHelper)
+                    fromElement.dropHelper(ui, connector, { isElFound: true });
+                  if (toElement.dropHelper)
+                    toElement.dropHelper(ui, connector, {
+                      isElFound: isElFound,
+                      expected: expected_type,
+                    });
+                  if (connector._updateEPoints) connector._updateEPoints(ui);
+                },
+              ); // Connector
+            };
+            // Create an element or get element which was drop on
+            var el = null;
+            if (!force_create) {
+              el = iconMenuBuilder.diagram._dropConnector(ui);
+            }
+            // Create a dropped element type
+            if (!el) {
+              let clone = { ...jsonModel, ...iconMenuBuilder.elementStyle };
+              el = iconMenuBuilder.diagram.Element(tid, clone);
+            }
+
+            if (el) {
+              handleConnector(el, true, ui.position);
+            }
+
+            //
+            // Force Re-draw connectors
+            //
+            iconMenuBuilder.diagram.draw();
+          }
+
+          if (opman) {
+            opman.commit();
+          }
+        },
+      })
+      .parent()
+      .mouseenter(function () {
+        $(this).stop().animate({ opacity: "1" });
+      })
+      .mouseleave(function () {
+        $(this).stop().animate({ opacity: "0" });
+      });
 
     return menu_id;
     // Hide the element
@@ -276,7 +325,6 @@ class EditorIconMenu {
   // User dropped draggable icon on some element
   //
   handleConnector(element, flag) {}
-
 
   activeMenuId = null;
   onShowMenu(element, data) {
@@ -300,14 +348,14 @@ class EditorIconMenu {
     // }
 
     // Load menu if it is available in the configuration
-    let menuJson =
-        configLoader.getElementIconsMenu(element.options.nameTemplate);
+    let menuJson = configLoader.getElementIconsMenu(
+      element.options.nameTemplate,
+    );
 
     // Sate machine diagram has the same menu for almost all elements
     // no need to make a multiple instances of the the icon row and corresponding JSONs
     if (!menuJson && element.options.iconMenu) {
-      menuJson =
-        configLoader.getElementIconsMenu(element.options.iconMenu);
+      menuJson = configLoader.getElementIconsMenu(element.options.iconMenu);
     }
     if (menuJson) {
       let menuId = this.loadMenu(menuJson);
@@ -336,32 +384,33 @@ class EditorIconMenu {
     }
 
     let offset = this.diagram.getDiagramOffset();
-    var $el = $('#'+ element.euid + "_Border");
-        var pz = $el.position(),
-			  x = pz.left + 20,
-			  y = pz.top;
-        $(".elmenu-" + this.activeMenuId).stop().css("left", x + offset.left).css("top", y + offset.top - 30).animate({opacity:"1"});
+    var $el = $("#" + element.euid + "_Border");
+    var pz = $el.position(),
+      x = pz.left + 20,
+      y = pz.top;
+    $(".elmenu-" + this.activeMenuId)
+      .stop()
+      .css("left", x + offset.left)
+      .css("top", y + offset.top - 30)
+      .animate({ opacity: "1" });
   }
 
   onEnableMenu() {
-    if (!this.activeMenuId)
-      return;
+    if (!this.activeMenuId) return;
     $(".elmenu-" + this.activeMenuId).show();
   }
 
   onDisableMenu() {
-    if (!this.activeMenuId)
-      return;
+    if (!this.activeMenuId) return;
     $(".elmenu-" + this.activeMenuId).hide();
     this.activeMenuId = null;
   }
 
   onHideMenu() {
-    if (!this.activeMenuId)
-      return;
+    if (!this.activeMenuId) return;
     // Let's hide icon menu
-    $(".elmenu-" + this.activeMenuId).animate({opacity:"0"});
+    $(".elmenu-" + this.activeMenuId).animate({ opacity: "0" });
   }
 }
 
-export {EditorIconMenu}
+export { EditorIconMenu };

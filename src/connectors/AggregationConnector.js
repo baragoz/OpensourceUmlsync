@@ -1,32 +1,36 @@
-import { BaseConnector } from './BaseConnector';
+import { BaseConnector } from "./BaseConnector";
 
 const defaultOptions = {
-  nameTemplate: 'aggregation'
+  nameTemplate: "aggregation",
 };
 
 class AggregationConnector extends BaseConnector {
   constructor(options, jsonModel, diagram) {
-    super({...defaultOptions, ...options}, jsonModel, diagram);
+    super({ ...defaultOptions, ...options }, jsonModel, diagram);
   }
 
   draw(context2, points, color) {
-    if ((points == null) || (points.length < 2)) {
+    if (points == null || points.length < 2) {
       return;
     }
     var ep = points.length - 1;
-    var x = 10, dx = points[ep].x - points[ep - 1].x,
-        dy = points[ep].y - points[ep - 1].y,
-        gip = Math.sqrt(dx * dx + dy * dy);
+    var x = 10,
+      dx = points[ep].x - points[ep - 1].x,
+      dy = points[ep].y - points[ep - 1].y,
+      gip = Math.sqrt(dx * dx + dy * dy);
 
     if (gip < x) return;
 
-    var sina = dy / gip, cosa = dx / gip,
-        x3 = points[ep].x - Math.sqrt(x * x * 3 / 4) * cosa,
-        y3 = points[ep].y - Math.sqrt(x * x * 3 / 4) * sina,
-        x6 = points[ep].x - Math.sqrt(x * x * 3) * cosa,
-        y6 = points[ep].y - Math.sqrt(x * x * 3) * sina,
-        x4 = x3 + x * sina / 2, y4 = y3 - x * cosa / 2, x5 = x3 - x * sina / 2,
-        y5 = y3 + x * cosa / 2;
+    var sina = dy / gip,
+      cosa = dx / gip,
+      x3 = points[ep].x - Math.sqrt((x * x * 3) / 4) * cosa,
+      y3 = points[ep].y - Math.sqrt((x * x * 3) / 4) * sina,
+      x6 = points[ep].x - Math.sqrt(x * x * 3) * cosa,
+      y6 = points[ep].y - Math.sqrt(x * x * 3) * sina,
+      x4 = x3 + (x * sina) / 2,
+      y4 = y3 - (x * cosa) / 2,
+      x5 = x3 - (x * sina) / 2,
+      y5 = y3 + (x * cosa) / 2;
 
     context2.beginPath();
     context2.fillStyle = color;
@@ -48,4 +52,4 @@ class AggregationConnector extends BaseConnector {
   }
 }
 
-export { AggregationConnector }
+export { AggregationConnector };

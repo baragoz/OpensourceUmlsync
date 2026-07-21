@@ -1,7 +1,6 @@
 class IDiagramObserver {
   constructor() {}
 
-
   onAddDiagram(diagram) {}
   onAddConnector(connector) {}
   onAddElement(element) {}
@@ -11,4 +10,4 @@ class IDiagramObserver {
   onRemoveElement(element) {}
 }
 
-export {IDiagramObserver}
+export { IDiagramObserver };

@@ -1,17 +1,15 @@
-import { REVISION } from './constants.js';
+import { REVISION } from "./constants.js";
 
 //
 // Diagrams
 //
-export { ClassDiagram } from './diagrams/ClassDiagram.js'
+export { ClassDiagram } from "./diagrams/ClassDiagram.js";
 
 //
 // Elements
 //
-export { ClassElement } from './elements/ClassElement.js'
-export { PackageElement } from './elements/PackageElement.js'
-
-
+export { ClassElement } from "./elements/ClassElement.js";
+export { PackageElement } from "./elements/PackageElement.js";
 
 //
 // Connectors

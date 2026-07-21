@@ -1,37 +1,35 @@
-import { BaseConnector } from '../connectors/BaseConnector';
-import { BaseDiagram } from '../diagrams/BaseDiagram';
-import { BaseElement } from '../elements/BaseElement';
-import { IDiagramObserver } from '../interfaces/IDiagramObserver';
-import {Blackboard} from '../utils/Blackboard';
-import { OperationManager } from '../core/OperationManager';
+import { BaseConnector } from "../connectors/BaseConnector";
+import { BaseDiagram } from "../diagrams/BaseDiagram";
+import { BaseElement } from "../elements/BaseElement";
+import { IDiagramObserver } from "../interfaces/IDiagramObserver";
+import { Blackboard } from "../utils/Blackboard";
+import { OperationManager } from "../core/OperationManager";
 
-import {ClassExtras} from './Plugins/ClassExtras';
-import { ConnectorLabels } from './Plugins/ConnectorLabels';
-import {DiagramContextMenuEvents} from './Plugins/DiagramContextMenuEvents';
-import { DiagramDroppableElement } from './Plugins/DiagramDroppableElements';
-import {DiagramMouseEvents} from './Plugins/DiagramMouseEvents';
-import {DiagramScrollStartEvent} from './Plugins/DiagramScrollStartEvent';
-import {EditorContextMenu} from './Plugins/EditorContextMenu';
-import { EditorDetachedToolbarMenu } from './Plugins/EditorDetachedToolbarMenu';
-import {EditorHotKeysEvents} from './Plugins/EditorHotKeysEvents';
-import {EditorIconMenu} from './Plugins/EditorIconMenu';
-import {ElementContextMenu} from './Plugins/ElementContextMenu';
-import {ElementDraggable} from './Plugins/ElementDraggable';
-import { ElementEditable } from './Plugins/ElementEditable';
-import {ElementMouseEvents} from './Plugins/ElementMouseEvents';
-import {ElementResizeable} from './Plugins/ElementResizeable';
-
+import { ClassExtras } from "./Plugins/ClassExtras";
+import { ConnectorLabels } from "./Plugins/ConnectorLabels";
+import { DiagramContextMenuEvents } from "./Plugins/DiagramContextMenuEvents";
+import { DiagramDroppableElement } from "./Plugins/DiagramDroppableElements";
+import { DiagramMouseEvents } from "./Plugins/DiagramMouseEvents";
+import { DiagramScrollStartEvent } from "./Plugins/DiagramScrollStartEvent";
+import { EditorContextMenu } from "./Plugins/EditorContextMenu";
+import { EditorDetachedToolbarMenu } from "./Plugins/EditorDetachedToolbarMenu";
+import { EditorHotKeysEvents } from "./Plugins/EditorHotKeysEvents";
+import { EditorIconMenu } from "./Plugins/EditorIconMenu";
+import { ElementContextMenu } from "./Plugins/ElementContextMenu";
+import { ElementDraggable } from "./Plugins/ElementDraggable";
+import { ElementEditable } from "./Plugins/ElementEditable";
+import { ElementMouseEvents } from "./Plugins/ElementMouseEvents";
+import { ElementResizeable } from "./Plugins/ElementResizeable";
 
 class EditorPluginManager extends IDiagramObserver {
   constructor(overrideDefaultValues = {}) {
-
     super();
 
     this.options = {
       sidebarSelector: "#dw-uml-sidebar",
       toolbarSelector: "#dw-uml-toolbar",
       devmode: false,
-      ...overrideDefaultValues
+      ...overrideDefaultValues,
     };
 
     this.plugins = [];
@@ -48,10 +46,10 @@ class EditorPluginManager extends IDiagramObserver {
   //
   setupDefaultValues(overrideDefaultValues) {
     // Switch between edit/view modes
-    this.blackboard.setStorageValue('editmode', true);
+    this.blackboard.setStorageValue("editmode", true);
 
     // Notify about multiple select in effect
-    this.blackboard.setStorageValue('multiple_select', false);
+    this.blackboard.setStorageValue("multiple_select", false);
   }
 
   onJsonModelChange(action, data) {
@@ -63,13 +61,12 @@ class EditorPluginManager extends IDiagramObserver {
       this.onChangeElement(data);
     } else if (action === "change:connector") {
       this.onChangeConnector(data);
-    } 
+    }
   }
 
-
   /**
-   * 
-   * @param {BaseDiagram} diagram 
+   *
+   * @param {BaseDiagram} diagram
    */
   onAddDiagram(diagram) {
     this.diagram = diagram;
@@ -83,12 +80,15 @@ class EditorPluginManager extends IDiagramObserver {
     // Sync edit mode with the actual diagram option - setupDefaultValues()
     // only sets a startup default before the diagram (and its editmode
     // option) exists yet.
-    this.blackboard.setStorageValue('editmode', !!diagram.options.editmode);
+    this.blackboard.setStorageValue("editmode", !!diagram.options.editmode);
 
     //
     // Diagram plugins
     //
-    diagram.setUserData("plugin-mouse", new DiagramMouseEvents(diagram, this.blackboard));
+    diagram.setUserData(
+      "plugin-mouse",
+      new DiagramMouseEvents(diagram, this.blackboard),
+    );
     //
     // droppable cleanup (detach parent/droplist links on element removal);
     // nesting/z-index/snap-on-drop itself is handled by each diagram's
@@ -96,17 +96,32 @@ class EditorPluginManager extends IDiagramObserver {
     // for diagrams whose elements never declare droppable/acceptdrop
     // (ClassDiagram, StateDiagram).
     //
-    diagram.setUserData("plugin-droppable", new DiagramDroppableElement(diagram, this.blackboard));
-    diagram.setUserData("plugin-scroll", new DiagramScrollStartEvent(diagram, this.blackboard));
-    diagram.setUserData("plugin-contextmenu", new DiagramContextMenuEvents(diagram, this.blackboard));
+    diagram.setUserData(
+      "plugin-droppable",
+      new DiagramDroppableElement(diagram, this.blackboard),
+    );
+    diagram.setUserData(
+      "plugin-scroll",
+      new DiagramScrollStartEvent(diagram, this.blackboard),
+    );
+    diagram.setUserData(
+      "plugin-contextmenu",
+      new DiagramContextMenuEvents(diagram, this.blackboard),
+    );
 
     //
     // Editor Plugins
     //
-    diagram.setUserData("plugin-editor-iconmenu", new EditorIconMenu(diagram, this.blackboard));
+    diagram.setUserData(
+      "plugin-editor-iconmenu",
+      new EditorIconMenu(diagram, this.blackboard),
+    );
     //diagram.setUserData("plugin-editor-sidemenu", new EditorSideMenu(
     //    this.getSidebarPlaceholder(diagram), diagram, this.blackboard));
-    diagram.setUserData("plugin-editor-contextmenu", new EditorContextMenu(diagram, this.blackboard, null));
+    diagram.setUserData(
+      "plugin-editor-contextmenu",
+      new EditorContextMenu(diagram, this.blackboard, null),
+    );
 
     //
     // Hotkey manager: `hotKeyManager` in the constructor's overrideDefaultValues
@@ -118,23 +133,34 @@ class EditorPluginManager extends IDiagramObserver {
     //
     if (this.options.hotKeyManager !== false) {
       const HotKeyManager = this.options.hotKeyManager || EditorHotKeysEvents;
-      diagram.setUserData("plugin-editor-hotkeys", new HotKeyManager(diagram, this.blackboard, null));
+      diagram.setUserData(
+        "plugin-editor-hotkeys",
+        new HotKeyManager(diagram, this.blackboard, null),
+      );
     }
 
     //
     // NOTE: must be initiliazed after the icon menu, because icon menu is subscribed on
     //       the default style values
     //
-    diagram.setUserData("plugin-editor-toolbar", new EditorDetachedToolbarMenu(
-      this.getToolbarPlaceholder(diagram), diagram, this.blackboard, this.options.devmode, this.options.styleManager));
+    diagram.setUserData(
+      "plugin-editor-toolbar",
+      new EditorDetachedToolbarMenu(
+        this.getToolbarPlaceholder(diagram),
+        diagram,
+        this.blackboard,
+        this.options.devmode,
+        this.options.styleManager,
+      ),
+    );
 
     // notify observers
-    this.blackboard.notify('diagram:add', diagram);
+    this.blackboard.notify("diagram:add", diagram);
   }
 
   /**
-   * 
-   * @param {BaseDiagram} diagram 
+   *
+   * @param {BaseDiagram} diagram
    */
   onRemoveDiagram(diagram) {
     // Empty
@@ -142,12 +168,12 @@ class EditorPluginManager extends IDiagramObserver {
 
   onSelectDiagramItem(listOfItems) {
     console.log("NOTIFY DATA", listOfItems);
-    this.blackboard.notify('diagram:item:select', listOfItems);
+    this.blackboard.notify("diagram:item:select", listOfItems);
   }
 
   /**
-   * 
-   * @param {BaseConnector} connector 
+   *
+   * @param {BaseConnector} connector
    */
   onAddConnector(connector) {
     //
@@ -155,12 +181,15 @@ class EditorPluginManager extends IDiagramObserver {
     //
 
     // Mainly uses for the context menu commands
-    connector.setUserData("plugin-connector-labels", new ConnectorLabels(connector, this.blackboard))
+    connector.setUserData(
+      "plugin-connector-labels",
+      new ConnectorLabels(connector, this.blackboard),
+    );
 
     //
     // Notify subscribers on connector add
     //
-    this.blackboard.notify('connector:add', connector);
+    this.blackboard.notify("connector:add", connector);
   }
 
   onChangeElement(data) {
@@ -184,38 +213,51 @@ class EditorPluginManager extends IDiagramObserver {
   }
 
   /**
-   * 
-   * @param {BaseElement} element 
+   *
+   * @param {BaseElement} element
    */
   onAddElement(element) {
     // this.wrapWithBorder(element);
-    let nativeBorderRef = $('#' + element.euid + '_Border');
+    let nativeBorderRef = $("#" + element.euid + "_Border");
 
     // make element resizeable
-    element.setUserData("plugin-element-draggable",
-        new ElementDraggable(element, nativeBorderRef, this.blackboard));
-    element.setUserData("plugin-element-contextmenu",
-        new ElementContextMenu(element, nativeBorderRef, this.blackboard));
-    element.setUserData("plugin-element-mouse",
-        new ElementMouseEvents(element, nativeBorderRef, this.blackboard));
+    element.setUserData(
+      "plugin-element-draggable",
+      new ElementDraggable(element, nativeBorderRef, this.blackboard),
+    );
+    element.setUserData(
+      "plugin-element-contextmenu",
+      new ElementContextMenu(element, nativeBorderRef, this.blackboard),
+    );
+    element.setUserData(
+      "plugin-element-mouse",
+      new ElementMouseEvents(element, nativeBorderRef, this.blackboard),
+    );
     //
     // Component's diagram intrface and port are not resizeable
     //
     if (element.options.resizeable !== "none") {
-      console.log("TEMPLATE NAME IS:",element.options );
-      element.setUserData("plugin-element-resizeable",
-        new ElementResizeable(element, nativeBorderRef, this.blackboard));
+      console.log("TEMPLATE NAME IS:", element.options);
+      element.setUserData(
+        "plugin-element-resizeable",
+        new ElementResizeable(element, nativeBorderRef, this.blackboard),
+      );
     }
-    element.setUserData("plugin-element-editable",
-          new ElementEditable(element, nativeBorderRef, this.blackboard));
-  
-    if (element.options.nameTemplate == 'class') {
+    element.setUserData(
+      "plugin-element-editable",
+      new ElementEditable(element, nativeBorderRef, this.blackboard),
+    );
+
+    if (element.options.nameTemplate == "class") {
       // operations and attributes handler
-      element.setUserData("plugin-element-class-extra", new ClassExtras(element, this.blackboard));
+      element.setUserData(
+        "plugin-element-class-extra",
+        new ClassExtras(element, this.blackboard),
+      );
     }
 
     // notify observers if any
-    this.blackboard.notify('element:add', element);
+    this.blackboard.notify("element:add", element);
   }
 
   getToolbarPlaceholder(diagram) {
@@ -238,34 +280,37 @@ class EditorPluginManager extends IDiagramObserver {
     return this.blackboard.getStorageValue("storage:sidebar-selector");
   }
 
-
   initCrossReferences(element, nativeBorderRef) {
     let refN = 0;
     element.jsonModel.references = this.element.references || new Array();
 
-    var subDiagramPaths = element.jsonModel['subdiagrams'] ||
-        element.jsonModel['references'] || {};
+    var subDiagramPaths =
+      element.jsonModel["subdiagrams"] || element.jsonModel["references"] || {};
     var subDiagramRefs =
-        '<div class=\'us-references us-list\'><ul class=\'context-menu-3\'><li id=\'reference-new\'><a>new reference</a></li>';
-    subDiagramRefs += '</ul></div>';
+      "<div class='us-references us-list'><ul class='context-menu-3'><li id='reference-new'><a>new reference</a></li>";
+    subDiagramRefs += "</ul></div>";
 
     element.nativeRef.append(
-        '\
-            <img id=\'' +
-        this.euid + '_REF\' title=\'REFERENCE\' src=\'./images/reference.png\'\
-             class=\'us-element-ref\' style=\'z-index:99999;visibility:hidden;\'></img>');
+      "\
+            <img id='" +
+        this.euid +
+        "_REF' title='REFERENCE' src='./images/reference.png'\
+             class='us-element-ref' style='z-index:99999;visibility:hidden;'></img>",
+    );
 
     nativeBorderRef.append(subDiagramRefs);
 
     for (var g in subDiagramPaths) {
-      element.addReference({text: subDiagramPaths[g]}, true);
+      element.addReference({ text: subDiagramPaths[g] }, true);
     }
 
     // Hide references by default and
     // prevent propagation of click event
-    $('#' + element.euid + '_Border .us-references').hide().click(function(e) {
-      e.stopPropagation();
-    });
+    $("#" + element.euid + "_Border .us-references")
+      .hide()
+      .click(function (e) {
+        e.stopPropagation();
+      });
     /*
             $('#' + element.euid + "_Border #reference-new a").editable({
               onSubmit:function(data){
@@ -284,9 +329,9 @@ class EditorPluginManager extends IDiagramObserver {
   }
 
   toggleElementRefs(element, isShow) {
-    $('#' + this.id + '_REF').css({'visibility': 'hidden'});
-    $('#' + element.euid + '_REF').css({
-      'visibility': (isShow ? 'visible' : 'hidden')
+    $("#" + this.id + "_REF").css({ visibility: "hidden" });
+    $("#" + element.euid + "_REF").css({
+      visibility: isShow ? "visible" : "hidden",
     });
   }
 
@@ -295,9 +340,8 @@ class EditorPluginManager extends IDiagramObserver {
   }
 
   hideAllRefs() {
-    $('#' + this.diagram.euid + ' .us-references').hide();
+    $("#" + this.diagram.euid + " .us-references").hide();
   }
-
 
   hideAllEditable() {
     // Do nothing for  a while
@@ -308,4 +352,4 @@ class EditorPluginManager extends IDiagramObserver {
   }
 }
 
-export {EditorPluginManager}
+export { EditorPluginManager };

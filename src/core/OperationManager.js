@@ -1,5 +1,5 @@
 const defaultOptions = {
-  maxSize: 100
+  maxSize: 100,
 };
 
 //
@@ -118,10 +118,10 @@ class OperationManager {
     if (blackboard) {
       blackboard.notify("opman:changed", {
         canUndo: this.canUndo(),
-        canRedo: this.canRedo()
+        canRedo: this.canRedo(),
       });
     }
   }
 }
 
-export { OperationManager }
+export { OperationManager };

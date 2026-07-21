@@ -1,4 +1,4 @@
-import { EditorActions } from '../EditorActions';
+import { EditorActions } from "../EditorActions";
 
 //
 // Default hotkey manager: maps keydown combinations to EditorActions calls.
@@ -23,11 +23,13 @@ class EditorHotKeysEvents {
     // Check edit mode state
     this.isEditMode = this.blackboard.getStorageValue("editmode");
     this.blackboard.addEventListener(
-      'storage:editmode', this.onEditModeChange.bind(this));
+      "storage:editmode",
+      this.onEditModeChange.bind(this),
+    );
 
     // Bind keyboard events to the diagram element
     // Use keydown event to catch key combinations
-    $(document).on('keydown.' + this.diagram.euid, this.onKeyDown.bind(this));
+    $(document).on("keydown." + this.diagram.euid, this.onKeyDown.bind(this));
   }
 
   onEditModeChange(change) {
@@ -47,7 +49,11 @@ class EditorHotKeysEvents {
     // Check if we're focused on the diagram or its elements
     // Prevent hotkeys when typing in input fields or text areas
     const target = event.target;
-    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+    if (
+      target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.isContentEditable
+    ) {
       return;
     }
 
@@ -55,16 +61,16 @@ class EditorHotKeysEvents {
     const key = event.key.toLowerCase();
 
     // Handle Ctrl+A (Select All)
-    if (ctrlKey && key === 'a') {
+    if (ctrlKey && key === "a") {
       event.preventDefault();
       event.stopPropagation();
-      this.blackboard.notify('hotkey:selectall', this.diagram);
+      this.blackboard.notify("hotkey:selectall", this.diagram);
       EditorActions.selectAll(this.diagram);
       return;
     }
 
     // Handle Ctrl+X (Cut)
-    if (ctrlKey && key === 'x') {
+    if (ctrlKey && key === "x") {
       event.preventDefault();
       event.stopPropagation();
       EditorActions.cut(this.diagram);
@@ -72,7 +78,7 @@ class EditorHotKeysEvents {
     }
 
     // Handle Ctrl+C (Copy)
-    if (ctrlKey && key === 'c') {
+    if (ctrlKey && key === "c") {
       event.preventDefault();
       event.stopPropagation();
       EditorActions.copy(this.diagram);
@@ -80,7 +86,7 @@ class EditorHotKeysEvents {
     }
 
     // Handle Ctrl+V (Paste)
-    if (ctrlKey && key === 'v') {
+    if (ctrlKey && key === "v") {
       event.preventDefault();
       event.stopPropagation();
       EditorActions.paste(this.diagram);
@@ -88,7 +94,7 @@ class EditorHotKeysEvents {
     }
 
     // Handle Delete key
-    if (key === 'delete' || key === 'backspace') {
+    if (key === "delete" || key === "backspace") {
       // Only prevent default if an element is selected
       if (EditorActions.getSelectedItem(this.diagram)) {
         event.preventDefault();
@@ -99,7 +105,7 @@ class EditorHotKeysEvents {
     }
 
     // Handle Ctrl+Z (Undo)
-    if (ctrlKey && key === 'z' && !event.shiftKey) {
+    if (ctrlKey && key === "z" && !event.shiftKey) {
       event.preventDefault();
       event.stopPropagation();
       EditorActions.undo(this.diagram);
@@ -107,7 +113,10 @@ class EditorHotKeysEvents {
     }
 
     // Handle Ctrl+Y or Ctrl+Shift+Z (Redo)
-    if ((ctrlKey && key === 'y') || (ctrlKey && key === 'z' && event.shiftKey)) {
+    if (
+      (ctrlKey && key === "y") ||
+      (ctrlKey && key === "z" && event.shiftKey)
+    ) {
       event.preventDefault();
       event.stopPropagation();
       EditorActions.redo(this.diagram);
@@ -117,7 +126,7 @@ class EditorHotKeysEvents {
 
   // Cleanup method to unbind events when plugin is destroyed
   destroy() {
-    $(document).off('keydown.' + this.diagram.euid);
+    $(document).off("keydown." + this.diagram.euid);
   }
 }
 

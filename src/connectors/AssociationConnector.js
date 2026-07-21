@@ -1,16 +1,16 @@
-import {BaseConnector} from './BaseConnector';
+import { BaseConnector } from "./BaseConnector";
 
 const defaultOptions = {
-  nameTemplate: 'association'
-}
+  nameTemplate: "association",
+};
 
 class AssociationConnector extends BaseConnector {
   constructor(options, jsonModel, diagram) {
-    super({...defaultOptions, ...options}, jsonModel, diagram);
+    super({ ...defaultOptions, ...options }, jsonModel, diagram);
   }
 
   draw(context2, points, color) {
-    if ((points == null) || (points.length < 2)) {
+    if (points == null || points.length < 2) {
       return;
     }
     var ep = points.length - 1;
@@ -26,4 +26,4 @@ class AssociationConnector extends BaseConnector {
   }
 }
 
-export {AssociationConnector}
+export { AssociationConnector };

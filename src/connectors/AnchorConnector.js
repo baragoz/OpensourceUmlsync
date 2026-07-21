@@ -1,17 +1,16 @@
-
-import {BaseConnector} from './BaseConnector';
+import { BaseConnector } from "./BaseConnector";
 
 const defaultOptions = {
-  nameTemplate: 'anchor'
-}
+  nameTemplate: "anchor",
+};
 
 class AnchorConnector extends BaseConnector {
   constructor(options, jsonModel, diagram) {
-    super({...defaultOptions, ...options}, jsonModel, diagram);
+    super({ ...defaultOptions, ...options }, jsonModel, diagram);
   }
 
   draw(c, points, color) {
-    if ((points == null) || (points.length < 2)) {
+    if (points == null || points.length < 2) {
       return;
     }
     for (var i = 0; i < points.length - 1; ++i) {
@@ -26,4 +25,4 @@ class AnchorConnector extends BaseConnector {
   }
 }
 
-export {AnchorConnector}
+export { AnchorConnector };

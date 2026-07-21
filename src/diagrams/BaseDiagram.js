@@ -1,23 +1,23 @@
-import { BaseDiagramItem } from '../core/BaseDiagramItem.js';
-import { BaseConnector } from '../connectors/BaseConnector.js';
-import { BaseElement } from '../elements/BaseElement.js';
-import { IDiagramObserver } from '../interfaces/IDiagramObserver.js';
+import { BaseDiagramItem } from "../core/BaseDiagramItem.js";
+import { BaseConnector } from "../connectors/BaseConnector.js";
+import { BaseElement } from "../elements/BaseElement.js";
+import { IDiagramObserver } from "../interfaces/IDiagramObserver.js";
 
 const defaultOptions = {
   prefix: "dm",
   multicanvas: true,
-  nameTemplate: 'baseDiagram',
+  nameTemplate: "baseDiagram",
   editmode: false,
-  type: 'base',
+  type: "base",
   globalId: 1,
   maxZIndex: 5000,
   minZIndex: 5000,
-  acceptElements: []
+  acceptElements: [],
 };
 
 const defaultModel = {
   width: 1200,
-  height: 600
+  height: 600,
 };
 
 class BaseDiagram extends BaseDiagramItem {
@@ -61,8 +61,16 @@ class BaseDiagram extends BaseDiagramItem {
   //
   //  Width/Height could be modified via options
   //
-  constructor(overrideDefaultOptions, jsonModel, constructionOptions, observer) {
-    super({ ...defaultOptions, ...overrideDefaultOptions, ...constructionOptions }, "dm" + jsonModel.id);
+  constructor(
+    overrideDefaultOptions,
+    jsonModel,
+    constructionOptions,
+    observer,
+  ) {
+    super(
+      { ...defaultOptions, ...overrideDefaultOptions, ...constructionOptions },
+      "dm" + jsonModel.id,
+    );
 
     /**
      * @type {IDiagramObserver}
@@ -77,7 +85,7 @@ class BaseDiagram extends BaseDiagramItem {
     // we could not add it to chonfig, because w/h are changeable
     //
     this.parentHeight = constructionOptions.height || this.parentHeight;
-    this.parentWidth = constructionOptions.width || this.parentWidth
+    this.parentWidth = constructionOptions.width || this.parentWidth;
 
     //
     // Initial stub for error handler
@@ -87,8 +95,8 @@ class BaseDiagram extends BaseDiagramItem {
     this.errorHandler = {
       show: function (error) {
         console.log(error);
-      }
-    }
+      },
+    };
 
     // Create HTML part
     this._create();
@@ -113,7 +121,8 @@ class BaseDiagram extends BaseDiagramItem {
     if (this.options.multicanvas) {
       var p = this._getDiagramSize(this.options);
       // Scroll X and Y correspondingly
-      var sx = false, sy = false;
+      var sx = false,
+        sy = false;
 
       // Alignement of the parent frame by width and height
       var $par = $(this.parentId);
@@ -122,35 +131,40 @@ class BaseDiagram extends BaseDiagramItem {
       $par.css("display", "flex");
 
       // Parent setup complete
-      this.canvasEuid = this.euid + '_Canvas';
-      this.element =
-        $(this.parentId)
-          //
-          // Placeholder for diagram + canvas
-          //
-          .append(
-            '<div id="' + this.euid +
+      this.canvasEuid = this.euid + "_Canvas";
+      this.element = $(this.parentId)
+        //
+        // Placeholder for diagram + canvas
+        //
+        .append(
+          '<div id="' +
+            this.euid +
             '" class="us-diagram" width="100%" height="100%">\
                 <canvas id="' +
-            this.euid + '_Canvas" class="us-canvas" width=' + p.width +
-            'px height=' + p.height + 'px>\
+            this.euid +
+            '_Canvas" class="us-canvas" width=' +
+            p.width +
+            "px height=" +
+            p.height +
+            'px>\
                 <p>Unfortunately your browser doesn\'t support canvas.</p></canvas>\
                 <div class="us-canvas-bg" style="width:100%;height:100%;">\
-                </div></div>');
+                </div></div>',
+        );
 
-      $('#' + this.euid + '.us-diagram').css({
-        'overflow-x': (sx ? 'scroll' : 'auto'),
-        'overflow-y': (sy ? 'scroll' : 'auto')
+      $("#" + this.euid + ".us-diagram").css({
+        "overflow-x": sx ? "scroll" : "auto",
+        "overflow-y": sy ? "scroll" : "auto",
       });
-
     } else {
-      this.element = $(this.parentId)
-        .append(
-          '<div id="' + this.euid +
+      this.element = $(this.parentId).append(
+        '<div id="' +
+          this.euid +
           '" class="us-diagram" width="100%" height="100%">\
                 <div class="us-canvas-bg" style="width:100%;height:100%;">\
-                </div></div>');
-      this.canvasEuid = 'SingleCanvas';
+                </div></div>',
+      );
+      this.canvasEuid = "SingleCanvas";
     }
     this.canvas = window.document.getElementById(this.canvasEuid);
     this.canvas.width = this.parentWidth - 250 - 12;
@@ -167,9 +181,9 @@ class BaseDiagram extends BaseDiagramItem {
   applyZoomIfNeeded() {
     if (this.options.zoom && this.options.zoom !== 1) {
       this.nativeRef.css({
-        'transform': 'scale(' + this.options.zoom + ')',
-        'transform-origin': 'top left',
-        'overflow': 'hidden'
+        transform: "scale(" + this.options.zoom + ")",
+        "transform-origin": "top left",
+        overflow: "hidden",
       });
       // Note: no need to scale down the canvas, it is done via transform above
       // this.canvas.getContext('2d').scale(this.options.zoom, this.options.zoom);
@@ -190,7 +204,7 @@ class BaseDiagram extends BaseDiagramItem {
   //
   // Diagram could be bigger then the space of the parent element
   // Canvas - should be the same size as parent
-  //          and use offset value to re-draw connectors on scroll 
+  //          and use offset value to re-draw connectors on scroll
   //
   _getDiagramSize() {
     var w = this.jsonModel.width;
@@ -217,11 +231,11 @@ class BaseDiagram extends BaseDiagramItem {
       for (var v in this.jsonModel.connectors) {
         for (var c in this.jsonModel.connectors[v].epoints) {
           var p = this.jsonModel.connectors[v].epoints[c];
-          if (w < parseInt(p['0'])) {
-            w = parseInt(p['0']);
+          if (w < parseInt(p["0"])) {
+            w = parseInt(p["0"]);
           }
-          if (h < parseInt(p['1'])) {
-            h = parseInt(p['1']);
+          if (h < parseInt(p["1"])) {
+            h = parseInt(p["1"]);
           }
         }
       }
@@ -231,17 +245,16 @@ class BaseDiagram extends BaseDiagramItem {
     return { width: w, height: h };
   }
 
-  _init() {
-  }
+  _init() {}
 
   getDescription() {
     let result = {
       nameTemplate: this.options.nameTemplate,
-      width: this.parentWidth,  // TODO: replace on AABB of the contnet points
+      width: this.parentWidth, // TODO: replace on AABB of the contnet points
       height: this.parentHeight,
       elements: [],
-      connectors: []
-    }
+      connectors: [],
+    };
 
     //
     // list of connectors which is based on element's ids, which are unique because of
@@ -257,7 +270,6 @@ class BaseDiagram extends BaseDiagramItem {
 
     return result;
   }
-
 
   isPointOnLine(x, y) {
     //
@@ -334,7 +346,11 @@ class BaseDiagram extends BaseDiagramItem {
       //
       this.transformConnector = this.highlightedConnector;
       this.transformConnector._setOption("selected", true);
-      this.transformConnector.startTransform(Math.round(x), Math.round(y), this.getDiagramOffset());
+      this.transformConnector.startTransform(
+        Math.round(x),
+        Math.round(y),
+        this.getDiagramOffset(),
+      );
     }
   }
   /**
@@ -344,7 +360,11 @@ class BaseDiagram extends BaseDiagramItem {
 
   stopConnectorTransform(x, y) {
     if (this.transformConnector != null) {
-      this.transformConnector.stopTransform(Math.round(x), Math.round(y), this.getDiagramOffset());
+      this.transformConnector.stopTransform(
+        Math.round(x),
+        Math.round(y),
+        this.getDiagramOffset(),
+      );
     }
     this.transformConnector = null;
   }
@@ -358,33 +378,51 @@ class BaseDiagram extends BaseDiagramItem {
     this.removedElements = [];
 
     // For all elements in JSON description try to create an element
-    for (var i in this.jsonModel['elements']) {
-      const tmp = this.jsonModel['elements'][i];
-      // How to get options which described in menu JSON ? 
+    for (var i in this.jsonModel["elements"]) {
+      const tmp = this.jsonModel["elements"][i];
+      // How to get options which described in menu JSON ?
       this.Element(tmp.nameTemplate, tmp);
 
       // Calculate helper indexes
       //
       // Note: It could be easier to save them to JSON model, BUT
       //       for another hand it could be the cause of multiple git merge conflicts
-      this.options.maxZIndex = Math.max(this.options.maxZIndex, parseInt(tmp['z-index']) || 1000);
-      this.options.minZIndex = Math.min(this.options.minZIndex, parseInt(tmp['z-index']) || 35000);
-      this.options.globalId = Math.max(this.options.globalId, parseInt(tmp['id']) || 1);
+      this.options.maxZIndex = Math.max(
+        this.options.maxZIndex,
+        parseInt(tmp["z-index"]) || 1000,
+      );
+      this.options.minZIndex = Math.min(
+        this.options.minZIndex,
+        parseInt(tmp["z-index"]) || 35000,
+      );
+      this.options.globalId = Math.max(
+        this.options.globalId,
+        parseInt(tmp["id"]) || 1,
+      );
     }
 
-    // For all connectors in JSON description try to create a connector 
-    for (var i in this.jsonModel['connectors']) {
-      this.jsonModel['connectors'][i]['stored'] = true;
-      const tmp = this.jsonModel['connectors'][i];
+    // For all connectors in JSON description try to create a connector
+    for (var i in this.jsonModel["connectors"]) {
+      this.jsonModel["connectors"][i]["stored"] = true;
+      const tmp = this.jsonModel["connectors"][i];
       this.Connector(tmp.nameTemplate, tmp);
 
       // Calculate helper indexes
       //
       // Note: It could be easier to save them to JSON model, BUT
       //       for another hand it could be the cause of multiple git merge conflicts
-      this.options.maxZIndex = Math.max(this.options.maxZIndex, parseInt(tmp['z-index']) || 1000);
-      this.options.minZIndex = Math.min(this.options.minZIndex, parseInt(tmp['z-index']) || 35000);
-      this.options.globalId = Math.max(this.options.globalId, parseInt(tmp['id']) || 1);
+      this.options.maxZIndex = Math.max(
+        this.options.maxZIndex,
+        parseInt(tmp["z-index"]) || 1000,
+      );
+      this.options.minZIndex = Math.min(
+        this.options.minZIndex,
+        parseInt(tmp["z-index"]) || 35000,
+      );
+      this.options.globalId = Math.max(
+        this.options.globalId,
+        parseInt(tmp["id"]) || 1,
+      );
     }
 
     // Load Complete
@@ -465,14 +503,15 @@ class BaseDiagram extends BaseDiagramItem {
     if (this.options.acceptElements) {
       if (this.options.acceptElements.indexOf(elementType) < 0) {
         this.errorHandler.show(
-          elementType + ' is not in the list of acceptable elements');
+          elementType + " is not in the list of acceptable elements",
+        );
         return;
       }
     }
 
     // Clone the model
     jsonModel = { ...jsonModel };
-    jsonModel['z-index'] = this.getNextZIndex();
+    jsonModel["z-index"] = this.getNextZIndex();
     jsonModel.id = jsonModel.id || this.getNextUniqueId();
 
     //
@@ -486,18 +525,25 @@ class BaseDiagram extends BaseDiagramItem {
     // in the import list on top...
     //
     // For example: if class diagram should support class, package and note,
-    //              then ClassDiagram.js is responsible for import of that elements 
+    //              then ClassDiagram.js is responsible for import of that elements
     //
-    let objIntance = this.createElement(elementType, jsonModel, { prefix: this.options.prefix });
+    let objIntance = this.createElement(elementType, jsonModel, {
+      prefix: this.options.prefix,
+    });
 
-    console.log("Created element:" + objIntance.euid + " ID: " + objIntance.jsonModel.id);
+    console.log(
+      "Created element:" + objIntance.euid + " ID: " + objIntance.jsonModel.id,
+    );
     //
     // Show error, via error handler, if we failed to create element
     //
     if (!objIntance) {
       this.errorHandler.show(
-        'Failed to create: ' + elementType + ' for diagram ' +
-        this.options.nameTemplate);
+        "Failed to create: " +
+          elementType +
+          " for diagram " +
+          this.options.nameTemplate,
+      );
       return;
     }
     return objIntance;
@@ -506,9 +552,7 @@ class BaseDiagram extends BaseDiagramItem {
   //
   // Override in an implementation class
   //
-  createElement(elementType, jsonModel, options) {
-
-  }
+  createElement(elementType, jsonModel, options) {}
 
   /**
    * Find an element by its id
@@ -532,7 +576,10 @@ class BaseDiagram extends BaseDiagramItem {
       const [id1, id2] = this.connectors[i].getEndPointIds();
       if (id === id1 || id === id2) {
         // notify observer about connector removal
-        this.observer.onJsonModelChange("remove:connector", this.connectors[i].getDescription());
+        this.observer.onJsonModelChange(
+          "remove:connector",
+          this.connectors[i].getDescription(),
+        );
         // Remove instance
         this.connectors[i].removeInstance();
         // Remove from array
@@ -543,7 +590,10 @@ class BaseDiagram extends BaseDiagramItem {
     for (var i in this.elements) {
       if (this.elements[i].euid === euid) {
         // Notify observer about connector removal
-        this.observer.onJsonModelChange("remove:element", this.elements[i].getDescription());
+        this.observer.onJsonModelChange(
+          "remove:element",
+          this.elements[i].getDescription(),
+        );
         // remove visual part
         this.elements[i].removeInstance();
         // remove from array
@@ -574,15 +624,19 @@ class BaseDiagram extends BaseDiagramItem {
   Connector(connectorType, jsonModel = {}) {
     // Clone the model
     jsonModel = { ...jsonModel };
-    jsonModel['z-index'] = jsonModel["z-index"] || this.getNextZIndex();
+    jsonModel["z-index"] = jsonModel["z-index"] || this.getNextZIndex();
     jsonModel.id = jsonModel.id || this.getNextUniqueId();
     let prefix = this.options.prefix + "c" + jsonModel.id + "-";
 
-    let objIntance = this.createConnector(connectorType, jsonModel, { prefix: prefix });
+    let objIntance = this.createConnector(connectorType, jsonModel, {
+      prefix: prefix,
+    });
 
     if (!objIntance) {
       console.log("Failed to create connector:", jsonModel);
-      objIntance = this.createConnector(connectorType, jsonModel, { prefix: prefix });
+      objIntance = this.createConnector(connectorType, jsonModel, {
+        prefix: prefix,
+      });
     }
 
     //
@@ -590,8 +644,11 @@ class BaseDiagram extends BaseDiagramItem {
     //
     if (!objIntance) {
       this.errorHandler.show(
-        'Failed to create: ' + connectorType + ' for diagram ' +
-        this.options.nameTemplate);
+        "Failed to create: " +
+          connectorType +
+          " for diagram " +
+          this.options.nameTemplate,
+      );
       return;
     }
     return objIntance;
@@ -605,7 +662,10 @@ class BaseDiagram extends BaseDiagramItem {
     for (var i in this.connectors) {
       if (this.connectors[i].euid === euid) {
         // Notify observer about connector removal
-        this.observer.onJsonModelChange("remove:connector", this.connectors[i].getDescription());
+        this.observer.onJsonModelChange(
+          "remove:connector",
+          this.connectors[i].getDescription(),
+        );
         // remove visual part
         this.connectors[i].removeInstance();
         // remove from array
@@ -625,7 +685,6 @@ class BaseDiagram extends BaseDiagramItem {
     var $par = $(this.parentId);
     $par.width(this.parentWidth);
     $par.height(this.parentHeight);
-
 
     this.nativeRef.width(this.parentWidth);
     this.nativeRef.height(this.parentHeight);
@@ -647,18 +706,19 @@ class BaseDiagram extends BaseDiagramItem {
 
     var mazi = -1;
     for (var i in this.elements) {
-      if (this.elements[i].options.single)
-        continue;
+      if (this.elements[i].options.single) continue;
 
       var e = this.elements[i].nativeBorderRef;
       var p = e.position(),
         w = e.width(),
         h = e.height();
 
-      if ((ui.position.left > p.left + scrollLeft)
-        && (ui.position.left < p.left + w + scrollLeft)
-        && (ui.position.top > p.top + scrollTop)
-        && (ui.position.top < p.top + h + scrollTop)) {
+      if (
+        ui.position.left > p.left + scrollLeft &&
+        ui.position.left < p.left + w + scrollLeft &&
+        ui.position.top > p.top + scrollTop &&
+        ui.position.top < p.top + h + scrollTop
+      ) {
         //
         // get max z-index
         //
@@ -666,7 +726,6 @@ class BaseDiagram extends BaseDiagramItem {
           result = this.elements[i];
           mazi = this.elements[i].jsonModel["z-index"];
         }
-
       }
     }
     return result;
@@ -675,7 +734,7 @@ class BaseDiagram extends BaseDiagramItem {
   getDiagramOffset() {
     return {
       top: this.nativeRef.scrollTop(),
-      left: this.nativeRef.scrollLeft()
+      left: this.nativeRef.scrollLeft(),
     };
   }
 
@@ -683,11 +742,10 @@ class BaseDiagram extends BaseDiagramItem {
   // Redraw all connectors
   //
   draw() {
-    if (!this.canvas)
-      return;
+    if (!this.canvas) return;
     var ctx = this.canvas.getContext("2d");
 
-    ctx.fillStyle = "#EEEEEE";//"rgba(140,140,140,1)";
+    ctx.fillStyle = "#EEEEEE"; //"rgba(140,140,140,1)";
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     if (Object.keys(this.connectors).length > 0) {
@@ -697,8 +755,8 @@ class BaseDiagram extends BaseDiagramItem {
       for (var c in this.connectors) {
         ctx.lineWidth = 1;
 
-        if (this.connectors[c].options['line-width'] != undefined) {
-          ctx.lineWidth = this.connectors[c].options['line-width'];
+        if (this.connectors[c].options["line-width"] != undefined) {
+          ctx.lineWidth = this.connectors[c].options["line-width"];
         }
 
         //
@@ -706,26 +764,34 @@ class BaseDiagram extends BaseDiagramItem {
         // 2. Highlighted
         // 3. Normal
         //
-        if (this.connectors[c].options['selected']) {
+        if (this.connectors[c].options["selected"]) {
           ctx.lineWidth += 2;
           this.connectors[c].redraw(ctx, scrollOffset, "#43EC28");
           ctx.lineWidth -= 2;
-          // TODO: simplify code ???? do not copy-past from the 3-rd else ??? 
-          if (this.connectors[c].options['color']) {
-            this.connectors[c].redraw(ctx, scrollOffset, this.connectors[c].options['color']);
-          } else
-            this.connectors[c].redraw(ctx, scrollOffset);
-        } else if (this.connectors[c].options['highlighted'] ||
-          this.highlightedConnector == this.connectors[c]) {
+          // TODO: simplify code ???? do not copy-past from the 3-rd else ???
+          if (this.connectors[c].options["color"]) {
+            this.connectors[c].redraw(
+              ctx,
+              scrollOffset,
+              this.connectors[c].options["color"],
+            );
+          } else this.connectors[c].redraw(ctx, scrollOffset);
+        } else if (
+          this.connectors[c].options["highlighted"] ||
+          this.highlightedConnector == this.connectors[c]
+        ) {
           this.connectors[c].redraw(ctx, scrollOffset, "#43EC28");
         } else {
           //
           //  Not sure if we need to support a custom colors
           //
-          if (this.connectors[c].options['color']) {
-            this.connectors[c].redraw(ctx, scrollOffset, this.connectors[c].options['color']);
-          } else
-            this.connectors[c].redraw(ctx, scrollOffset);
+          if (this.connectors[c].options["color"]) {
+            this.connectors[c].redraw(
+              ctx,
+              scrollOffset,
+              this.connectors[c].options["color"],
+            );
+          } else this.connectors[c].redraw(ctx, scrollOffset);
         }
       }
       ctx.lineWidth = 1;
@@ -734,11 +800,11 @@ class BaseDiagram extends BaseDiagramItem {
 
   snippetMode = false;
   showSnippetBubble(element) {
-    alert('Show snippet bubble. Not implemented');
+    alert("Show snippet bubble. Not implemented");
   }
 
   _setWidgetsOption(key, value) {
-    if (key == 'selected') {
+    if (key == "selected") {
       for (var i in this.elements) {
         this.elements[i]._setOption(key, value);
       }
@@ -752,10 +818,9 @@ class BaseDiagram extends BaseDiagramItem {
     }
   }
 
-
   #resetSelectedItems() {
     this.selectedItems.forEach((item) => {
-      item._setOption('selected', false);
+      item._setOption("selected", false);
     });
     this.selectedItems = [];
   }
@@ -769,7 +834,7 @@ class BaseDiagram extends BaseDiagramItem {
 
     // Set selected option to true for each item
     this.selectedItems.forEach((item) => {
-      item._setOption('selected', true);
+      item._setOption("selected", true);
     });
 
     // Notify observer about selection change
@@ -802,13 +867,14 @@ class BaseDiagram extends BaseDiagramItem {
 
   #toggleSelectItem(item, ctrlDown, isSelect = true) {
     if (ctrlDown) {
-      if (!item)
-        return;
+      if (!item) return;
       //
       // Add or remove item to the list of selected
       //
       if (item.options.selected) {
-        this.selectedItems = this.selectedItems.filter((elem) => { return elem != item });
+        this.selectedItems = this.selectedItems.filter((elem) => {
+          return elem != item;
+        });
       } else {
         this.selectedItems.push(item);
       }
@@ -838,14 +904,13 @@ class BaseDiagram extends BaseDiagramItem {
   }
 
   /**
-   * 
-   * @param {BaseElement | null} refElement 
-   * @param {Event} evt 
-   * @param {boolean} isDoubleClick 
-   * @returns 
+   *
+   * @param {BaseElement | null} refElement
+   * @param {Event} evt
+   * @param {boolean} isDoubleClick
+   * @returns
    */
   onMouseClick(refElement, evt, isDoubleClick) {
-
     if (!this.options.editmode) {
       // Do nothing if it is not an edit mode
       return;
@@ -879,7 +944,6 @@ class BaseDiagram extends BaseDiagramItem {
 
   onMouseEnter(element) {
     // TODO: do not forget this.options.editmode if you decide to add something to this method
-
     // Show "REFERENCE" for viewer mode   - MOVE TO PLUGIN
     // if (!this.isEditable() && (element.options.subdiagrams)) {
     //  this.observer.showElementRefs(element);
@@ -891,7 +955,6 @@ class BaseDiagram extends BaseDiagramItem {
     // TODO: do not forget this.options.editmode if you decide to add something to this method
   }
 
-
   checkDroppableElement(de /* dropped_element */) {
     //
     // Could not relay on jsonModel at this point
@@ -899,7 +962,7 @@ class BaseDiagram extends BaseDiagramItem {
     const dp = de.nativeBorderRef.position();
     const ds = {
       width: de.nativeBorderRef.width(),
-      height: de.nativeBorderRef.height()
+      height: de.nativeBorderRef.height(),
     };
 
     var zindex = -100;
@@ -907,26 +970,31 @@ class BaseDiagram extends BaseDiagramItem {
 
     for (var d in this.elements) {
       const item = this.elements[d];
-      if (item === de                // the same element
-        || !item.options.acceptdrop  // do not accept any elements for drop
+      if (
+        item === de || // the same element
+        !item.options.acceptdrop || // do not accept any elements for drop
         // do not accept an element type as drop
-        || item.options.acceptdrop.indexOf(de.options.nameTemplate) < 0) {
+        item.options.acceptdrop.indexOf(de.options.nameTemplate) < 0
+      ) {
         continue;
       }
 
       var p = item.nativeBorderRef.position();
       var sz = {
         width: item.nativeBorderRef.width(),
-        height: item.nativeBorderRef.height()
+        height: item.nativeBorderRef.height(),
       };
 
       //
-      // Check if dropped element inside current 
-      // 
-      if ((dp.left > p.left) && (dp.left + ds.width < p.left + sz.width) && (dp.top > p.top) &&
-        (dp.top + ds.height < p.top + sz.height)) {
-
-        const zi = parseInt(item.jsonModel['z-index']);
+      // Check if dropped element inside current
+      //
+      if (
+        dp.left > p.left &&
+        dp.left + ds.width < p.left + sz.width &&
+        dp.top > p.top &&
+        dp.top + ds.height < p.top + sz.height
+      ) {
+        const zi = parseInt(item.jsonModel["z-index"]);
         if (zi > zindex) {
           zindex = zi;
           result = item;
@@ -945,7 +1013,7 @@ class BaseDiagram extends BaseDiagramItem {
     const dp = de.nativeBorderRef.position();
     const ds = {
       width: de.nativeBorderRef.width(),
-      height: de.nativeBorderRef.height()
+      height: de.nativeBorderRef.height(),
     };
 
     var zindex = -100;
@@ -953,26 +1021,31 @@ class BaseDiagram extends BaseDiagramItem {
 
     for (var d in this.elements) {
       const item = this.elements[d];
-      if (item === de
-        || !item.options.acceptdrop
-        || item.options.acceptdrop.indexOf(de.options.nameTemplate) < 0) {
+      if (
+        item === de ||
+        !item.options.acceptdrop ||
+        item.options.acceptdrop.indexOf(de.options.nameTemplate) < 0
+      ) {
         continue;
       }
 
       const p = item.nativeBorderRef.position();
       const sz = {
         width: item.nativeBorderRef.width(),
-        height: item.nativeBorderRef.height()
+        height: item.nativeBorderRef.height(),
       };
 
       //
       // Check if dropped element's rect overlaps the accepting element's rect
       //
-      const overlaps = (dp.left < p.left + sz.width) && (dp.left + ds.width > p.left) &&
-        (dp.top < p.top + sz.height) && (dp.top + ds.height > p.top);
+      const overlaps =
+        dp.left < p.left + sz.width &&
+        dp.left + ds.width > p.left &&
+        dp.top < p.top + sz.height &&
+        dp.top + ds.height > p.top;
 
       if (overlaps) {
-        const zi = parseInt(item.jsonModel['z-index']);
+        const zi = parseInt(item.jsonModel["z-index"]);
         if (zi > zindex) {
           zindex = zi;
           result = item;
@@ -1004,12 +1077,12 @@ class BaseDiagram extends BaseDiagramItem {
     }
 
     if (parent) {
-      const pz = parseInt(parent.jsonModel['z-index']);
-      const ez = parseInt(element.jsonModel['z-index']);
+      const pz = parseInt(parent.jsonModel["z-index"]);
+      const ez = parseInt(element.jsonModel["z-index"]);
       // parent on top of element - bump the nested element above it
       if (pz > ez) {
-        parent._setOption('z-index', ez);
-        element._setOption('z-index', pz);
+        parent._setOption("z-index", ez);
+        element._setOption("z-index", pz);
       }
     }
   }
@@ -1031,12 +1104,16 @@ class BaseDiagram extends BaseDiagramItem {
   //
   checkDropAtPosition(x, y) {
     for (var d in this.elements) {
-      let elm = $('#' + this.elements[d].euid + '_Border');
+      let elm = $("#" + this.elements[d].euid + "_Border");
       var p = elm.position();
       var sz = elm.size();
 
-      if ((x > p.left) && (x < p.left + sz.width) && (y > p.top) &&
-        (y < p.top + sz.height)) {
+      if (
+        x > p.left &&
+        x < p.left + sz.width &&
+        y > p.top &&
+        y < p.top + sz.height
+      ) {
         return this.elements[d].euid;
       }
     }
@@ -1049,14 +1126,24 @@ class BaseDiagram extends BaseDiagramItem {
   setDropHelper(dropHelper) {
     if (!dropHelper) {
       delete this.dropHelper;
-      $("#" + this.euid + " .us-element-border").draggable("option", "helper", 'original');
+      $("#" + this.euid + " .us-element-border").draggable(
+        "option",
+        "helper",
+        "original",
+      );
       return;
     }
     this.dropHelper = dropHelper;
-    $("#" + this.euid + " .us-element-border").draggable("option", "helper", function (event) {
-      return $("<div id='ConnectionHelper_Border' style='border:solid black;border-width:1px;'>\
-          <div id='ConnectionHelper' style='border:solid yellow;border-width:1px;'> [ x ]</div></div>");
-    });
+    $("#" + this.euid + " .us-element-border").draggable(
+      "option",
+      "helper",
+      function (event) {
+        return $(
+          "<div id='ConnectionHelper_Border' style='border:solid black;border-width:1px;'>\
+          <div id='ConnectionHelper' style='border:solid yellow;border-width:1px;'> [ x ]</div></div>",
+        );
+      },
+    );
   }
 
   removeInstance() {
@@ -1089,14 +1176,13 @@ class BaseDiagram extends BaseDiagramItem {
     }
   }
 
-
   //
   // Element DND observer API
   //
   onElementDragStart(element, ui) {
     console.log("ON ELEMENT DRAG START: ", element.euid);
     //
-    // 
+    //
     //
     element.onDragStart(ui);
     //
@@ -1105,11 +1191,10 @@ class BaseDiagram extends BaseDiagramItem {
     if (this.selectedItems.length > 1) {
       for (var i in this.elements) {
         var ee = this.elements[i];
-        if (ee.options["selected"]
-          && !ee.options["dragStart"]) {
+        if (ee.options["selected"] && !ee.options["dragStart"]) {
           ee.onDragStart(ui);
         }
-      }  // elements
+      } // elements
     }
 
     // Diagram-specific drag-start handling (e.g. nested/droppable elements)
@@ -1128,13 +1213,25 @@ class BaseDiagram extends BaseDiagramItem {
       }
     }
 
-
     //
     // Update list of connectors to DND
     //
     for (var i in this.connectors) {
       var tmpConnector = this.connectors[i];
-      if (tmpConnector.options["selected"]) {
+      //
+      // A connector can still be marked selected here even though the
+      // user is now dragging an unrelated element: selection is only
+      // cleared on the connector/element "click" (mouseup), which fires
+      // after jQuery UI's draggable "start" (mousemove-threshold) has
+      // already triggered onElementDragStart. Sequence diagrams rely on
+      // dragging a selected connector along with an element on purpose;
+      // for other diagram types this stale selection must not drag the
+      // connector along.
+      //
+      if (
+        tmpConnector.options["selected"] &&
+        this.options["type"] === "sequence"
+      ) {
         this.connectors[i].onDragStart(ui);
         continue;
       }
@@ -1148,21 +1245,23 @@ class BaseDiagram extends BaseDiagramItem {
       const id1InDraggable = id1 !== null && draggable.indexOf(id1) >= 0;
       const id2InDraggable = id2 !== null && draggable.indexOf(id2) >= 0;
 
-      if ((id1InDraggable && id2InDraggable) ||
+      if (
+        (id1InDraggable && id2InDraggable) ||
         (id1InDraggable && id2 === null) ||
-        (id2InDraggable && id1 === null)) {
+        (id2InDraggable && id1 === null)
+      ) {
         this.connectors[i].onDragStart(ui);
       }
-    }  // connectors
-
+    } // connectors
   }
-
 
   onElementDragMove(element, ui) {
     // Elements
     for (var i in this.elements) {
-      if (this.elements[i].options["dragStart"]
-        && this.elements[i] != element) {
+      if (
+        this.elements[i].options["dragStart"] &&
+        this.elements[i] != element
+      ) {
         // Drag move updates the css of the element
         // Skip draggable element to avoid infinite loop
         this.elements[i].onDragMove(ui);
@@ -1176,15 +1275,13 @@ class BaseDiagram extends BaseDiagramItem {
     }
   }
 
-
   onElementDragStop(element, ui) {
     element.onDragStop(ui, true);
 
     // In case of multiple elements DND.
     for (var i in this.elements) {
       var ee = this.elements[i];
-      if (ee.options["dragStart"]
-        && ee != element) {
+      if (ee.options["dragStart"] && ee != element) {
         ee.onDragStop(ui);
         ee._update();
       }
@@ -1203,16 +1300,13 @@ class BaseDiagram extends BaseDiagramItem {
   // Hook for diagrams that support nested/droppable elements
   // (e.g. PackageDiagram, ComponentsDiagram). No-op by default.
   //
-  handleElementDragStart(element, ui) {
-  }
+  handleElementDragStart(element, ui) {}
 
   //
   // Hook for diagrams that support nested/droppable elements
   // (e.g. PackageDiagram, ComponentsDiagram). No-op by default.
   //
-  handleElementDragStop(element, ui) {
-  }
-
+  handleElementDragStop(element, ui) {}
 }
 
-export { BaseDiagram }
+export { BaseDiagram };

@@ -1,5 +1,5 @@
-import configLoader from '../utils/ConfigLoader';
-import { BaseConnector } from '../connectors/BaseConnector';
+import configLoader from "../utils/ConfigLoader";
+import { BaseConnector } from "../connectors/BaseConnector";
 
 //
 // Public editor action surface. Hotkey managers (default or custom) should
@@ -25,7 +25,7 @@ function getSelectedItem(diagram) {
 
 function getSelectedElement(diagram) {
   const selectedItem = getSelectedItem(diagram);
-  if (selectedItem && selectedItem.constructor.name !== 'BaseConnector') {
+  if (selectedItem && selectedItem.constructor.name !== "BaseConnector") {
     return selectedItem;
   }
   return null;
@@ -44,7 +44,7 @@ function copy(diagram) {
   }
   const selectedElement = getSelectedElement(diagram);
   if (selectedElement) {
-    configLoader.executeCommand('command:element:copy', selectedElement, null);
+    configLoader.executeCommand("command:element:copy", selectedElement, null);
   }
 }
 
@@ -54,7 +54,7 @@ function cut(diagram) {
   }
   const selectedElement = getSelectedElement(diagram);
   if (selectedElement) {
-    configLoader.executeCommand('command:element:cut', selectedElement, null);
+    configLoader.executeCommand("command:element:cut", selectedElement, null);
   }
 }
 
@@ -62,14 +62,15 @@ function paste(diagram, data) {
   if (!isEditMode(diagram)) {
     return;
   }
-  configLoader.executeCommand('command:diagram:paste', diagram, data);
+  configLoader.executeCommand("command:diagram:paste", diagram, data);
 }
 
 function deleteSelection(diagram) {
   if (!isEditMode(diagram)) {
     return;
   }
-  const selectedItems = (diagram && diagram.selectedItems) ? [...diagram.selectedItems] : [];
+  const selectedItems =
+    diagram && diagram.selectedItems ? [...diagram.selectedItems] : [];
   if (selectedItems.length === 0) {
     return;
   }
@@ -81,9 +82,9 @@ function deleteSelection(diagram) {
 
   selectedItems.forEach((item) => {
     if (item instanceof BaseConnector) {
-      configLoader.executeCommand('command:connector:remove', item, null);
+      configLoader.executeCommand("command:connector:remove", item, null);
     } else {
-      configLoader.executeCommand('command:element:remove', item, null);
+      configLoader.executeCommand("command:element:remove", item, null);
     }
   });
 
@@ -107,7 +108,7 @@ function undo(diagram) {
   }
   const blackboard = diagram.getUserData("blackboard");
   if (blackboard) {
-    blackboard.notify('hotkey:undo', diagram);
+    blackboard.notify("hotkey:undo", diagram);
   }
 }
 
@@ -120,7 +121,7 @@ function redo(diagram) {
   }
   const blackboard = diagram.getUserData("blackboard");
   if (blackboard) {
-    blackboard.notify('hotkey:redo', diagram);
+    blackboard.notify("hotkey:redo", diagram);
   }
 }
 
@@ -134,7 +135,7 @@ const EditorActions = {
   paste,
   deleteSelection,
   undo,
-  redo
+  redo,
 };
 
 export { EditorActions };

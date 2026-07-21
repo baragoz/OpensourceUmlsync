@@ -1,15 +1,15 @@
-import { BaseConnector } from '../../connectors/BaseConnector';
-import { BaseDiagramItem } from '../../core/BaseDiagramItem';
-import { BaseDiagram } from '../../diagrams/BaseDiagram';
-import { BaseElement } from '../../elements/BaseElement';
-import { Blackboard } from '../../utils/Blackboard';
-import configLoader from '../../utils/ConfigLoader';
+import { BaseConnector } from "../../connectors/BaseConnector";
+import { BaseDiagramItem } from "../../core/BaseDiagramItem";
+import { BaseDiagram } from "../../diagrams/BaseDiagram";
+import { BaseElement } from "../../elements/BaseElement";
+import { Blackboard } from "../../utils/Blackboard";
+import configLoader from "../../utils/ConfigLoader";
 
-import { PreviewAlignComponent } from './components/PreviewAlignComonent';
-import { PreviewColorPickerComponent } from './components/PreviewColorPickerComponent';
-import { PreviewDiagramItemsDropdownComponent } from './components/PreviewDiagramItemsDropdownComponent';
-import { PreviewStyleCarouselComponent } from './components/PreviewStyleCarouselComponent';
-import { PreviewStyleComponent } from './components/PreviewStyleComponent';
+import { PreviewAlignComponent } from "./components/PreviewAlignComonent";
+import { PreviewColorPickerComponent } from "./components/PreviewColorPickerComponent";
+import { PreviewDiagramItemsDropdownComponent } from "./components/PreviewDiagramItemsDropdownComponent";
+import { PreviewStyleCarouselComponent } from "./components/PreviewStyleCarouselComponent";
+import { PreviewStyleComponent } from "./components/PreviewStyleComponent";
 
 // Empty-state icon for the "used in this project" styles tab.
 const PROJECT_EMPTY_ICON = `
@@ -69,21 +69,25 @@ class EditorDetachedToolbarMenu {
     this.listOfItems = [];
 
     this.jsonFiles = [
-      'componentDiagram',
-      'classDiagram',
-      'packageDiagram',
-      'sequenceDiagram',
-      'stateDiagram'
+      "componentDiagram",
+      "classDiagram",
+      "packageDiagram",
+      "sequenceDiagram",
+      "stateDiagram",
     ];
 
     // Reference on diagram
     this.setDiagram(diagram);
 
     this.blackboard.addEventListener(
-      'storage:editmode', this.onEditModeChange.bind(this));
+      "storage:editmode",
+      this.onEditModeChange.bind(this),
+    );
 
     this.blackboard.addEventListener(
-      'diagram:item:select', this.onSelectItems.bind(this));
+      "diagram:item:select",
+      this.onSelectItems.bind(this),
+    );
   }
 
   setDiagram(diagram) {
@@ -93,19 +97,25 @@ class EditorDetachedToolbarMenu {
 
   async loadDropdowMenu(idx, filename) {
     const diagrams = await this.loadJSON(filename);
-    diagrams.forEach(diagram => {
+    diagrams.forEach((diagram) => {
       //
       // Menu - elements
       //
       this.elementsPreview = new PreviewDiagramItemsDropdownComponent(
-        this, this.diagram, '.us-dt-placeholder-elements-dropdown',
-        diagram.elements);
+        this,
+        this.diagram,
+        ".us-dt-placeholder-elements-dropdown",
+        diagram.elements,
+      );
       //
       // Menu - connectors
       //
       this.connectorsPreview = new PreviewDiagramItemsDropdownComponent(
-        this, this.diagram, '.us-dt-placeholder-connectors-dropdown',
-        diagram.connectors);
+        this,
+        this.diagram,
+        ".us-dt-placeholder-connectors-dropdown",
+        diagram.connectors,
+      );
     });
   }
 
@@ -115,10 +125,10 @@ class EditorDetachedToolbarMenu {
       if (x) {
         return x;
       }
-      const response = await fetch('assets/config/' + file + '.json');
+      const response = await fetch("assets/config/" + file + ".json");
       return await response.json();
     } catch (error) {
-      console.error('Error loading JSON:', file, error);
+      console.error("Error loading JSON:", file, error);
       return [];
     }
   }
@@ -502,8 +512,14 @@ ${this.getHtmlToolbar()}
   }
 
   postDefaultStylesOnBlackboard() {
-    this.blackboard.setStorageValue("element:style", this.getDefaultElementOptions());
-    this.blackboard.setStorageValue("connector:style", this.getDefaultConnectorOptions());
+    this.blackboard.setStorageValue(
+      "element:style",
+      this.getDefaultElementOptions(),
+    );
+    this.blackboard.setStorageValue(
+      "connector:style",
+      this.getDefaultConnectorOptions(),
+    );
   }
 
   setOptionForElement(key, value) {
@@ -525,7 +541,10 @@ ${this.getHtmlToolbar()}
       }
     } else {
       this.defaultStylePreview.updateElementOption(key, value);
-      this.blackboard.setStorageValue("element:style", this.getDefaultElementOptions());
+      this.blackboard.setStorageValue(
+        "element:style",
+        this.getDefaultElementOptions(),
+      );
     }
   }
 
@@ -548,24 +567,27 @@ ${this.getHtmlToolbar()}
       }
     } else {
       this.defaultStylePreview.updateConnectorOption(key, value);
-      this.blackboard.setStorageValue("connector:style", this.getDefaultConnectorOptions());
+      this.blackboard.setStorageValue(
+        "connector:style",
+        this.getDefaultConnectorOptions(),
+      );
     }
   }
 
   hideAllRows() {
     // Hide style carousel in any case
-    this.nativeRef.find('.us-ds-carousel-container').hide();
+    this.nativeRef.find(".us-ds-carousel-container").hide();
     // Hide connector's row
-    this.nativeRef.find('.us-dt-connector-style-row').hide();
+    this.nativeRef.find(".us-dt-connector-style-row").hide();
     // Hide element's row
-    this.nativeRef.find('.us-dt-style-row').hide();
+    this.nativeRef.find(".us-dt-style-row").hide();
   }
 
   dispatch(target, action) {
     //
     // Clicked on element/connector/style
     //
-    if (action === 'toggle-row') {
+    if (action === "toggle-row") {
       //
       // Hide row if it was enabled: element/connector/style
       //
@@ -575,16 +597,17 @@ ${this.getHtmlToolbar()}
         //
         // Hide all rows, except an active row
         //
-        ['showConnectorRow', 'showElementRow', 'showStyleRow'].forEach(
+        ["showConnectorRow", "showElementRow", "showStyleRow"].forEach(
           (item) => {
             this.state[item] = item == target;
-          });
+          },
+        );
       }
-    } else if (target === 'isSelectMode') {
+    } else if (target === "isSelectMode") {
       //
       // Select mode change
       //
-      let next = action === 'enabled';
+      let next = action === "enabled";
       //
       // Hide Rows, when user clicked on diagram area
       // if rows were not pinned
@@ -611,23 +634,28 @@ ${this.getHtmlToolbar()}
 
         // hide an opened row if listOfItems do not have element/connector in it
         // OR if rows was not pinned
-        this.state.showConnectorRow &&= (this.state.hasConnector || this.state.pinRows);
-        this.state.showElementRow &&= (this.state.hasElement || this.state.pinRows);
+        this.state.showConnectorRow &&=
+          this.state.hasConnector || this.state.pinRows;
+        this.state.showElementRow &&=
+          this.state.hasElement || this.state.pinRows;
       } else {
         // enable [E] and [C] buttons
         this.state.hasConnector = true;
         this.state.hasElement = true;
       }
-    } else if (action === 'pin' || action === 'unpin') {
+    } else if (action === "pin" || action === "unpin") {
       // User could pin one of the row, to do not hide/show on select change
-      this.state.pinRows = action === 'pin';
+      this.state.pinRows = action === "pin";
     }
 
     //
     // show default box and pin icon if one of the rows is visible only
     //
-    const isRowVisible = this.state.showConnectorRow || this.state.showElementRow || this.state.showStyleRow;
-    this.state.showPinIcon = isRowVisible
+    const isRowVisible =
+      this.state.showConnectorRow ||
+      this.state.showElementRow ||
+      this.state.showStyleRow;
+    this.state.showPinIcon = isRowVisible;
     this.state.showStyleDefault = isRowVisible;
 
     //
@@ -664,42 +692,47 @@ ${this.getHtmlToolbar()}
     //
     // Disable/Enable buttons [ E ] and [ C ]
     //
-    this.nativeRef.find('#us-dt-toggle-element')
-      .prop('disabled', !this.state.hasElement);
-    this.nativeRef.find('#us-dt-toggle-connector')
-      .prop('disabled', !this.state.hasConnector);
+    this.nativeRef
+      .find("#us-dt-toggle-element")
+      .prop("disabled", !this.state.hasElement);
+    this.nativeRef
+      .find("#us-dt-toggle-connector")
+      .prop("disabled", !this.state.hasConnector);
 
     //
     // Show/hide rows
     //
-    this.nativeRef.find('.us-ds-carousel-container')
+    this.nativeRef
+      .find(".us-ds-carousel-container")
       .toggle(this.state.showStyleRow);
-    this.nativeRef.find('.us-dt-style-row')
-      .toggle(this.state.showElementRow);
-    this.nativeRef.find('.us-dt-connector-style-row')
+    this.nativeRef.find(".us-dt-style-row").toggle(this.state.showElementRow);
+    this.nativeRef
+      .find(".us-dt-connector-style-row")
       .toggle(this.state.showConnectorRow);
     //
     // Show icons on top of rows
     //
-    this.nativeRef.find('.us-dt-style-icons')
-      .toggle(this.state.showStyleRow);
+    this.nativeRef.find(".us-dt-style-icons").toggle(this.state.showStyleRow);
 
     //
     // show/hide side box and icons
     //
-    this.nativeRef.find('.us-dt-style-preview-wrapper')
-      .toggleClass('us-dt-style-preview-scale', !this.state.showStyleDefault);
+    this.nativeRef
+      .find(".us-dt-style-preview-wrapper")
+      .toggleClass("us-dt-style-preview-scale", !this.state.showStyleDefault);
 
     //
     // Unselect
     //
-    this.nativeRef.find('.ui-resizable-handle')
+    this.nativeRef
+      .find(".ui-resizable-handle")
       .toggle(!this.state.isSelectMode);
 
     //
     // Show/hide pinned....
     //
-    this.nativeRef.find('.us-dt-pin')
+    this.nativeRef
+      .find(".us-dt-pin")
       .toggleClass("us-dt-state-pinned", this.state.pinRows)
       .toggle(this.state.showPinIcon);
   }
@@ -708,19 +741,19 @@ ${this.getHtmlToolbar()}
     let self = this;
 
     if (this.isDevMode) {
-      this.nativeRef.addClass('us-dev-mode');
+      this.nativeRef.addClass("us-dev-mode");
     }
 
-    this.nativeRef.find('#us-dt-toggle-element').on('click', () => {
-      this.dispatch('showElementRow', 'toggle-row');
+    this.nativeRef.find("#us-dt-toggle-element").on("click", () => {
+      this.dispatch("showElementRow", "toggle-row");
     });
 
-    this.nativeRef.find('#us-dt-toggle-connector').on('click', () => {
-      this.dispatch('showConnectorRow', 'toggle-row');
+    this.nativeRef.find("#us-dt-toggle-connector").on("click", () => {
+      this.dispatch("showConnectorRow", "toggle-row");
     });
 
-    this.nativeRef.find('#us-dt-toggle-style').on('click', () => {
-      this.dispatch('showStyleRow', 'toggle-row');
+    this.nativeRef.find("#us-dt-toggle-style").on("click", () => {
+      this.dispatch("showStyleRow", "toggle-row");
     });
 
     // Initialize style icon click handlers
@@ -729,39 +762,40 @@ ${this.getHtmlToolbar()}
     this.initConnectorRow();
     this.initStyleCarouselRow();
 
-    this.nativeRef.find('#us-text-save-button').on('click', function () {
+    this.nativeRef.find("#us-text-save-button").on("click", function () {
       if (self.selectedItem && self.selectedItem.diagram) {
         let d = self.selectedItem.diagram.getDescription();
-        console.log('DESCRIPTION:');
+        console.log("DESCRIPTION:");
         console.log(JSON.stringify(d));
       }
     });
 
-    this.defaultStylePreview =
-      new PreviewStyleComponent(this.nativeRef.find('.us-dt-style-preview'), this.styleManager.getDefaultStyle());
+    this.defaultStylePreview = new PreviewStyleComponent(
+      this.nativeRef.find(".us-dt-style-preview"),
+      this.styleManager.getDefaultStyle(),
+    );
 
     //
     // PIN / UN-PIN ROW
     //
-    this.nativeRef.find('.us-dt-pin').on('click', () => {
-      this.dispatch('pinRows', this.state.pinRows ? 'unpin' : 'pin');
+    this.nativeRef.find(".us-dt-pin").on("click", () => {
+      this.dispatch("pinRows", this.state.pinRows ? "unpin" : "pin");
     });
-
   }
 
   initStyleIcons() {
-    const systemContainer = this.nativeRef.find('#us-ds-carousel-track');
-    const savedContainer = this.nativeRef.find('#us-ds-saved-carousel-track');
-    const usedContainer = this.nativeRef.find('#us-ds-used-carousel-track');
-    const arrows = this.nativeRef.find('.us-ds-carousel-arrow');
-    const editContainer = this.nativeRef.find('#us-dt-edit-container');
-    const systemIcon = this.nativeRef.find('#us-icon-system');
+    const systemContainer = this.nativeRef.find("#us-ds-carousel-track");
+    const savedContainer = this.nativeRef.find("#us-ds-saved-carousel-track");
+    const usedContainer = this.nativeRef.find("#us-ds-used-carousel-track");
+    const arrows = this.nativeRef.find(".us-ds-carousel-arrow");
+    const editContainer = this.nativeRef.find("#us-dt-edit-container");
+    const systemIcon = this.nativeRef.find("#us-icon-system");
     // Backed by the style API's user styles (getUserStyles/saveUserStyle/removeUserStyle).
-    const savedIcon = this.nativeRef.find('#us-icon-saved');
+    const savedIcon = this.nativeRef.find("#us-icon-saved");
     // Not backed by the style API - computed on the fly from the current
     // diagram's elements/connectors (see #extractProjectStyles()).
-    const usedIcon = this.nativeRef.find('#us-icon-used');
-    const editIcon = this.nativeRef.find('#us-icon-edit');
+    const usedIcon = this.nativeRef.find("#us-icon-used");
+    const editIcon = this.nativeRef.find("#us-icon-edit");
 
     const hideAllTracks = () => {
       systemContainer.hide();
@@ -771,76 +805,89 @@ ${this.getHtmlToolbar()}
     };
 
     // Handle icon clicks
-    systemIcon.on('click', () => {
+    systemIcon.on("click", () => {
       hideAllTracks();
       systemContainer.show();
       arrows.show();
-      this.updateIconSelection('system');
+      this.updateIconSelection("system");
     });
 
-    savedIcon.on('click', () => {
+    savedIcon.on("click", () => {
       hideAllTracks();
       savedContainer.show();
       arrows.show();
-      this.updateIconSelection('saved');
+      this.updateIconSelection("saved");
     });
 
-    usedIcon.on('click', () => {
+    usedIcon.on("click", () => {
       hideAllTracks();
       usedContainer.show();
       arrows.show();
       this.usedStyleCarousel.refresh(this.#extractProjectStyles());
-      this.updateIconSelection('used');
+      this.updateIconSelection("used");
     });
 
-    editIcon.on('click', () => {
+    editIcon.on("click", () => {
       hideAllTracks();
       editContainer.show();
       arrows.hide();
-      this.updateIconSelection('edit');
+      this.updateIconSelection("edit");
     });
   }
 
   updateIconSelection(selectedIcon) {
     // Remove active class from all icons
-    this.nativeRef.find('.us-dt-style-icon').removeClass('us-dt-style-icon-active');
+    this.nativeRef
+      .find(".us-dt-style-icon")
+      .removeClass("us-dt-style-icon-active");
 
     // Add active class to selected icon
-    this.nativeRef.find(`#us-icon-${selectedIcon}`).addClass('us-dt-style-icon-active');
+    this.nativeRef
+      .find(`#us-icon-${selectedIcon}`)
+      .addClass("us-dt-style-icon-active");
   }
 
   initStyleCarouselRow() {
-    const $carouselContainer = this.nativeRef.find('.us-ds-carousel-container');
+    const $carouselContainer = this.nativeRef.find(".us-ds-carousel-container");
 
     this.styleCarousel = new PreviewStyleCarouselComponent(
       $carouselContainer,
       this.#getSortedSystemStyles(),
       {
-        trackId: 'us-ds-carousel-track',
-        onPin: (style) => this.#togglePin(style, this.styleCarousel, () => this.#getSortedSystemStyles())
-      });
+        trackId: "us-ds-carousel-track",
+        onPin: (style) =>
+          this.#togglePin(style, this.styleCarousel, () =>
+            this.#getSortedSystemStyles(),
+          ),
+      },
+    );
 
     this.savedStyleCarousel = new PreviewStyleCarouselComponent(
       $carouselContainer,
       this.#getSortedUserStyles(),
       {
-        trackId: 'us-ds-saved-carousel-track',
+        trackId: "us-ds-saved-carousel-track",
         onRemove: (id) => {
           this.styleManager.removeUserStyle(id);
           this.savedStyleCarousel.refresh(this.#getSortedUserStyles());
         },
-        onPin: (style) => this.#togglePin(style, this.savedStyleCarousel, () => this.#getSortedUserStyles()),
+        onPin: (style) =>
+          this.#togglePin(style, this.savedStyleCarousel, () =>
+            this.#getSortedUserStyles(),
+          ),
         emptyState: {
-          title: 'Saved styles will be visible here',
-          message: 'Save a style from the Style panel to quickly access it here.'
-        }
-      });
+          title: "Saved styles will be visible here",
+          message:
+            "Save a style from the Style panel to quickly access it here.",
+        },
+      },
+    );
 
     this.usedStyleCarousel = new PreviewStyleCarouselComponent(
       $carouselContainer,
       this.#extractProjectStyles(),
       {
-        trackId: 'us-ds-used-carousel-track',
+        trackId: "us-ds-used-carousel-track",
         onSave: (style) => {
           if (this.#isStyleAlreadySaved(style)) {
             return;
@@ -850,18 +897,17 @@ ${this.getHtmlToolbar()}
         },
         emptyState: {
           icon: PROJECT_EMPTY_ICON,
-          title: 'No styles in this project yet',
-          message: 'Create your first uml element to see style here.'
-        }
-      });
+          title: "No styles in this project yet",
+          message: "Create your first uml element to see style here.",
+        },
+      },
+    );
 
     // Initialize carousel scroll functionality
     this.initCarouselScroll();
 
     const onStyleSelected = (options) => {
-
-      if (!this.state.pinRows)
-        this.dispatch('showStyleRow', 'toggle-row');
+      if (!this.state.pinRows) this.dispatch("showStyleRow", "toggle-row");
       //
       // It is mapping of the preview box options -> diagrams options
       // TODO: sync-up option's key names => no need to map them
@@ -880,7 +926,7 @@ ${this.getHtmlToolbar()}
         //
         let clone = {
           element: { ...options.element },
-          connector: { ...options.connector }
+          connector: { ...options.connector },
         };
         delete clone.element.text;
         delete clone.connector.text;
@@ -901,12 +947,17 @@ ${this.getHtmlToolbar()}
   }
 
   initCarouselScroll() {
-    const track = this.nativeRef.find('#us-ds-carousel-track');
-    const wrapper = this.nativeRef.find('#us-ds-carousel-wrapper');
-    const leftArrow = this.nativeRef.find('.us-ds-carousel-left');
-    const rightArrow = this.nativeRef.find('.us-ds-carousel-right');
+    const track = this.nativeRef.find("#us-ds-carousel-track");
+    const wrapper = this.nativeRef.find("#us-ds-carousel-wrapper");
+    const leftArrow = this.nativeRef.find(".us-ds-carousel-left");
+    const rightArrow = this.nativeRef.find(".us-ds-carousel-right");
 
-    if (!track.length || !wrapper.length || !leftArrow.length || !rightArrow.length) {
+    if (
+      !track.length ||
+      !wrapper.length ||
+      !leftArrow.length ||
+      !rightArrow.length
+    ) {
       return;
     }
 
@@ -925,21 +976,24 @@ ${this.getHtmlToolbar()}
 
     // Apply transform to move wrapper
     const applyTransform = (transformValue) => {
-      wrapper.css('transform', `translateX(-${transformValue}px)`);
+      wrapper.css("transform", `translateX(-${transformValue}px)`);
       currentTransform = transformValue;
       updateArrowVisibility();
     };
 
     // Left arrow click - move left
-    leftArrow.on('click', () => {
+    leftArrow.on("click", () => {
       const newTransform = Math.max(0, currentTransform - scrollAmount);
       applyTransform(newTransform);
     });
 
     // Right arrow click - move right
-    rightArrow.on('click', () => {
+    rightArrow.on("click", () => {
       const maxTransform = updateMaxTransform();
-      const newTransform = Math.min(maxTransform, currentTransform + scrollAmount);
+      const newTransform = Math.min(
+        maxTransform,
+        currentTransform + scrollAmount,
+      );
       applyTransform(newTransform);
     });
 
@@ -949,20 +1003,20 @@ ${this.getHtmlToolbar()}
 
       // Show/hide left arrow
       if (currentTransform <= 0) {
-        leftArrow.css('opacity', '0.5');
-        leftArrow.css('pointer-events', 'none');
+        leftArrow.css("opacity", "0.5");
+        leftArrow.css("pointer-events", "none");
       } else {
-        leftArrow.css('opacity', '1');
-        leftArrow.css('pointer-events', 'auto');
+        leftArrow.css("opacity", "1");
+        leftArrow.css("pointer-events", "auto");
       }
 
       // Show/hide right arrow
       if (currentTransform >= maxTransform) {
-        rightArrow.css('opacity', '0.5');
-        rightArrow.css('pointer-events', 'none');
+        rightArrow.css("opacity", "0.5");
+        rightArrow.css("pointer-events", "none");
       } else {
-        rightArrow.css('opacity', '1');
-        rightArrow.css('pointer-events', 'auto');
+        rightArrow.css("opacity", "1");
+        rightArrow.css("pointer-events", "auto");
       }
     };
 
@@ -977,80 +1031,80 @@ ${this.getHtmlToolbar()}
     // Color Pickers
     //
     this.arrowColorPicker = new PreviewColorPickerComponent(
-      this.nativeRef.find('#us-arrow-color-picker'),
-      ['Line Color']);
+      this.nativeRef.find("#us-arrow-color-picker"),
+      ["Line Color"],
+    );
 
     this.arrowColorPicker.onSelect((index, color) => {
       console.log("SET COLOR FOR CONNECTOR: " + color);
-      self.setOptionForConnector('color', color);
+      self.setOptionForConnector("color", color);
     });
 
-    this.nativeRef.find('#us-arrow-line-width').on('change', function () {
+    this.nativeRef.find("#us-arrow-line-width").on("change", function () {
       const value = $(this).val();
       const x = [1, 2, 3, 4, 5, 6, 7];
       console.log("SET LINE WIDTH FOR CONNECTOR: " + value + " " + x[value]);
-      self.setOptionForConnector('line-width', x[value]);
+      self.setOptionForConnector("line-width", x[value]);
     });
-
-
 
     //////////////////////////// LABEL PART ///////////////////
     //
     // FONT-FAMILY
     //
-    this.nativeRef.find('#us-label-font-style').on('change', function () {
+    this.nativeRef.find("#us-label-font-style").on("change", function () {
       const value = $(this).val();
-      self.setOptionForConnector('font-family', value);
+      self.setOptionForConnector("font-family", value);
     });
 
     //
     // FONT-SIZE
     //
-    this.nativeRef.find('#us-label-font-size').on('change', function () {
+    this.nativeRef.find("#us-label-font-size").on("change", function () {
       const value = $(this).val();
       const x = [8, 10, 12, 14, 18, 24, 36];
-      self.setOptionForConnector('font-size', x[value]);
+      self.setOptionForConnector("font-size", x[value]);
     });
 
     //
     // B U I - bold/italic/underline
     //
-    this.nativeRef.find('#us-label-bold').on('click', function () {
-      if ($(this).hasClass('us-text-biu-active')) {
-        $(this).removeClass('us-text-biu-active');
-        self.setOptionForConnector('font-weight', 'normal');
+    this.nativeRef.find("#us-label-bold").on("click", function () {
+      if ($(this).hasClass("us-text-biu-active")) {
+        $(this).removeClass("us-text-biu-active");
+        self.setOptionForConnector("font-weight", "normal");
       } else {
-        $(this).addClass('us-text-biu-active');
-        self.setOptionForConnector('font-weight', 'bold');
+        $(this).addClass("us-text-biu-active");
+        self.setOptionForConnector("font-weight", "bold");
       }
     });
-    this.nativeRef.find('#us-label-italic').on('click', function () {
-      if ($(this).hasClass('us-text-biu-active')) {
-        $(this).removeClass('us-text-biu-active');
-        self.setOptionForConnector('font-style', 'normal');
+    this.nativeRef.find("#us-label-italic").on("click", function () {
+      if ($(this).hasClass("us-text-biu-active")) {
+        $(this).removeClass("us-text-biu-active");
+        self.setOptionForConnector("font-style", "normal");
       } else {
-        $(this).addClass('us-text-biu-active');
-        self.setOptionForConnector('font-style', 'italic');
+        $(this).addClass("us-text-biu-active");
+        self.setOptionForConnector("font-style", "italic");
       }
     });
-    this.nativeRef.find('#us-label-underline').on('click', function () {
-      if ($(this).hasClass('us-text-biu-active')) {
-        $(this).removeClass('us-text-biu-active');
-        self.setOptionForConnector('text-decoration', 'none');
+    this.nativeRef.find("#us-label-underline").on("click", function () {
+      if ($(this).hasClass("us-text-biu-active")) {
+        $(this).removeClass("us-text-biu-active");
+        self.setOptionForConnector("text-decoration", "none");
       } else {
-        $(this).addClass('us-text-biu-active');
-        self.setOptionForConnector('text-decoration', 'underline');
+        $(this).addClass("us-text-biu-active");
+        self.setOptionForConnector("text-decoration", "underline");
       }
     });
     //
     // Color picker
     //
     this.labelColorPicker = new PreviewColorPickerComponent(
-      this.nativeRef.find('.us-label-color-picker'),
-      ['Text Color', 'Background Color']);
+      this.nativeRef.find(".us-label-color-picker"),
+      ["Text Color", "Background Color"],
+    );
 
     this.labelColorPicker.onSelect((index, color) => {
-      let key = index === 1 ? 'font-bg' : 'font-color';
+      let key = index === 1 ? "font-bg" : "font-color";
       self.setOptionForConnector(key, color);
     });
   }
@@ -1060,68 +1114,69 @@ ${this.getHtmlToolbar()}
     //
     // FONT-FAMILY
     //
-    this.nativeRef.find('#us-text-font-style').on('change', function () {
+    this.nativeRef.find("#us-text-font-style").on("change", function () {
       const value = $(this).val();
-      self.setOptionForElement('font-family', value);
+      self.setOptionForElement("font-family", value);
     });
 
     //
     // FONT-SIZE
     //
-    this.nativeRef.find('#us-text-font-size').on('change', function () {
+    this.nativeRef.find("#us-text-font-size").on("change", function () {
       const value = $(this).val();
       const x = [8, 10, 12, 14, 18, 24, 36];
-      self.setOptionForElement('font-size', x[value]);
+      self.setOptionForElement("font-size", x[value]);
     });
 
     //
     //  TEXT - ALIGN
     //
-    let textAlign = this.nativeRef.find('#us-text-align');
+    let textAlign = this.nativeRef.find("#us-text-align");
     this.textAlignComponent = new PreviewAlignComponent(textAlign);
     this.textAlignComponent.onSelect((alignmentString) => {
-      self.setOptionForElement('alignment', alignmentString);
+      self.setOptionForElement("alignment", alignmentString);
     });
 
     //
     // B U I - bold/italic/underline
     //
-    this.nativeRef.find('#us-text-bold').on('click', function () {
-      if ($(this).hasClass('us-text-biu-active')) {
-        $(this).removeClass('us-text-biu-active');
-        self.setOptionForElement('font-weight', 'normal');
+    this.nativeRef.find("#us-text-bold").on("click", function () {
+      if ($(this).hasClass("us-text-biu-active")) {
+        $(this).removeClass("us-text-biu-active");
+        self.setOptionForElement("font-weight", "normal");
       } else {
-        $(this).addClass('us-text-biu-active');
-        self.setOptionForElement('font-weight', 'bold');
+        $(this).addClass("us-text-biu-active");
+        self.setOptionForElement("font-weight", "bold");
       }
     });
-    this.nativeRef.find('#us-text-italic').on('click', function () {
-      if ($(this).hasClass('us-text-biu-active')) {
-        $(this).removeClass('us-text-biu-active');
-        self.setOptionForElement('font-style', 'normal');
+    this.nativeRef.find("#us-text-italic").on("click", function () {
+      if ($(this).hasClass("us-text-biu-active")) {
+        $(this).removeClass("us-text-biu-active");
+        self.setOptionForElement("font-style", "normal");
       } else {
-        $(this).addClass('us-text-biu-active');
-        self.setOptionForElement('font-style', 'italic');
+        $(this).addClass("us-text-biu-active");
+        self.setOptionForElement("font-style", "italic");
       }
     });
-    this.nativeRef.find('#us-text-underline').on('click', function () {
-      if ($(this).hasClass('us-text-biu-active')) {
-        $(this).removeClass('us-text-biu-active');
-        self.setOptionForElement('text-decoration', 'none');
+    this.nativeRef.find("#us-text-underline").on("click", function () {
+      if ($(this).hasClass("us-text-biu-active")) {
+        $(this).removeClass("us-text-biu-active");
+        self.setOptionForElement("text-decoration", "none");
       } else {
-        $(this).addClass('us-text-biu-active');
-        self.setOptionForElement('text-decoration', 'underline');
+        $(this).addClass("us-text-biu-active");
+        self.setOptionForElement("text-decoration", "underline");
       }
     });
     //
     // Color picker
     //
     this.elementColorPicker = new PreviewColorPickerComponent(
-      this.nativeRef.find('.us-text-color-picker'),
-      ['Background Color', 'Text Color']);
+      this.nativeRef.find(".us-text-color-picker"),
+      ["Background Color", "Text Color"],
+    );
 
     this.elementColorPicker.onSelect((index, color) => {
-      let key = index === 0 ? 'color' : 'font-color';
+      let key = index === 0 ? "color" : "font-color";
       self.setOptionForElement(key, color);
     });
   }
@@ -1171,13 +1226,15 @@ ${this.getHtmlToolbar()}
     //
     // Show/hide an entire menu
     //
-    this.nativeRef.toggle(valueChange.newValue)
+    this.nativeRef.toggle(valueChange.newValue);
   }
 
   onSelectItems(listOfItems) {
     this.listOfItems = listOfItems ? listOfItems : [];
     this.dispatch(
-      'isSelectMode', (listOfItems.length > 0 ? 'enabled' : 'disabled'))
+      "isSelectMode",
+      listOfItems.length > 0 ? "enabled" : "disabled",
+    );
   }
 
   getDefaultConnectorOptions() {
@@ -1204,10 +1261,13 @@ ${this.getHtmlToolbar()}
 
   #sortByPin(styles) {
     const pinnedIds = new Set(this.styleManager.getPinnedStyleIds());
-    const annotated = styles.map((style) => ({ ...style, pinned: pinnedIds.has(style.id) }));
+    const annotated = styles.map((style) => ({
+      ...style,
+      pinned: pinnedIds.has(style.id),
+    }));
     return [
       ...annotated.filter((style) => style.pinned),
-      ...annotated.filter((style) => !style.pinned)
+      ...annotated.filter((style) => !style.pinned),
     ];
   }
 
@@ -1234,29 +1294,35 @@ ${this.getHtmlToolbar()}
       return [];
     }
 
-    const elementStyles = this.#dedupeStyles(elements.map((element) => this.#readElementStyle(element)));
+    const elementStyles = this.#dedupeStyles(
+      elements.map((element) => this.#readElementStyle(element)),
+    );
     const connectorStyles = connectors.length
-      ? this.#dedupeStyles(connectors.map((connector) => this.#readConnectorStyle(connector)))
+      ? this.#dedupeStyles(
+          connectors.map((connector) => this.#readConnectorStyle(connector)),
+        )
       : [];
 
     return elementStyles.map((element, i) => ({
       id: `used-${i}`,
       element,
-      connector: connectorStyles.length ? connectorStyles[i % connectorStyles.length] : {}
+      connector: connectorStyles.length
+        ? connectorStyles[i % connectorStyles.length]
+        : {},
     }));
   }
 
   #readElementStyle(element) {
     const model = element.jsonModel || {};
     return this.#compact({
-      text: 'Box',
-      'font-family': model['font-family'],
-      'font-size': model['font-size'],
-      'font-color': model['font-color'],
-      color: model['color'],
-      bold: model['font-weight'] === 'bold',
-      italic: model['font-style'] === 'italic',
-      underline: model['text-decoration'] === 'underline'
+      text: "Box",
+      "font-family": model["font-family"],
+      "font-size": model["font-size"],
+      "font-color": model["font-color"],
+      color: model["color"],
+      bold: model["font-weight"] === "bold",
+      italic: model["font-style"] === "italic",
+      underline: model["text-decoration"] === "underline",
     });
   }
 
@@ -1268,16 +1334,19 @@ ${this.getHtmlToolbar()}
     const options = connector.options || {};
     const model = connector.jsonModel || {};
     return this.#compact({
-      text: 'Label',
-      'font-family': model['font-family'],
-      'font-size': model['font-size'],
-      'font-color': model['font-color'],
-      'font-bg': model['font-bg'],
-      color: options['color'] !== undefined ? options['color'] : model['color'],
-      'line-width': options['line-width'] !== undefined ? options['line-width'] : model['line-width'],
-      bold: model['font-weight'] === 'bold',
-      italic: model['font-style'] === 'italic',
-      underline: model['text-decoration'] === 'underline'
+      text: "Label",
+      "font-family": model["font-family"],
+      "font-size": model["font-size"],
+      "font-color": model["font-color"],
+      "font-bg": model["font-bg"],
+      color: options["color"] !== undefined ? options["color"] : model["color"],
+      "line-width":
+        options["line-width"] !== undefined
+          ? options["line-width"]
+          : model["line-width"],
+      bold: model["font-weight"] === "bold",
+      italic: model["font-style"] === "italic",
+      underline: model["text-decoration"] === "underline",
     });
   }
 
@@ -1310,11 +1379,20 @@ ${this.getHtmlToolbar()}
   // matches a saved style's persisted id even when the style is identical.
   //
   #isStyleAlreadySaved(style) {
-    const key = JSON.stringify({ connector: style.connector || {}, element: style.element || {} });
-    return this.styleManager.getUserStyles().some((savedStyle) =>
-      JSON.stringify({ connector: savedStyle.connector || {}, element: savedStyle.element || {} }) === key
-    );
+    const key = JSON.stringify({
+      connector: style.connector || {},
+      element: style.element || {},
+    });
+    return this.styleManager
+      .getUserStyles()
+      .some(
+        (savedStyle) =>
+          JSON.stringify({
+            connector: savedStyle.connector || {},
+            element: savedStyle.element || {},
+          }) === key,
+      );
   }
 }
 
-export { EditorDetachedToolbarMenu }
+export { EditorDetachedToolbarMenu };

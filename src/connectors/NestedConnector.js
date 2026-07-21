@@ -1,36 +1,40 @@
-import {BaseConnector} from './BaseConnector';
+import { BaseConnector } from "./BaseConnector";
 
 const defaultOptions = {
-  nameTemplate: 'nested'
-}
+  nameTemplate: "nested",
+};
 
 class NestedConnector extends BaseConnector {
   constructor(options, jsonModel, diagram) {
-    super({...defaultOptions, ...options}, jsonModel, diagram);
+    super({ ...defaultOptions, ...options }, jsonModel, diagram);
   }
 
   draw(context2, points, color) {
-    if ((points == null) || (points.length < 2)) {
+    if (points == null || points.length < 2) {
       return;
     }
 
     var ep = points.length - 1;
-    var x = 15, dx = points[ep].x - points[ep - 1].x,
-        dy = points[ep].y - points[ep - 1].y,
-        gip = Math.sqrt(dx * dx + dy * dy);
+    var x = 15,
+      dx = points[ep].x - points[ep - 1].x,
+      dy = points[ep].y - points[ep - 1].y,
+      gip = Math.sqrt(dx * dx + dy * dy);
 
-
-    var sina = dy / gip, cosa = dx / gip, z = x - 3,
-        x3 = points[ep].x - Math.sqrt(x * x * 3 / 4) * cosa,
-        y3 = points[ep].y - Math.sqrt(x * x * 3 / 4) * sina,
-        x6 = points[ep].x - Math.sqrt(x * x * 3) * cosa,
-        y6 = points[ep].y - Math.sqrt(x * x * 3) * sina,
-        x4 = x3 + z * sina / 2, y4 = y3 - z * cosa / 2, x5 = x3 - z * sina / 2,
-        y5 = y3 + z * cosa / 2,
-        x31 = points[ep].x - Math.sqrt(z * z * 3 / 4) * cosa,
-        y31 = points[ep].y - Math.sqrt(z * z * 3 / 4) * sina,
-        x61 = points[ep].x - Math.sqrt(z * z * 3) * cosa,
-        y61 = points[ep].y - Math.sqrt(z * z * 3) * sina;
+    var sina = dy / gip,
+      cosa = dx / gip,
+      z = x - 3,
+      x3 = points[ep].x - Math.sqrt((x * x * 3) / 4) * cosa,
+      y3 = points[ep].y - Math.sqrt((x * x * 3) / 4) * sina,
+      x6 = points[ep].x - Math.sqrt(x * x * 3) * cosa,
+      y6 = points[ep].y - Math.sqrt(x * x * 3) * sina,
+      x4 = x3 + (z * sina) / 2,
+      y4 = y3 - (z * cosa) / 2,
+      x5 = x3 - (z * sina) / 2,
+      y5 = y3 + (z * cosa) / 2,
+      x31 = points[ep].x - Math.sqrt((z * z * 3) / 4) * cosa,
+      y31 = points[ep].y - Math.sqrt((z * z * 3) / 4) * sina,
+      x61 = points[ep].x - Math.sqrt(z * z * 3) * cosa,
+      y61 = points[ep].y - Math.sqrt(z * z * 3) * sina;
 
     context2.beginPath();
     context2.fillStyle = color;
@@ -60,4 +64,4 @@ class NestedConnector extends BaseConnector {
   }
 }
 
-export {NestedConnector}
+export { NestedConnector };

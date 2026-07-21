@@ -1,8 +1,6 @@
 class ContextMenuBuilder {
-
   diagram = null;
-  constructor() {
-  }
+  constructor() {}
 
   // Blackboard listener
   onBlackboardChang(key, data) {
@@ -15,36 +13,36 @@ class ContextMenuBuilder {
     // hide current menu, because use clicked outside on diagram's empty space
     //
     else if (key in ["dialog:click", "dialog:dblclick"]) {
-        this.#resetCurrentMenu();
+      this.#resetCurrentMenu();
     }
   }
 
   preloadMenu(nameTemplate, diagram) {
     this.diagram = diagram;
-    var name = this.#getMenuId(nameTemplate, diagram ? diagram.options.nameTemplate : null);
-    if (this.menus[name] == undefined)
-      this.createContextMenu(name);
+    var name = this.#getMenuId(
+      nameTemplate,
+      diagram ? diagram.options.nameTemplate : null,
+    );
+    if (this.menus[name] == undefined) this.createContextMenu(name);
   }
 
-  createContextMenu(name) {
-    
-  }
+  createContextMenu(name) {}
 
   #getMenuId(nameTemplate, diagramNameTemplate) {
-      //
-      // All acceptable elements should be in config
-      //
-      if (this.config[nameTemplate]) {
-          return this.config[nameTemplate].menu;
-      }
-      //
-      // All connectors has the same context menu
-      //
-      if (nameTemplate.indexOf("Connector") > 0) {
-        return "connector";
-      }
-      // most of the elements has a default menu
-      return "default";
+    //
+    // All acceptable elements should be in config
+    //
+    if (this.config[nameTemplate]) {
+      return this.config[nameTemplate].menu;
+    }
+    //
+    // All connectors has the same context menu
+    //
+    if (nameTemplate.indexOf("Connector") > 0) {
+      return "connector";
+    }
+    // most of the elements has a default menu
+    return "default";
   }
 
   show(element, subelement, left, top) {
@@ -53,9 +51,9 @@ class ContextMenuBuilder {
 
   #resetCurrentMenu() {
     if (!this.currentMenu) {
-        this.currentMenu.hide();
-        this.currentMenu = null;
-        this.currentElement = null;
+      this.currentMenu.hide();
+      this.currentMenu = null;
+      this.currentElement = null;
     }
   }
 
@@ -68,11 +66,10 @@ class ContextMenuBuilder {
     // Do nothing, user is on the same element. Is it possible ?
     //
     if (this.currentElement == element) {
-        return;
+      return;
     }
     // hide previous element
     this.#resetCurrentMenu();
-    
 
     const diagramName = this.diagram ? this.diagram.options.nameTemplate : null;
     var name = this.#getMenuId(element.options.nameTemplate, diagramName);
@@ -80,8 +77,7 @@ class ContextMenuBuilder {
     //
     // menu was not loaded or has some issues
     //
-    if (this.menus[name] == undefined)
-      return;
+    if (this.menus[name] == undefined) return;
 
     this.currentMenu = this.menus[name];
     this.currentElement = element;
@@ -93,11 +89,10 @@ class ContextMenuBuilder {
   }
 
   hideAll() {
-    if (this.currentMenu != undefined)
-      this.currentMenu['hide']();
+    if (this.currentMenu != undefined) this.currentMenu["hide"]();
     this.currentMenu = undefined;
     this.currentElement = undefined;
   }
 }
 
-export {ContextMenuBuilder}
+export { ContextMenuBuilder };

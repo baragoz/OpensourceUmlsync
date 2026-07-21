@@ -14,21 +14,31 @@ class EditorMultipleSelect {
     // TODO: Preload config data
     //
     // Hide menu on regular click
-    this.blackboard.addEventListener('diagram:click', this.onCancel.bind(this));
+    this.blackboard.addEventListener("diagram:click", this.onCancel.bind(this));
     this.blackboard.addEventListener(
-        'connector:click', this.onCancel.bind(this));
+      "connector:click",
+      this.onCancel.bind(this),
+    );
     this.blackboard.addEventListener(
-        'element:click', this.onElementClick.bind(this));
+      "element:click",
+      this.onElementClick.bind(this),
+    );
 
     // Hide menu on element resize
     this.blackboard.addEventListener(
-        'element:resize:start', this.onCancel.bind(this));
+      "element:resize:start",
+      this.onCancel.bind(this),
+    );
 
     // Hide menu on drag start
     this.blackboard.addEventListener(
-        'element:drag:start', this.onElementDragStart.bind(this));
+      "element:drag:start",
+      this.onElementDragStart.bind(this),
+    );
     this.blackboard.addEventListener(
-        'connector:drag:start', this.onConnectorDragStart.bind(this));
+      "connector:drag:start",
+      this.onConnectorDragStart.bind(this),
+    );
   }
 
   onElementClick(element, data) {}
@@ -41,4 +51,4 @@ class EditorMultipleSelect {
   onCancel() {}
 }
 
-export {EditorMultipleSelect}
+export { EditorMultipleSelect };

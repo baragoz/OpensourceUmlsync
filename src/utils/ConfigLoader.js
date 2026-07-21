@@ -10,17 +10,16 @@ import classIcons from "../assets/configs/iconsmenu/class.json";
 import noteIcons from "../assets/configs/iconsmenu/note.json";
 import portIcons from "../assets/configs/iconsmenu/port.json";
 import interfaceIcons from "../assets/configs/iconsmenu/interface.json";
-import sqObjectInstanceIcons from "../assets/configs/iconsmenu/sqobject_instance.json"
+import sqObjectInstanceIcons from "../assets/configs/iconsmenu/sqobject_instance.json";
 // bad name for the node-based project
 import packageIcons from "../assets/configs/iconsmenu/packageIconsMenu.json";
 import stateIcons from "../assets/configs/iconsmenu/state.json";
 import stateStartIcons from "../assets/configs/iconsmenu/statestart.json";
 import componentIcons from "../assets/configs/iconsmenu/component.json";
-import sqPortIcons from "../assets/configs/iconsmenu/sqport.json"
-
+import sqPortIcons from "../assets/configs/iconsmenu/sqport.json";
 
 // Context Menu configuration
-import contextMenuConfig from "../assets/configs/contextmenu/common.json"
+import contextMenuConfig from "../assets/configs/contextmenu/common.json";
 
 class ConfigLoader {
   constructor() {
@@ -30,7 +29,7 @@ class ConfigLoader {
       componentsDiagram,
       packageDiagram,
       sequenceDiagram,
-      stateDiagram
+      stateDiagram,
     };
 
     this.iconsMenuConfig = {
@@ -49,11 +48,10 @@ class ConfigLoader {
       port: portIcons,
       // Sequence diagram
       sqobject_instance: sqObjectInstanceIcons,
-      sqport: sqPortIcons
-    }
+      sqport: sqPortIcons,
+    };
 
     this.contextMenuConfig = contextMenuConfig;
-
   }
 
   /**
@@ -70,7 +68,7 @@ class ConfigLoader {
   }
 
   getTargetContextMenu(baseItem, exectItem, subItemOfExectItem) {
-    let menu =  null;
+    let menu = null;
 
     //
     // Check for sub-context menu for methods and fields of class element
@@ -98,24 +96,28 @@ class ConfigLoader {
     //       but for a while, it is enough to have a single level of extend
     //
     if (menu && menu.extend !== "") {
-          // Get the list of command which it is extend
-          let tmp2 = this.#getContextMenuFor(menu.extend, false);
-          // Extend the list of commands
-          menu.commands = [...tmp2.commands, {
-            "title": "---",
-            "handler": ""
-          }, ...menu.commands];
+      // Get the list of command which it is extend
+      let tmp2 = this.#getContextMenuFor(menu.extend, false);
+      // Extend the list of commands
+      menu.commands = [
+        ...tmp2.commands,
+        {
+          title: "---",
+          handler: "",
+        },
+        ...menu.commands,
+      ];
     }
     return menu;
   }
 
   #getContextMenuFor(target, addSuffix = true) {
-    let compare = target + (addSuffix ? ":contextmenu": "");
+    let compare = target + (addSuffix ? ":contextmenu" : "");
     for (let i = 0; i < this.contextMenuConfig.items.length; i++) {
       if (this.contextMenuConfig.items[i]["event"] == compare) {
         let tmp = this.contextMenuConfig.items[i];
         // clone tmp
-        tmp = {...tmp};
+        tmp = { ...tmp };
         return tmp;
       }
     }
@@ -134,10 +136,14 @@ class ConfigLoader {
           // Get the list of command which it is extend
           let tmp2 = this.getElementContextMenu(tmp.extend);
           // Extend the list of commands
-          tmp.commands = [...tmp2.commands, {
-            "title": "---",
-            "handler": ""
-          }, ...tmp.commands];
+          tmp.commands = [
+            ...tmp2.commands,
+            {
+              title: "---",
+              handler: "",
+            },
+            ...tmp.commands,
+          ];
         }
         return tmp;
       }
@@ -153,7 +159,7 @@ class ConfigLoader {
   //
   registerdCommands = new Map();
   addCommand(name, handler) {
-     this.registerdCommands[name] = handler;
+    this.registerdCommands[name] = handler;
   }
 
   executeCommand(name, data, extraData) {
@@ -195,7 +201,7 @@ class ConfigLoader {
   }
 
   extendContextMenu(path, title, command) {
-     // TODO: implement an extension point for the context menu
+    // TODO: implement an extension point for the context menu
   }
 }
 

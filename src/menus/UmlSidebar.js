@@ -1,97 +1,108 @@
 import configLoader from "../utils/ConfigLoader";
 
-class UMLSidebar  {
-    constructor(parentSelector, hostContainer) {
-        this.parentSelector = parentSelector;
-        this.hostContainer = hostContainer;
-        
-        this.jsonFiles = // ["config/commonDiagram.json", "config/classDiagram.json", "config/packageDiagram.json"];
-        ["componentDiagram", "classDiagram", "packageDiagram", "sequenceDiagram"];
-        // Reference on diagram
-        this.diagram = null;
-    }
+class UMLSidebar {
+  constructor(parentSelector, hostContainer) {
+    this.parentSelector = parentSelector;
+    this.hostContainer = hostContainer;
 
-    setDiagram(diagram) {
-        this.diagram = diagram;
-        this.loadSidebar();
-    }
+    this.jsonFiles =
+      // ["config/commonDiagram.json", "config/classDiagram.json", "config/packageDiagram.json"];
+      ["componentDiagram", "classDiagram", "packageDiagram", "sequenceDiagram"];
+    // Reference on diagram
+    this.diagram = null;
+  }
 
-    async loadSidebar() {
-        const sidebar = document.createElement("div");
-        sidebar.classList.add("sidebar");
+  setDiagram(diagram) {
+    this.diagram = diagram;
+    this.loadSidebar();
+  }
 
-        for (const file of this.jsonFiles) {
-            const diagrams = await this.loadJSON(file);
-            diagrams.forEach(diagram => {
-                const header = this.createMenuHeader(diagram.menuHeader);
-                const listContainer = document.createElement("div");
-                listContainer.classList.add("menu-list");
-                listContainer.style.display = "none"; // Initially collapsed
+  async loadSidebar() {
+    const sidebar = document.createElement("div");
+    sidebar.classList.add("sidebar");
 
-                // Add Elements
-                if (diagram.elements?.length) {
-                    const elementsContainer = document.createElement("div");
-                    elementsContainer.classList.add("menu-list-elements");
-                    diagram.elements.forEach(item => elementsContainer.appendChild(this.createMenuItem(item)));
-                    listContainer.appendChild(elementsContainer);
-                    // Add Divider if we have 2 lists only
-                    if (diagram.connectors?.length) listContainer.appendChild(this.createDivider());
-                }
+    for (const file of this.jsonFiles) {
+      const diagrams = await this.loadJSON(file);
+      diagrams.forEach((diagram) => {
+        const header = this.createMenuHeader(diagram.menuHeader);
+        const listContainer = document.createElement("div");
+        listContainer.classList.add("menu-list");
+        listContainer.style.display = "none"; // Initially collapsed
 
-                // Add Connectors
-                if (diagram.connectors?.length) {
-                    const connectorsContainer = document.createElement("div");
-                    connectorsContainer.classList.add("menu-list-connectors");
-                    diagram.connectors.forEach(item => connectorsContainer.appendChild(this.createMenuItem(item)));
-                    listContainer.appendChild(connectorsContainer);
-                }
-
-                header.addEventListener("click", () => {
-                    listContainer.style.display = listContainer.style.display === "block" ? "none" : "block";
-                });
-
-                sidebar.appendChild(header);
-                sidebar.appendChild(listContainer);
-            });
+        // Add Elements
+        if (diagram.elements?.length) {
+          const elementsContainer = document.createElement("div");
+          elementsContainer.classList.add("menu-list-elements");
+          diagram.elements.forEach((item) =>
+            elementsContainer.appendChild(this.createMenuItem(item)),
+          );
+          listContainer.appendChild(elementsContainer);
+          // Add Divider if we have 2 lists only
+          if (diagram.connectors?.length)
+            listContainer.appendChild(this.createDivider());
         }
 
-        $(this.parentSelector).innerHTML = ""; // Clear previous content
-        this.hostContainer.appendChild(this.createStyle());
-        this.hostContainer.appendChild(this.iconsStyle());
-        // this.hostContainer.appendChild(this.fontStyle());
-        $(this.parentSelector).append(sidebar);
-    }
-
-    async loadJSON(file) {
-        try {
-            var x = configLoader.getConfig(file);
-            if (x) {
-                return x;
-            }
-            const response = await fetch("assets/config/" + file + ".json");
-            return await response.json();
-        } catch (error) {
-            console.error("Error loading JSON:", file, error);
-            return [];
+        // Add Connectors
+        if (diagram.connectors?.length) {
+          const connectorsContainer = document.createElement("div");
+          connectorsContainer.classList.add("menu-list-connectors");
+          diagram.connectors.forEach((item) =>
+            connectorsContainer.appendChild(this.createMenuItem(item)),
+          );
+          listContainer.appendChild(connectorsContainer);
         }
+
+        header.addEventListener("click", () => {
+          listContainer.style.display =
+            listContainer.style.display === "block" ? "none" : "block";
+        });
+
+        sidebar.appendChild(header);
+        sidebar.appendChild(listContainer);
+      });
     }
 
-    createMenuHeader(title) {
-        const header = document.createElement("button");
-        header.innerHTML = `
+    $(this.parentSelector).innerHTML = ""; // Clear previous content
+    this.hostContainer.appendChild(this.createStyle());
+    this.hostContainer.appendChild(this.iconsStyle());
+    // this.hostContainer.appendChild(this.fontStyle());
+    $(this.parentSelector).append(sidebar);
+  }
+
+  async loadJSON(file) {
+    try {
+      var x = configLoader.getConfig(file);
+      if (x) {
+        return x;
+      }
+      const response = await fetch("assets/config/" + file + ".json");
+      return await response.json();
+    } catch (error) {
+      console.error("Error loading JSON:", file, error);
+      return [];
+    }
+  }
+
+  createMenuHeader(title) {
+    const header = document.createElement("button");
+    header.innerHTML =
+      `
           <div class="header-container">
-            <span class="header-label">` + title + `</span>
+            <span class="header-label">` +
+      title +
+      `</span>
           </div>
           <div class="header-icon-frame-wrapper">
             <div class="header-icon-frame"><div class="icon-common-trailing"></div></div>
           </div>`;
-        header.classList.add("menu-header");
-        return header;
-    }
+    header.classList.add("menu-header");
+    return header;
+  }
 
-    createMenuItem(item) {
-        const link = document.createElement("div");
-        link.innerHTML = `
+  createMenuItem(item) {
+    const link = document.createElement("div");
+    link.innerHTML =
+      `
             <div class="menu-item-frame">
               <div class="menu-item-list-variant">
                   <div class="menu-item-svg">
@@ -99,43 +110,47 @@ class UMLSidebar  {
                     <path d="M6.3 18H11.7C16.2 18 18 16.2 18 11.7V6.3C18 1.8 16.2 0 11.7 0H6.3C1.8 0 0 1.8 0 6.3V11.7C0 16.2 1.8 18 6.3 18Z" fill="#0BCA6E"/>
                   </svg>
                   </div>
-                  <div class="icons-sprite ` + (item?.css || "") + `"></div>
+                  <div class="icons-sprite ` +
+      (item?.css || "") +
+      `"></div>
               </div>
-              <span class="diagram-name">` + (item.description || "Unknown")+ `</span>
+              <span class="diagram-name">` +
+      (item.description || "Unknown") +
+      `</span>
             </div>
         `;
-        link.classList.add("menu-item");
-        link.addEventListener("click", (event) => {
-            this.onItemClick(item);
-        });
-        return link;
-    }
+    link.classList.add("menu-item");
+    link.addEventListener("click", (event) => {
+      this.onItemClick(item);
+    });
+    return link;
+  }
 
-    onItemClick(item) {
-        //
-        // Create an element instance
-        //
-        if (this.diagram && item.element && item.element != "") {
-            this.diagram.createElement(item.element, item.jsonModel || {});
-        }
+  onItemClick(item) {
+    //
+    // Create an element instance
+    //
+    if (this.diagram && item.element && item.element != "") {
+      this.diagram.createElement(item.element, item.jsonModel || {});
     }
+  }
 
-    createDivider() {
-        const divider = document.createElement("div");
-        divider.classList.add("divider");
-        return divider;
-    }
+  createDivider() {
+    const divider = document.createElement("div");
+    divider.classList.add("divider");
+    return divider;
+  }
 
-    iconsStyle() {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = "/assets/styles/icons.css";
-      return link;
-    }
+  iconsStyle() {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/assets/styles/icons.css";
+    return link;
+  }
 
-    createStyle() {
-        const style = document.createElement("style");
-        style.textContent = `
+  createStyle() {
+    const style = document.createElement("style");
+    style.textContent = `
 :root {
   --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei", "Source Han Sans CN", sans-serif;
 }
@@ -338,15 +353,16 @@ display: flex;
                 margin: 5px 0;
             }
         `;
-        return style;
-    }
+    return style;
+  }
 
-    fontStyle() {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap";
-        return link;
-    }
+  fontStyle() {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap";
+    return link;
+  }
 }
 
-export { UMLSidebar }
+export { UMLSidebar };
