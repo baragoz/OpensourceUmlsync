@@ -162,11 +162,36 @@ class ConfigLoader {
       return;
     }
     let f = this.registerdCommands[name];
-    if (typeof f === "function") {
-      f(data, extraData);
-    } else {
+    if (typeof f !== "function") {
       console.log("Command is not a function:", name);
+      return;
     }
+
+    const opman = this.#resolveOpman(data);
+    if (opman) {
+      opman.begin();
+      try {
+        f(data, extraData);
+      } finally {
+        opman.commit();
+      }
+    } else {
+      f(data, extraData);
+    }
+  }
+
+  //
+  // Command data is either an element/connector (data.diagram) or the
+  // diagram itself (e.g. the paste command's target).
+  //
+  #resolveOpman(data) {
+    if (!data) {
+      return null;
+    }
+    if (data.diagram) {
+      return data.diagram.opman || null;
+    }
+    return data.opman || null;
   }
 
   extendContextMenu(path, title, command) {

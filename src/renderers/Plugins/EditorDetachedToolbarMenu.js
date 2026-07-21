@@ -463,14 +463,21 @@ ${this.getHtmlToolbar()}
 
   setOptionForElement(key, value) {
     if (this.state.isSelectMode) {
-      this.listOfItems.forEach((item) => {
-        //
-        // item is element
-        //
-        if (item instanceof BaseElement) {
-          item._updateJsonModel(key, value);
-        }
-      });
+      const applyToItems = () => {
+        this.listOfItems.forEach((item) => {
+          //
+          // item is element
+          //
+          if (item instanceof BaseElement) {
+            item._updateJsonModel(key, value);
+          }
+        });
+      };
+      if (this.diagram && this.diagram.opman) {
+        this.diagram.opman.record(applyToItems);
+      } else {
+        applyToItems();
+      }
     } else {
         this.defaultStylePreview.updateElementOption(key, value);
         this.blackboard.setStorageValue("element:style", this.getDefaultElementOptions());
@@ -479,14 +486,21 @@ ${this.getHtmlToolbar()}
 
   setOptionForConnector(key, value) {
     if (this.state.isSelectMode) {
-      this.listOfItems.forEach((item) => {
-        //
-        // item is connector
-        //
-        if (item instanceof BaseConnector) {
-          item._setOption(key, value);
-        }
-      });
+      const applyToItems = () => {
+        this.listOfItems.forEach((item) => {
+          //
+          // item is connector
+          //
+          if (item instanceof BaseConnector) {
+            item._setOption(key, value);
+          }
+        });
+      };
+      if (this.diagram && this.diagram.opman) {
+        this.diagram.opman.record(applyToItems);
+      } else {
+        applyToItems();
+      }
     } else {
         this.defaultStylePreview.updateConnectorOption(key, value);
         this.blackboard.setStorageValue("connector:style", this.getDefaultConnectorOptions());

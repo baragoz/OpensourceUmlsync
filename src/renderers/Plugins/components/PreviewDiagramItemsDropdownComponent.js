@@ -128,18 +128,26 @@ export class PreviewDiagramItemsDropdownComponent {
         // Create an element instance
         //
         if (this.diagram) {
-            if (item.element && item.element != "") {
-              let val = item.jsonModel|| {};
-              let opt = this.toolbar.getDefaultElementOptions();
-              this.diagram.Element(item.element, {...val, ...opt});
-            }
+            const create = () => {
+                if (item.element && item.element != "") {
+                  let val = item.jsonModel|| {};
+                  let opt = this.toolbar.getDefaultElementOptions();
+                  this.diagram.Element(item.element, {...val, ...opt});
+                }
 
-            if (item.connector && item.connector != "") {
-                let opt = this.toolbar.getDefaultConnectorOptions();
-                this.diagram.Connector(item.connector, {
-                    epoints: [ {x: 200, y: 300}, {x: 400, y: 200}],
-                    ...opt
-                });
+                if (item.connector && item.connector != "") {
+                    let opt = this.toolbar.getDefaultConnectorOptions();
+                    this.diagram.Connector(item.connector, {
+                        epoints: [ {x: 200, y: 300}, {x: 400, y: 200}],
+                        ...opt
+                    });
+                }
+            };
+
+            if (this.diagram.opman) {
+                this.diagram.opman.record(create);
+            } else {
+                create();
             }
         }
     }

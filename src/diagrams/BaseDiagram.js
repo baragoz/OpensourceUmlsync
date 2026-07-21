@@ -419,6 +419,34 @@ class BaseDiagram extends BaseDiagramItem {
   }
 
   //
+  // Rebuild the whole diagram (elements + connectors) from a JSON model
+  // previously produced by getDescription(), e.g. for undo/redo. Reuses the
+  // same construction path as the initial load, so element/connector
+  // plugins (draggable, resizable, context menu, ...) get re-attached
+  // automatically via onAddElement()/onAddConnector().
+  //
+  restoreFromDescription(json) {
+    for (let i = this.connectors.length - 1; i >= 0; i--) {
+      this.connectors[i].removeInstance();
+    }
+    for (let i = this.elements.length - 1; i >= 0; i--) {
+      this.elements[i].removeInstance();
+    }
+
+    this.selectedItems = [];
+    this.highlightedConnector = null;
+    this.transformConnector = null;
+
+    this.jsonModel = { ...defaultModel, ...json };
+    this._createWidgets();
+
+    if (this.observer) {
+      this.observer.onSelectDiagramItem(this.selectedItems);
+    }
+    this.draw();
+  }
+
+  //
   // All elements belog to the same parent, that's why z-index could be negative too
   // when user want to send back some element.
   // That's why maxZIndex starts with 1000

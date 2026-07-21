@@ -439,8 +439,9 @@ class BaseConnector extends BaseDiagramItem {
   startTransform(x1, y1, scrollOffset) {
     if (!this.diagram.isEditable()) return;
 
-    // var opman = this.diagram.opman;
-    // opman.startTransaction();
+    if (this.diagram.opman) {
+      this.diagram.opman.begin();
+    }
 
     // Clean extra point position
     this.eppos = -1;
@@ -575,12 +576,11 @@ class BaseConnector extends BaseDiagramItem {
     //
     //
     if (this.eppos < 0) {
+      if (this.diagram.opman) {
+        this.diagram.opman.commit();
+      }
       return;
     }
-
-    // this.diagram.opman.reportStop(
-    //     this.report, this.euid, {idx: this.eppos, value: [x, y]});
-
 
     this.epoints[this.eppos].x = x1 + scrollOffset.left;
     this.epoints[this.eppos].y = y1 + scrollOffset.top;
@@ -638,6 +638,10 @@ class BaseConnector extends BaseDiagramItem {
 
     this.eppos = -1;
     this.onStopTransform(x, y);
+
+    if (this.diagram.opman) {
+      this.diagram.opman.commit();
+    }
   }
 
   TransformTo(x1, y1) {

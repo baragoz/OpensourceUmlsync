@@ -26,7 +26,10 @@ class ElementResizeable {
             'start': function(event) {
                 // TODO:  hide all editable fields on diagram
                 element._update();
-                // self.operation_start = {top:self.options.top, left:self.options.left, width:self.options.width, height:self.options.height};
+
+                if (element.diagram.opman) {
+                  element.diagram.opman.begin();
+                }
 
                 // Notify listeners to hide all editable fields, hide icon menu or context menu,
                 // and update operation manager etc ...
@@ -36,16 +39,12 @@ class ElementResizeable {
                 event.stopPropagation();
             },
             'stop': function(event) {
-               
+
                element._update();
-               // TODO: report to the operation manager on resize change - diff between element states
-               /* 
-               self.diagram.opman.reportShort("option",
-                  element.euid,
-                  self.operation_start,
-                  {top:self.options.top, left:self.options.left, width:self.options.width, height:self.options.height});
-                  delete self.operation_start;
-                */
+
+               if (element.diagram.opman) {
+                 element.diagram.opman.commit();
+               }
 
                 // if element has a handler on resize complete to align all elements correctly
                 if (element.onResizeComplete) {

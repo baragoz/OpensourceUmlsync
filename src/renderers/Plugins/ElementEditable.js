@@ -24,7 +24,13 @@ class ElementEditable {
                     key = "name";
                 }
                 console.log("KEY: " + key);
-                element.jsonModel[key] = data.current;
+
+                const apply = () => { element.jsonModel[key] = data.current; };
+                if (element.diagram && element.diagram.opman) {
+                    element.diagram.opman.record(apply);
+                } else {
+                    apply();
+                }
             }
         });
     }

@@ -35,18 +35,33 @@ class ElementDraggable {
         });
         self.operation_start = { left: ui.position.left, top: ui.position.top };
         //
-        // drop helper - create uml element directly from connector type icons menu above element 
+        // drop helper - create uml element directly from connector type icons menu above element
         //
         if (self.diagram.dropHelper) {
           console.log("START: dropHelper is set! Creating connector and returning early", element.euid);
-          self.diagram.Connector(self.diagram.dropHelper, {
-            epoints: [
-              { x: 0, y: 0, euid: element.euid },
-              { x: 100, y: 100, euid: "ConnectionHelper" }
-            ]
-          });
+          if (self.diagram.opman) {
+            self.diagram.opman.record(() => {
+              self.diagram.Connector(self.diagram.dropHelper, {
+                epoints: [
+                  { x: 0, y: 0, euid: element.euid },
+                  { x: 100, y: 100, euid: "ConnectionHelper" }
+                ]
+              });
+            });
+          } else {
+            self.diagram.Connector(self.diagram.dropHelper, {
+              epoints: [
+                { x: 0, y: 0, euid: element.euid },
+                { x: 100, y: 100, euid: "ConnectionHelper" }
+              ]
+            });
+          }
           console.log("START: About to return early - drag should still proceed");
           return;
+        }
+
+        if (self.diagram.opman) {
+          self.diagram.opman.begin();
         }
 
         // Notify element
@@ -104,6 +119,11 @@ class ElementDraggable {
           });
 
         element._update();
+
+        if (self.diagram.opman) {
+          self.diagram.opman.commit();
+        }
+
         // Notify another plugins ....
         blackboard.notify("element:drag:stop", element);
       },

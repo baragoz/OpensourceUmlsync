@@ -143,6 +143,10 @@ class EditorIconMenu {
           },
           'start': function(event) {
             if (iconMenuBuilder.diagram) {
+              if (iconMenuBuilder.diagram.opman) {
+                iconMenuBuilder.diagram.opman.begin();
+              }
+
               var tid = $(this).attr('element');
 
               var element = tid,  // iconMenuBuilder.dmb.getElementById(tid),
@@ -181,6 +185,8 @@ class EditorIconMenu {
           },
           'stop': function(event, ui) {
             if (!iconMenuBuilder.diagram) return false;
+
+            const opman = iconMenuBuilder.diagram.opman;
 
             var tid = $(this).data('element'),
                 force_create = $(this).data('force_create'),
@@ -246,6 +252,10 @@ class EditorIconMenu {
               // Force Re-draw connectors
               //
               iconMenuBuilder.diagram.draw();
+            }
+
+            if (opman) {
+              opman.commit();
             }
           }
         })

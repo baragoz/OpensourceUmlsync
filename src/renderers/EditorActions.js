@@ -83,8 +83,9 @@ function undo(diagram) {
   if (!isEditMode(diagram)) {
     return;
   }
-  // TODO: no command history yet (OperationManager.js is a stub) - notify
-  // only, so subscribers can see the intent once real undo/redo lands.
+  if (diagram.opman) {
+    diagram.opman.undo();
+  }
   const blackboard = diagram.getUserData("blackboard");
   if (blackboard) {
     blackboard.notify('hotkey:undo', diagram);
@@ -94,6 +95,9 @@ function undo(diagram) {
 function redo(diagram) {
   if (!isEditMode(diagram)) {
     return;
+  }
+  if (diagram.opman) {
+    diagram.opman.redo();
   }
   const blackboard = diagram.getUserData("blackboard");
   if (blackboard) {

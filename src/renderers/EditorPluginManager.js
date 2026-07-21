@@ -3,6 +3,7 @@ import { BaseDiagram } from '../diagrams/BaseDiagram';
 import { BaseElement } from '../elements/BaseElement';
 import { IDiagramObserver } from '../interfaces/IDiagramObserver';
 import {Blackboard} from '../utils/Blackboard';
+import { OperationManager } from '../core/OperationManager';
 
 import {ClassExtras} from './Plugins/ClassExtras';
 import { ConnectorLabels } from './Plugins/ConnectorLabels';
@@ -75,6 +76,9 @@ class EditorPluginManager extends IDiagramObserver {
 
     // bind blackboard to the diagram
     this.diagram.setUserData("blackboard", this.blackboard);
+
+    // undo/redo history for this diagram (editor only)
+    this.diagram.opman = new OperationManager(this.diagram);
 
     // Sync edit mode with the actual diagram option - setupDefaultValues()
     // only sets a startup default before the diagram (and its editmode
