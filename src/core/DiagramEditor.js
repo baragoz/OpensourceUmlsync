@@ -115,7 +115,10 @@ class DiagramEditor {
         // at this point we should provide a custom config
         // which is different for editor and viewer
         //
-        let pm = new EditorPluginManager({devmode: this.options.devmode});
+        let pm = new EditorPluginManager({
+            devmode: this.options.devmode,
+            hotKeyManager: this.options.hotKeyManager
+        });
 
         const diagramMap = {
             classDiagram: ClassDiagram,

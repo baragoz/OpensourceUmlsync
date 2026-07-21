@@ -76,6 +76,11 @@ class EditorPluginManager extends IDiagramObserver {
     // bind blackboard to the diagram
     this.diagram.setUserData("blackboard", this.blackboard);
 
+    // Sync edit mode with the actual diagram option - setupDefaultValues()
+    // only sets a startup default before the diagram (and its editmode
+    // option) exists yet.
+    this.blackboard.setStorageValue('editmode', !!diagram.options.editmode);
+
     //
     // Diagram plugins
     //
@@ -98,7 +103,19 @@ class EditorPluginManager extends IDiagramObserver {
     //diagram.setUserData("plugin-editor-sidemenu", new EditorSideMenu(
     //    this.getSidebarPlaceholder(diagram), diagram, this.blackboard));
     diagram.setUserData("plugin-editor-contextmenu", new EditorContextMenu(diagram, this.blackboard, null));
-    diagram.setUserData("plugin-editor-hotkeys", new EditorHotKeysEvents(diagram, this.blackboard, null));
+
+    //
+    // Hotkey manager: `hotKeyManager` in the constructor's overrideDefaultValues
+    // is `false` to skip the default one entirely, a class (same constructor
+    // signature: diagram, blackboard, editorConfig) to use a custom one instead,
+    // or unset to use the built-in EditorHotKeysEvents. A custom manager should
+    // dispatch through EditorActions to get the same select/copy/cut/paste/
+    // delete/undo/redo behavior instead of reimplementing it.
+    //
+    if (this.options.hotKeyManager !== false) {
+      const HotKeyManager = this.options.hotKeyManager || EditorHotKeysEvents;
+      diagram.setUserData("plugin-editor-hotkeys", new HotKeyManager(diagram, this.blackboard, null));
+    }
 
     //
     // NOTE: must be initiliazed after the icon menu, because icon menu is subscribed on

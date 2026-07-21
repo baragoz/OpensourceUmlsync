@@ -1,5 +1,12 @@
-import configLoader from '../../utils/ConfigLoader';
+import { EditorActions } from '../EditorActions';
 
+//
+// Default hotkey manager: maps keydown combinations to EditorActions calls.
+// Carries no action logic of its own - see EditorActions for the actual
+// select all / copy / cut / paste / delete / undo / redo behavior. A custom
+// hotkey manager (see EditorPluginManager's `hotKeyManager` option) can
+// follow the same pattern against the same actions.
+//
 class EditorHotKeysEvents {
   constructor(diagram, blackboard, editorConfig) {
     this.diagram = diagram;
@@ -51,7 +58,8 @@ class EditorHotKeysEvents {
     if (ctrlKey && key === 'a') {
       event.preventDefault();
       event.stopPropagation();
-      this.handleSelectAll();
+      this.blackboard.notify('hotkey:selectall', this.diagram);
+      EditorActions.selectAll(this.diagram);
       return;
     }
 
@@ -59,7 +67,7 @@ class EditorHotKeysEvents {
     if (ctrlKey && key === 'x') {
       event.preventDefault();
       event.stopPropagation();
-      this.handleCut();
+      EditorActions.cut(this.diagram);
       return;
     }
 
@@ -67,7 +75,7 @@ class EditorHotKeysEvents {
     if (ctrlKey && key === 'c') {
       event.preventDefault();
       event.stopPropagation();
-      this.handleCopy();
+      EditorActions.copy(this.diagram);
       return;
     }
 
@@ -75,17 +83,17 @@ class EditorHotKeysEvents {
     if (ctrlKey && key === 'v') {
       event.preventDefault();
       event.stopPropagation();
-      this.handlePaste();
+      EditorActions.paste(this.diagram);
       return;
     }
 
     // Handle Delete key
     if (key === 'delete' || key === 'backspace') {
       // Only prevent default if an element is selected
-      if (this.hasSelectedElement()) {
+      if (EditorActions.getSelectedItem(this.diagram)) {
         event.preventDefault();
         event.stopPropagation();
-        this.handleDelete();
+        EditorActions.deleteSelection(this.diagram);
       }
       return;
     }
@@ -94,7 +102,7 @@ class EditorHotKeysEvents {
     if (ctrlKey && key === 'z' && !event.shiftKey) {
       event.preventDefault();
       event.stopPropagation();
-      this.handleUndo();
+      EditorActions.undo(this.diagram);
       return;
     }
 
@@ -102,82 +110,9 @@ class EditorHotKeysEvents {
     if ((ctrlKey && key === 'y') || (ctrlKey && key === 'z' && event.shiftKey)) {
       event.preventDefault();
       event.stopPropagation();
-      this.handleRedo();
+      EditorActions.redo(this.diagram);
       return;
     }
-  }
-
-  handleSelectAll() {
-    // Post select all command to blackboard
-    this.blackboard.notify('hotkey:selectall', this.diagram);
-    this.diagram.selectAll();
-  }
-
-  handleCut() {
-    const selectedElement = this.getSelectedElement();
-    if (selectedElement) {
-      configLoader.executeCommand('command:element:cut', selectedElement, null);
-    }
-  }
-
-  handleCopy() {
-    const selectedElement = this.getSelectedElement();
-    if (selectedElement) {
-      configLoader.executeCommand('command:element:copy', selectedElement, null);
-    }
-  }
-
-  handlePaste() {
-    // Paste command expects diagram as first parameter
-    configLoader.executeCommand('command:diagram:paste', this.diagram, null);
-  }
-
-  handleDelete() {
-    const selectedItem = this.getSelectedItem();
-    if (selectedItem) {
-      // Check if it's a connector or element
-      if (selectedItem.constructor.name === 'BaseConnector') {
-        configLoader.executeCommand('command:connector:remove', selectedItem, null);
-      } else {
-        configLoader.executeCommand('command:element:remove', selectedItem, null);
-      }
-    }
-  }
-
-  handleUndo() {
-    // Post undo command to blackboard or execute if command exists
-    this.blackboard.notify('hotkey:undo', this.diagram);
-    // Optionally try to execute command if registered
-    // configLoader.executeCommand('command:undo', this.diagram, null);
-  }
-
-  handleRedo() {
-    // Post redo command to blackboard or execute if command exists
-    this.blackboard.notify('hotkey:redo', this.diagram);
-    // Optionally try to execute command if registered
-    // configLoader.executeCommand('command:redo', this.diagram, null);
-  }
-
-  getSelectedItem() {
-    // Get the first selected item from the diagram (can be element or connector)
-    if (this.diagram && this.diagram.selectedItems && this.diagram.selectedItems.length > 0) {
-      return this.diagram.selectedItems[0];
-    }
-    return null;
-  }
-
-  getSelectedElement() {
-    // Get the first selected element (filter out connectors)
-    const selectedItem = this.getSelectedItem();
-    // Check if it's an element (not a connector)
-    if (selectedItem && selectedItem.constructor.name !== 'BaseConnector') {
-      return selectedItem;
-    }
-    return null;
-  }
-
-  hasSelectedElement() {
-    return this.getSelectedItem() !== null;
   }
 
   // Cleanup method to unbind events when plugin is destroyed
@@ -187,4 +122,3 @@ class EditorHotKeysEvents {
 }
 
 export { EditorHotKeysEvents };
-
