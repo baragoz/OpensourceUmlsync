@@ -87,15 +87,25 @@ class DiagramMouseEvents {
           y = Math.round(e.pageY - p.top);
           iDiagram.stopConnectorTransform(x,y);
         })
-        .mousedown(function(e) { 
-    
+        .mousedown(function(e) {
+
           var p = $(this).offset(),
           x = Math.round(e.pageX - p.left),
           y = Math.round(e.pageY - p.top);
-    
+
           if (e.which != 3 && !e.ctrlKey) {
-            // Pre-process selection
-            iDiagram.onMouseClick(null, e);
+            //
+            // This handler is bound on the whole diagram surface, so a
+            // mousedown that lands on an element (about to start a drag)
+            // bubbles up here too. Only pre-process/deselect when the
+            // mousedown actually originated on empty canvas - otherwise
+            // this wipes a multi-selection before ElementDraggable's own
+            // 'start' handler ever gets a chance to see it, and only the
+            // element under the mouse ends up moving.
+            //
+            if ($(e.target).closest('.us-element-border').length === 0) {
+              iDiagram.onMouseClick(null, e);
+            }
             iDiagram.startConnectorTransform(x,y);
           }
         })

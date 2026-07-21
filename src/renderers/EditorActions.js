@@ -1,4 +1,5 @@
 import configLoader from '../utils/ConfigLoader';
+import { BaseConnector } from '../connectors/BaseConnector';
 
 //
 // Public editor action surface. Hotkey managers (default or custom) should
@@ -68,14 +69,32 @@ function deleteSelection(diagram) {
   if (!isEditMode(diagram)) {
     return;
   }
-  const selectedItem = getSelectedItem(diagram);
-  if (!selectedItem) {
+  const selectedItems = (diagram && diagram.selectedItems) ? [...diagram.selectedItems] : [];
+  if (selectedItems.length === 0) {
     return;
   }
-  if (selectedItem.constructor.name === 'BaseConnector') {
-    configLoader.executeCommand('command:connector:remove', selectedItem, null);
-  } else {
-    configLoader.executeCommand('command:element:remove', selectedItem, null);
+
+  // Group the whole batch into a single undo step.
+  if (diagram.opman) {
+    diagram.opman.begin();
+  }
+
+  selectedItems.forEach((item) => {
+    if (item instanceof BaseConnector) {
+      configLoader.executeCommand('command:connector:remove', item, null);
+    } else {
+      configLoader.executeCommand('command:element:remove', item, null);
+    }
+  });
+
+  // Removed items are gone - do not leave dangling references selected.
+  diagram.selectedItems = [];
+  if (diagram.observer) {
+    diagram.observer.onSelectDiagramItem(diagram.selectedItems);
+  }
+
+  if (diagram.opman) {
+    diagram.opman.commit();
   }
 }
 
