@@ -24,7 +24,7 @@ class NoteElement extends BaseElement {
 
     _create() {
         let innerHtml = '<div id="' + this.euid + '" class="us-note grElement us-element-note">\
-        <a id="name" data-key="name" class="editablefield Name">' + this.jsonModel['name'] + '</a>\
+        <a id="name" data-key="name" class="editablefield Name">' + this._getNoteDescription() + '</a>\
           <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"> \
             <polygon points="0,0 20,0 0,20" fill="#000000" />\
             <polygon points="1,1 19,1 1,19" fill="#DDDDDD" />\
@@ -32,6 +32,10 @@ class NoteElement extends BaseElement {
           </svg>\
         </div>';
         $("#" + this.diagram.euid).append(innerHtml);
+    }
+
+    _getNoteDescription() {
+        return this.jsonModel.name || "&nbsp;&nbsp;&nbsp;&nbsp;";
     }
 }
 
