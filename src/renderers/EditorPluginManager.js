@@ -8,7 +8,6 @@ import {ClassExtras} from './Plugins/ClassExtras';
 import { ConnectorLabels } from './Plugins/ConnectorLabels';
 import {DiagramContextMenuEvents} from './Plugins/DiagramContextMenuEvents';
 import { DiagramDroppableElement } from './Plugins/DiagramDroppableElements';
-import { DiagramDroppableSQElement } from './Plugins/DiagramDroppableSQElement';
 import {DiagramMouseEvents} from './Plugins/DiagramMouseEvents';
 import {DiagramScrollStartEvent} from './Plugins/DiagramScrollStartEvent';
 import {EditorContextMenu} from './Plugins/EditorContextMenu';
@@ -84,15 +83,11 @@ class EditorPluginManager extends IDiagramObserver {
     //
     // droppable cleanup (detach parent/droplist links on element removal);
     // nesting/z-index/snap-on-drop itself is handled by each diagram's
-    // handleElementDragStop override (see BaseDiagram.js)
+    // handleElementDragStop override (see BaseDiagram.js). Harmless no-op
+    // for diagrams whose elements never declare droppable/acceptdrop
+    // (ClassDiagram, StateDiagram).
     //
-    if (diagram.options.nameTemplate === 'sequenceDiagram') {
-      // Sequence diagram still owns its own drag-stop nesting logic too
-      diagram.setUserData("plugin-droppable", new DiagramDroppableSQElement(diagram, this.blackboard));
-    } else if (diagram.options.nameTemplate === 'packageDiagram' ||
-               diagram.options.nameTemplate === 'componentsDiagram') {
-      diagram.setUserData("plugin-droppable", new DiagramDroppableElement(diagram, this.blackboard));
-    }
+    diagram.setUserData("plugin-droppable", new DiagramDroppableElement(diagram, this.blackboard));
     diagram.setUserData("plugin-scroll", new DiagramScrollStartEvent(diagram, this.blackboard));
     diagram.setUserData("plugin-contextmenu", new DiagramContextMenuEvents(diagram, this.blackboard));
 

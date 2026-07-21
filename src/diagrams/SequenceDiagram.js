@@ -81,6 +81,27 @@ class SequenceDiagram extends BaseDiagram {
   
         return object;
     }
+
+    //
+    // Nest a dropped sqport/sqdestroy/sqlost into the object instance
+    // (lifeline) it was dropped on, then re-center it on the lifeline
+    //
+    handleElementDragStop(element, ui) {
+        if (!element.options.droppable) {
+            return;
+        }
+
+        const parent = this.checkDroppableElement(element);
+        this.reparentDroppedElement(element, parent);
+
+        // Re-align model after DND, otherwise user could place it anywhere
+        // inside parent element, after drop it first time
+        if (parent) {
+            const align = parent.jsonModel.left + parent.jsonModel.width / 2 - element.jsonModel.width / 2;
+            element.nativeBorderRef.css('left', align);
+            element.jsonModel.left = align;
+        }
+    }
 }
 
 export { SequenceDiagram }
