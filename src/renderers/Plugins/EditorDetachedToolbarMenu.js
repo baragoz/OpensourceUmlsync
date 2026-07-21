@@ -1,15 +1,15 @@
-import {BaseConnector} from '../../connectors/BaseConnector';
-import {BaseDiagramItem} from '../../core/BaseDiagramItem';
+import { BaseConnector } from '../../connectors/BaseConnector';
+import { BaseDiagramItem } from '../../core/BaseDiagramItem';
 import { BaseDiagram } from '../../diagrams/BaseDiagram';
-import {BaseElement} from '../../elements/BaseElement';
+import { BaseElement } from '../../elements/BaseElement';
 import { Blackboard } from '../../utils/Blackboard';
 import configLoader from '../../utils/ConfigLoader';
 
-import {PreviewAlignComponent} from './components/PreviewAlignComonent';
-import {PreviewColorPickerComponent} from './components/PreviewColorPickerComponent';
-import {PreviewDiagramItemsDropdownComponent} from './components/PreviewDiagramItemsDropdownComponent';
-import {PreviewStyleCarouselComponent} from './components/PreviewStyleCarouselComponent';
-import {PreviewStyleComponent} from './components/PreviewStyleComponent';
+import { PreviewAlignComponent } from './components/PreviewAlignComonent';
+import { PreviewColorPickerComponent } from './components/PreviewColorPickerComponent';
+import { PreviewDiagramItemsDropdownComponent } from './components/PreviewDiagramItemsDropdownComponent';
+import { PreviewStyleCarouselComponent } from './components/PreviewStyleCarouselComponent';
+import { PreviewStyleComponent } from './components/PreviewStyleComponent';
 
 const defaultState = {
   // toggle for select/default
@@ -30,13 +30,13 @@ const defaultState = {
 };
 
 class EditorDetachedToolbarMenu {
-    /**
-     * 
-     * @param { string } placeholder 
-     * @param { BaseDiagram } diagram 
-     * @param { Blackboard } blackboard 
-     * @param { Boolean } isDevMode 
-     */
+  /**
+   * 
+   * @param { string } placeholder 
+   * @param { BaseDiagram } diagram 
+   * @param { Blackboard } blackboard 
+   * @param { Boolean } isDevMode 
+   */
   constructor(placeholder, diagram, blackboard, isDevMode) {
     this.placeholder = placeholder;
     this.nativeRef = $(placeholder);
@@ -47,7 +47,7 @@ class EditorDetachedToolbarMenu {
     this.isDevMode = isDevMode;
 
     // clone state
-    this.state = {...defaultState};
+    this.state = { ...defaultState };
 
     /**
      * @type {BaseDiagramItem[]}
@@ -66,10 +66,10 @@ class EditorDetachedToolbarMenu {
     this.setDiagram(diagram);
 
     this.blackboard.addEventListener(
-        'storage:editmode', this.onEditModeChange.bind(this));
+      'storage:editmode', this.onEditModeChange.bind(this));
 
     this.blackboard.addEventListener(
-        'diagram:item:select', this.onSelectItems.bind(this));
+      'diagram:item:select', this.onSelectItems.bind(this));
   }
 
   setDiagram(diagram) {
@@ -84,14 +84,14 @@ class EditorDetachedToolbarMenu {
       // Menu - elements
       //
       this.elementsPreview = new PreviewDiagramItemsDropdownComponent(
-          this, this.diagram, '.us-dt-placeholder-elements-dropdown',
-          diagram.elements);
+        this, this.diagram, '.us-dt-placeholder-elements-dropdown',
+        diagram.elements);
       //
       // Menu - connectors
       //
       this.connectorsPreview = new PreviewDiagramItemsDropdownComponent(
-          this, this.diagram, '.us-dt-placeholder-connectors-dropdown',
-          diagram.connectors);
+        this, this.diagram, '.us-dt-placeholder-connectors-dropdown',
+        diagram.connectors);
     });
   }
 
@@ -125,9 +125,32 @@ class EditorDetachedToolbarMenu {
     </div>
 <!-- icon for liked style list -->
     <div id="us-icon-liked" class="us-dt-style-icon">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"/>
-  <path d="M12.516 19.3417C12.2327 19.4417 11.766 19.4417 11.4827 19.3417C9.06602 18.5167 3.66602 15.075 3.66602 9.24171C3.66602 6.66671 5.74102 4.58337 8.29935 4.58337C9.81602 4.58337 11.1577 5.31671 11.9993 6.45004C12.841 5.31671 14.191 4.58337 15.6993 4.58337C18.2577 4.58337 20.3327 6.66671 20.3327 9.24171C20.3327 15.075 14.9327 18.5167 12.516 19.3417Z" stroke="#54577A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z"
+    fill="#EEEFF8"
+  />
+
+  <path
+    d="M5.5 4.75C5.5 4.06 6.06 3.5 6.75 3.5H17.25C17.94 3.5 18.5 4.06 18.5 4.75V20L12 16.45L5.5 20V4.75Z"
+    stroke="#54577A"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <path
+    d="M9 6.75H15"
+    stroke="#54577A"
+    stroke-width="1.5"
+    stroke-linecap="round"
+  />
 </svg>
     </div>
 <!-- icon for created/saved style list -->
@@ -479,8 +502,8 @@ ${this.getHtmlToolbar()}
         applyToItems();
       }
     } else {
-        this.defaultStylePreview.updateElementOption(key, value);
-        this.blackboard.setStorageValue("element:style", this.getDefaultElementOptions());
+      this.defaultStylePreview.updateElementOption(key, value);
+      this.blackboard.setStorageValue("element:style", this.getDefaultElementOptions());
     }
   }
 
@@ -502,8 +525,8 @@ ${this.getHtmlToolbar()}
         applyToItems();
       }
     } else {
-        this.defaultStylePreview.updateConnectorOption(key, value);
-        this.blackboard.setStorageValue("connector:style", this.getDefaultConnectorOptions());
+      this.defaultStylePreview.updateConnectorOption(key, value);
+      this.blackboard.setStorageValue("connector:style", this.getDefaultConnectorOptions());
     }
   }
 
@@ -531,9 +554,9 @@ ${this.getHtmlToolbar()}
         // Hide all rows, except an active row
         //
         ['showConnectorRow', 'showElementRow', 'showStyleRow'].forEach(
-            (item) => {
-              this.state[item] = item == target;
-            });
+          (item) => {
+            this.state[item] = item == target;
+          });
       }
     } else if (target === 'isSelectMode') {
       //
@@ -620,19 +643,19 @@ ${this.getHtmlToolbar()}
     // Disable/Enable buttons [ E ] and [ C ]
     //
     this.nativeRef.find('#us-dt-toggle-element')
-        .prop('disabled', !this.state.hasElement);
+      .prop('disabled', !this.state.hasElement);
     this.nativeRef.find('#us-dt-toggle-connector')
-        .prop('disabled', !this.state.hasConnector);
+      .prop('disabled', !this.state.hasConnector);
 
     //
     // Show/hide rows
     //
     this.nativeRef.find('.us-ds-carousel-container')
-        .toggle(this.state.showStyleRow);
+      .toggle(this.state.showStyleRow);
     this.nativeRef.find('.us-dt-style-row')
-        .toggle(this.state.showElementRow);
+      .toggle(this.state.showElementRow);
     this.nativeRef.find('.us-dt-connector-style-row')
-        .toggle(this.state.showConnectorRow);
+      .toggle(this.state.showConnectorRow);
     //
     // Show icons on top of rows
     //
@@ -643,20 +666,20 @@ ${this.getHtmlToolbar()}
     // show/hide side box and icons
     //
     this.nativeRef.find('.us-dt-style-preview-wrapper')
-        .toggleClass('us-dt-style-preview-scale', !this.state.showStyleDefault);
+      .toggleClass('us-dt-style-preview-scale', !this.state.showStyleDefault);
 
     //
     // Unselect
     //
     this.nativeRef.find('.ui-resizable-handle')
-        .toggle(!this.state.isSelectMode);
-    
+      .toggle(!this.state.isSelectMode);
+
     //
     // Show/hide pinned....
     //
     this.nativeRef.find('.us-dt-pin')
-        .toggleClass("us-dt-state-pinned", this.state.pinRows)
-        .toggle(this.state.showPinIcon);
+      .toggleClass("us-dt-state-pinned", this.state.pinRows)
+      .toggle(this.state.showPinIcon);
   }
 
   initToolbar() {
@@ -686,7 +709,7 @@ ${this.getHtmlToolbar()}
     this.initConnectorRow();
     this.initStyleCarouselRow();
 
-    this.nativeRef.find('#us-text-save-button').on('click', function() {
+    this.nativeRef.find('#us-text-save-button').on('click', function () {
       if (self.selectedItem && self.selectedItem.diagram) {
         let d = self.selectedItem.diagram.getDescription();
         console.log('DESCRIPTION:');
@@ -695,15 +718,15 @@ ${this.getHtmlToolbar()}
     });
 
     this.defaultStylePreview =
-        new PreviewStyleComponent(this.nativeRef.find('.us-dt-style-preview'));
+      new PreviewStyleComponent(this.nativeRef.find('.us-dt-style-preview'));
 
     //
     // PIN / UN-PIN ROW
     //
     this.nativeRef.find('.us-dt-pin').on('click', () => {
-        this.dispatch('pinRows', this.state.pinRows ? 'unpin': 'pin');
+      this.dispatch('pinRows', this.state.pinRows ? 'unpin' : 'pin');
     });
-    
+
   }
 
   initStyleIcons() {
@@ -746,14 +769,14 @@ ${this.getHtmlToolbar()}
   updateIconSelection(selectedIcon) {
     // Remove active class from all icons
     this.nativeRef.find('.us-dt-style-icon').removeClass('us-dt-style-icon-active');
-    
+
     // Add active class to selected icon
     this.nativeRef.find(`#us-icon-${selectedIcon}`).addClass('us-dt-style-icon-active');
   }
 
   initStyleCarouselRow() {
     this.styleCarousel = new PreviewStyleCarouselComponent(
-        this.nativeRef.find('.us-ds-carousel-container'));
+      this.nativeRef.find('.us-ds-carousel-container'));
 
     // Initialize carousel scroll functionality
     this.initCarouselScroll();
@@ -779,8 +802,8 @@ ${this.getHtmlToolbar()}
         // No need to update the default options one by one !!!!
         //
         let clone = {
-            element: {...options.element},
-            connector: {...options.connector}
+          element: { ...options.element },
+          connector: { ...options.connector }
         };
         delete clone.element.text;
         delete clone.connector.text;
@@ -871,15 +894,15 @@ ${this.getHtmlToolbar()}
     // Color Pickers
     //
     this.arrowColorPicker = new PreviewColorPickerComponent(
-        this.nativeRef.find('#us-arrow-color-picker'),
-        ['Line Color']);
+      this.nativeRef.find('#us-arrow-color-picker'),
+      ['Line Color']);
 
     this.arrowColorPicker.onSelect((index, color) => {
-        console.log("SET COLOR FOR CONNECTOR: " + color);
-        self.setOptionForConnector('color', color);
+      console.log("SET COLOR FOR CONNECTOR: " + color);
+      self.setOptionForConnector('color', color);
     });
 
-    this.nativeRef.find('#us-arrow-line-width').on('change', function() {
+    this.nativeRef.find('#us-arrow-line-width').on('change', function () {
       const value = $(this).val();
       const x = [1, 2, 3, 4, 5, 6, 7];
       console.log("SET LINE WIDTH FOR CONNECTOR: " + value + " " + x[value]);
@@ -892,7 +915,7 @@ ${this.getHtmlToolbar()}
     //
     // FONT-FAMILY
     //
-    this.nativeRef.find('#us-label-font-style').on('change', function() {
+    this.nativeRef.find('#us-label-font-style').on('change', function () {
       const value = $(this).val();
       self.setOptionForConnector('font-family', value);
     });
@@ -900,7 +923,7 @@ ${this.getHtmlToolbar()}
     //
     // FONT-SIZE
     //
-    this.nativeRef.find('#us-label-font-size').on('change', function() {
+    this.nativeRef.find('#us-label-font-size').on('change', function () {
       const value = $(this).val();
       const x = [8, 10, 12, 14, 18, 24, 36];
       self.setOptionForConnector('font-size', x[value]);
@@ -909,7 +932,7 @@ ${this.getHtmlToolbar()}
     //
     // B U I - bold/italic/underline
     //
-    this.nativeRef.find('#us-label-bold').on('click', function() {
+    this.nativeRef.find('#us-label-bold').on('click', function () {
       if ($(this).hasClass('us-text-biu-active')) {
         $(this).removeClass('us-text-biu-active');
         self.setOptionForConnector('font-weight', 'normal');
@@ -918,7 +941,7 @@ ${this.getHtmlToolbar()}
         self.setOptionForConnector('font-weight', 'bold');
       }
     });
-    this.nativeRef.find('#us-label-italic').on('click', function() {
+    this.nativeRef.find('#us-label-italic').on('click', function () {
       if ($(this).hasClass('us-text-biu-active')) {
         $(this).removeClass('us-text-biu-active');
         self.setOptionForConnector('font-style', 'normal');
@@ -927,7 +950,7 @@ ${this.getHtmlToolbar()}
         self.setOptionForConnector('font-style', 'italic');
       }
     });
-    this.nativeRef.find('#us-label-underline').on('click', function() {
+    this.nativeRef.find('#us-label-underline').on('click', function () {
       if ($(this).hasClass('us-text-biu-active')) {
         $(this).removeClass('us-text-biu-active');
         self.setOptionForConnector('text-decoration', 'none');
@@ -940,8 +963,8 @@ ${this.getHtmlToolbar()}
     // Color picker
     //
     this.labelColorPicker = new PreviewColorPickerComponent(
-        this.nativeRef.find('.us-label-color-picker'),
-        ['Text Color', 'Background Color']);
+      this.nativeRef.find('.us-label-color-picker'),
+      ['Text Color', 'Background Color']);
 
     this.labelColorPicker.onSelect((index, color) => {
       let key = index === 1 ? 'font-bg' : 'font-color';
@@ -954,7 +977,7 @@ ${this.getHtmlToolbar()}
     //
     // FONT-FAMILY
     //
-    this.nativeRef.find('#us-text-font-style').on('change', function() {
+    this.nativeRef.find('#us-text-font-style').on('change', function () {
       const value = $(this).val();
       self.setOptionForElement('font-family', value);
     });
@@ -962,7 +985,7 @@ ${this.getHtmlToolbar()}
     //
     // FONT-SIZE
     //
-    this.nativeRef.find('#us-text-font-size').on('change', function() {
+    this.nativeRef.find('#us-text-font-size').on('change', function () {
       const value = $(this).val();
       const x = [8, 10, 12, 14, 18, 24, 36];
       self.setOptionForElement('font-size', x[value]);
@@ -973,14 +996,14 @@ ${this.getHtmlToolbar()}
     //
     let textAlign = this.nativeRef.find('#us-text-align');
     this.textAlignComponent = new PreviewAlignComponent(textAlign);
-    this.textAlignComponent.onSelect((alignmentString) => { 
+    this.textAlignComponent.onSelect((alignmentString) => {
       self.setOptionForElement('alignment', alignmentString);
     });
 
     //
     // B U I - bold/italic/underline
     //
-    this.nativeRef.find('#us-text-bold').on('click', function() {
+    this.nativeRef.find('#us-text-bold').on('click', function () {
       if ($(this).hasClass('us-text-biu-active')) {
         $(this).removeClass('us-text-biu-active');
         self.setOptionForElement('font-weight', 'normal');
@@ -989,7 +1012,7 @@ ${this.getHtmlToolbar()}
         self.setOptionForElement('font-weight', 'bold');
       }
     });
-    this.nativeRef.find('#us-text-italic').on('click', function() {
+    this.nativeRef.find('#us-text-italic').on('click', function () {
       if ($(this).hasClass('us-text-biu-active')) {
         $(this).removeClass('us-text-biu-active');
         self.setOptionForElement('font-style', 'normal');
@@ -998,7 +1021,7 @@ ${this.getHtmlToolbar()}
         self.setOptionForElement('font-style', 'italic');
       }
     });
-    this.nativeRef.find('#us-text-underline').on('click', function() {
+    this.nativeRef.find('#us-text-underline').on('click', function () {
       if ($(this).hasClass('us-text-biu-active')) {
         $(this).removeClass('us-text-biu-active');
         self.setOptionForElement('text-decoration', 'none');
@@ -1011,8 +1034,8 @@ ${this.getHtmlToolbar()}
     // Color picker
     //
     this.elementColorPicker = new PreviewColorPickerComponent(
-        this.nativeRef.find('.us-text-color-picker'),
-        ['Background Color', 'Text Color']);
+      this.nativeRef.find('.us-text-color-picker'),
+      ['Background Color', 'Text Color']);
 
     this.elementColorPicker.onSelect((index, color) => {
       let key = index === 0 ? 'color' : 'font-color';
@@ -1071,7 +1094,7 @@ ${this.getHtmlToolbar()}
   onSelectItems(listOfItems) {
     this.listOfItems = listOfItems ? listOfItems : [];
     this.dispatch(
-        'isSelectMode', (listOfItems.length > 0 ? 'enabled' : 'disabled'))
+      'isSelectMode', (listOfItems.length > 0 ? 'enabled' : 'disabled'))
   }
 
   getDefaultConnectorOptions() {
@@ -1084,4 +1107,4 @@ ${this.getHtmlToolbar()}
   }
 }
 
-export {EditorDetachedToolbarMenu}
+export { EditorDetachedToolbarMenu }
