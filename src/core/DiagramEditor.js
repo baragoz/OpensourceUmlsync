@@ -12,6 +12,10 @@ import { SequenceDiagram } from "../diagrams/SequenceDiagram";
 
 
 class DiagramEditor {
+    // Listeners registered via onUndoRedoChange(), fanned out on every
+    // undo/redo stack change and re-attached to each newly loaded diagram.
+    #undoRedoListeners = [];
+
     constructor(domSelector, overrideOptions)  {
         this.parentSelector = domSelector;
 
@@ -150,7 +154,72 @@ class DiagramEditor {
        // Sync-up edit mode - hide/show side menu
        this.options.editmode = extraOptions.editmode;
 
+       // Re-attach undo/redo tracking to the newly loaded diagram and let
+       // subscribers know where its (fresh) history stands.
+       this.#attachUndoRedoListener();
+       this.#notifyUndoRedoListeners();
+
        return this.digram;
+    }
+
+    //
+    // Undo/redo API
+    //
+    undo() {
+        if (this.digram && this.digram.opman) {
+            this.digram.opman.undo();
+        }
+    }
+
+    redo() {
+        if (this.digram && this.digram.opman) {
+            this.digram.opman.redo();
+        }
+    }
+
+    canUndo() {
+        return !!(this.digram && this.digram.opman && this.digram.opman.canUndo());
+    }
+
+    canRedo() {
+        return !!(this.digram && this.digram.opman && this.digram.opman.canRedo());
+    }
+
+    //
+    // Subscribe to undo/redo availability changes, e.g. to enable/disable
+    // toolbar buttons. callback is invoked immediately with the current
+    // {canUndo, canRedo} state, then again on every change - including
+    // across loadDiagram()/createDiagram() calls, since the listener is
+    // re-attached to whichever diagram is currently loaded.
+    //
+    // Returns an unsubscribe function.
+    //
+    onUndoRedoChange(callback) {
+        this.#undoRedoListeners.push(callback);
+        callback(this.#getUndoRedoState());
+        return () => {
+            this.#undoRedoListeners = this.#undoRedoListeners.filter((cb) => cb !== callback);
+        };
+    }
+
+    #getUndoRedoState() {
+        return { canUndo: this.canUndo(), canRedo: this.canRedo() };
+    }
+
+    #notifyUndoRedoListeners() {
+        const state = this.#getUndoRedoState();
+        this.#undoRedoListeners.forEach((callback) => callback(state));
+    }
+
+    #attachUndoRedoListener() {
+        if (!this.digram) {
+            return;
+        }
+        const blackboard = this.digram.getUserData("blackboard");
+        if (!blackboard) {
+            return;
+        }
+        blackboard.addEventListener('opman:changed', () => this.#notifyUndoRedoListeners());
     }
 
     setOption(key, value) {

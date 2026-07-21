@@ -92,28 +92,18 @@ function updateUndoRedoButtons(state) {
 function setupHeaderButtons() {
     // Undo button
     $("#us-ex-undo").on('click', function() {
-        if (editor.digram && editor.digram.opman) {
-            editor.digram.opman.undo();
-        }
+        editor.undo();
     });
 
     // Redo button
     $("#us-ex-redo").on('click', function() {
-        if (editor.digram && editor.digram.opman) {
-            editor.digram.opman.redo();
-        }
+        editor.redo();
     });
 
-    // Keep undo/redo buttons in sync with the diagram's history
-    if (editor.digram && editor.digram.opman) {
-        const opman = editor.digram.opman;
-        updateUndoRedoButtons({ canUndo: opman.canUndo(), canRedo: opman.canRedo() });
-
-        const blackboard = editor.digram.getUserData("blackboard");
-        if (blackboard) {
-            blackboard.addEventListener('opman:changed', updateUndoRedoButtons);
-        }
-    }
+    // Keep undo/redo buttons in sync with the diagram's history. This
+    // fires immediately with the current state, and again on every change -
+    // including across future loadDiagram()/createDiagram() calls.
+    editor.onUndoRedoChange(updateUndoRedoButtons);
 
     // Show JSON button
     $("#us-ex-show-json").on('click', function() {
