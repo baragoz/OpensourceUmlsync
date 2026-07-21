@@ -10,8 +10,8 @@ const defaultOptions = {
   editmode: false,
   type: 'base',
   globalId: 1,
-  maxZIndex : 5000,
-  minZIndex : 5000,
+  maxZIndex: 5000,
+  minZIndex: 5000,
   acceptElements: []
 };
 
@@ -62,15 +62,15 @@ class BaseDiagram extends BaseDiagramItem {
   //  Width/Height could be modified via options
   //
   constructor(overrideDefaultOptions, jsonModel, constructionOptions, observer) {
-    super({...defaultOptions, ...overrideDefaultOptions, ...constructionOptions}, "dm" + jsonModel.id);
-    
+    super({ ...defaultOptions, ...overrideDefaultOptions, ...constructionOptions }, "dm" + jsonModel.id);
+
     /**
      * @type {IDiagramObserver}
      */
-    this.observer =  observer;
+    this.observer = observer;
 
     // update model data
-    this.jsonModel = {...defaultModel, ...jsonModel};
+    this.jsonModel = { ...defaultModel, ...jsonModel };
 
     this.parentId = constructionOptions.parentId;
     //
@@ -85,7 +85,7 @@ class BaseDiagram extends BaseDiagramItem {
     // with full list of errors
     //
     this.errorHandler = {
-      show: function(error) {
+      show: function (error) {
         console.log(error);
       }
     }
@@ -124,20 +124,20 @@ class BaseDiagram extends BaseDiagramItem {
       // Parent setup complete
       this.canvasEuid = this.euid + '_Canvas';
       this.element =
-          $(this.parentId)
-              //
-              // Placeholder for diagram + canvas
-              //
-              .append(
-                  '<div id="' + this.euid +
-                  '" class="us-diagram" width="100%" height="100%">\
+        $(this.parentId)
+          //
+          // Placeholder for diagram + canvas
+          //
+          .append(
+            '<div id="' + this.euid +
+            '" class="us-diagram" width="100%" height="100%">\
                 <canvas id="' +
-                  this.euid + '_Canvas" class="us-canvas" width=' + p.width +
-                  'px height=' + p.height + 'px>\
+            this.euid + '_Canvas" class="us-canvas" width=' + p.width +
+            'px height=' + p.height + 'px>\
                 <p>Unfortunately your browser doesn\'t support canvas.</p></canvas>\
                 <div class="us-canvas-bg" style="width:100%;height:100%;">\
                 </div></div>');
-              
+
       $('#' + this.euid + '.us-diagram').css({
         'overflow-x': (sx ? 'scroll' : 'auto'),
         'overflow-y': (sy ? 'scroll' : 'auto')
@@ -145,9 +145,9 @@ class BaseDiagram extends BaseDiagramItem {
 
     } else {
       this.element = $(this.parentId)
-                         .append(
-                             '<div id="' + this.euid +
-                             '" class="us-diagram" width="100%" height="100%">\
+        .append(
+          '<div id="' + this.euid +
+          '" class="us-diagram" width="100%" height="100%">\
                 <div class="us-canvas-bg" style="width:100%;height:100%;">\
                 </div></div>');
       this.canvasEuid = 'SingleCanvas';
@@ -167,7 +167,7 @@ class BaseDiagram extends BaseDiagramItem {
   applyZoomIfNeeded() {
     if (this.options.zoom && this.options.zoom !== 1) {
       this.nativeRef.css({
-        'transform': 'scale('+ this.options.zoom +')',
+        'transform': 'scale(' + this.options.zoom + ')',
         'transform-origin': 'top left',
         'overflow': 'hidden'
       });
@@ -228,7 +228,7 @@ class BaseDiagram extends BaseDiagramItem {
     } else {
       // TODO: redraw.
     }
-    return {width: w, height: h};
+    return { width: w, height: h };
   }
 
   _init() {
@@ -259,7 +259,7 @@ class BaseDiagram extends BaseDiagramItem {
   }
 
 
-  isPointOnLine(x,y) {
+  isPointOnLine(x, y) {
     //
     // Do nothing if it is not an edit mode
     //
@@ -276,19 +276,19 @@ class BaseDiagram extends BaseDiagramItem {
       this.draw();
       return true;
     }
-    
+
     //
     // Check if there is any connector under the mouse cursor
     //
-    for (var c in this.connectors) {        
-      if (this.connectors[c].isPointOnLine(x,y)) {
+    for (var c in this.connectors) {
+      if (this.connectors[c].isPointOnLine(x, y)) {
         if (this.connectors[c] != this.highlightedConnector) {
           //
           // Hide previously highlighted connector
           // Use-case:  move connector through the X of 2 connectors
           //
           if (this.highlightedConnector !== null) {
-            this.highlightedConnector._setOption("highlighted", false);  
+            this.highlightedConnector._setOption("highlighted", false);
           }
           //
           // Highlight a new connector
@@ -326,7 +326,7 @@ class BaseDiagram extends BaseDiagramItem {
     return false;
   }
 
-  startConnectorTransform(x,y) {
+  startConnectorTransform(x, y) {
     if (this.highlightedConnector) {
       //
       // Selected === highlighted
@@ -335,14 +335,14 @@ class BaseDiagram extends BaseDiagramItem {
       this.transformConnector = this.highlightedConnector;
       this.transformConnector._setOption("selected", true);
       this.transformConnector.startTransform(Math.round(x), Math.round(y), this.getDiagramOffset());
-    }      
+    }
   }
   /**
    * \class Function.
    * The connector transfomation function.
    */
-  
-  stopConnectorTransform(x,y) {
+
+  stopConnectorTransform(x, y) {
     if (this.transformConnector != null) {
       this.transformConnector.stopTransform(Math.round(x), Math.round(y), this.getDiagramOffset());
     }
@@ -392,26 +392,26 @@ class BaseDiagram extends BaseDiagramItem {
     ++this.options.maxZIndex;
     ++this.options.globalId;
 
-/*
-    //
-    //  Update dropped dependencies for diagrams like package or components
-    //
-    for (var i in diag.elements) {
-        var d = diag.elements[i].options['dropped'];
-        if (d) {
-          diag.elements[i]._dropped = {};
-          for (var ii in d) {
-            for (var iii in diag.elements) {
-              if (diag.elements[iii].options['id'] == d[ii]) {
-                var idd = diag.elements[iii].euid;
-                diag.elements[i]._dropped[idd] = idd;
-                break; // from the neares for
-              }
-            } // iii
-          } // ii
-        } // d
-    } // i
-*/
+    /*
+        //
+        //  Update dropped dependencies for diagrams like package or components
+        //
+        for (var i in diag.elements) {
+            var d = diag.elements[i].options['dropped'];
+            if (d) {
+              diag.elements[i]._dropped = {};
+              for (var ii in d) {
+                for (var iii in diag.elements) {
+                  if (diag.elements[iii].options['id'] == d[ii]) {
+                    var idd = diag.elements[iii].euid;
+                    diag.elements[i]._dropped[idd] = idd;
+                    break; // from the neares for
+                  }
+                } // iii
+              } // ii
+            } // d
+        } // i
+    */
   }
 
   isEditable() {
@@ -437,13 +437,13 @@ class BaseDiagram extends BaseDiagramItem {
     if (this.options.acceptElements) {
       if (this.options.acceptElements.indexOf(elementType) < 0) {
         this.errorHandler.show(
-            elementType + ' is not in the list of acceptable elements');
+          elementType + ' is not in the list of acceptable elements');
         return;
       }
     }
 
     // Clone the model
-    jsonModel = {...jsonModel };
+    jsonModel = { ...jsonModel };
     jsonModel['z-index'] = this.getNextZIndex();
     jsonModel.id = jsonModel.id || this.getNextUniqueId();
 
@@ -460,7 +460,7 @@ class BaseDiagram extends BaseDiagramItem {
     // For example: if class diagram should support class, package and note,
     //              then ClassDiagram.js is responsible for import of that elements 
     //
-    let objIntance = this.createElement(elementType, jsonModel, {prefix: this.options.prefix});
+    let objIntance = this.createElement(elementType, jsonModel, { prefix: this.options.prefix });
 
     console.log("Created element:" + objIntance.euid + " ID: " + objIntance.jsonModel.id);
     //
@@ -468,8 +468,8 @@ class BaseDiagram extends BaseDiagramItem {
     //
     if (!objIntance) {
       this.errorHandler.show(
-          'Failed to create: ' + elementType + ' for diagram ' +
-          this.options.nameTemplate);
+        'Failed to create: ' + elementType + ' for diagram ' +
+        this.options.nameTemplate);
       return;
     }
     return objIntance;
@@ -533,7 +533,7 @@ class BaseDiagram extends BaseDiagramItem {
     // Define hover/resize/draggable etc
     //
     if (this.observer) {
-      this.observer.onJsonModelChange("add:element", {element});
+      this.observer.onJsonModelChange("add:element", { element });
     }
 
     this.elements.push(element);
@@ -543,18 +543,18 @@ class BaseDiagram extends BaseDiagramItem {
     this.observer.onJsonModelChange("change:" + itemType, data);
   }
 
-  Connector(connectorType, jsonModel={}) {
+  Connector(connectorType, jsonModel = {}) {
     // Clone the model
-    jsonModel = {...jsonModel };
+    jsonModel = { ...jsonModel };
     jsonModel['z-index'] = jsonModel["z-index"] || this.getNextZIndex();
     jsonModel.id = jsonModel.id || this.getNextUniqueId();
     let prefix = this.options.prefix + "c" + jsonModel.id + "-";
 
-    let objIntance = this.createConnector(connectorType, jsonModel, {prefix: prefix});
+    let objIntance = this.createConnector(connectorType, jsonModel, { prefix: prefix });
 
     if (!objIntance) {
-      console.log("Failed to create connector:", jsonModel);  
-      objIntance = this.createConnector(connectorType, jsonModel, {prefix: prefix});
+      console.log("Failed to create connector:", jsonModel);
+      objIntance = this.createConnector(connectorType, jsonModel, { prefix: prefix });
     }
 
     //
@@ -562,8 +562,8 @@ class BaseDiagram extends BaseDiagramItem {
     //
     if (!objIntance) {
       this.errorHandler.show(
-          'Failed to create: ' + connectorType + ' for diagram ' +
-          this.options.nameTemplate);
+        'Failed to create: ' + connectorType + ' for diagram ' +
+        this.options.nameTemplate);
       return;
     }
     return objIntance;
@@ -614,8 +614,8 @@ class BaseDiagram extends BaseDiagramItem {
   //
   _dropConnector(ui) {
     var result = null,
-    scrollLeft = $("#" + this.euid).scrollLeft(),
-    scrollTop = $("#" + this.euid).scrollTop();
+      scrollLeft = $("#" + this.euid).scrollLeft(),
+      scrollTop = $("#" + this.euid).scrollTop();
 
     var mazi = -1;
     for (var i in this.elements) {
@@ -624,21 +624,21 @@ class BaseDiagram extends BaseDiagramItem {
 
       var e = this.elements[i].nativeBorderRef;
       var p = e.position(),
-      w = e.width(),
-      h = e.height();
+        w = e.width(),
+        h = e.height();
 
       if ((ui.position.left > p.left + scrollLeft)
-          && (ui.position.left < p.left + w + scrollLeft)
-          && (ui.position.top > p.top + scrollTop)
-          && (ui.position.top < p.top + h + scrollTop)) {
+        && (ui.position.left < p.left + w + scrollLeft)
+        && (ui.position.top > p.top + scrollTop)
+        && (ui.position.top < p.top + h + scrollTop)) {
         //
         // get max z-index
         //
         if (this.elements[i].jsonModel["z-index"] > mazi) {
-          result =  this.elements[i];
+          result = this.elements[i];
           mazi = this.elements[i].jsonModel["z-index"];
         }
-        
+
       }
     }
     return result;
@@ -679,16 +679,16 @@ class BaseDiagram extends BaseDiagramItem {
         // 3. Normal
         //
         if (this.connectors[c].options['selected']) {
-              ctx.lineWidth += 2;
-              this.connectors[c].redraw(ctx, scrollOffset, "#43EC28");
-              ctx.lineWidth -= 2;
-              // TODO: simplify code ???? do not copy-past from the 3-rd else ??? 
-              if (this.connectors[c].options['color']) {
-                this.connectors[c].redraw(ctx, scrollOffset, this.connectors[c].options['color']);
-              } else 
-                this.connectors[c].redraw(ctx, scrollOffset);
+          ctx.lineWidth += 2;
+          this.connectors[c].redraw(ctx, scrollOffset, "#43EC28");
+          ctx.lineWidth -= 2;
+          // TODO: simplify code ???? do not copy-past from the 3-rd else ??? 
+          if (this.connectors[c].options['color']) {
+            this.connectors[c].redraw(ctx, scrollOffset, this.connectors[c].options['color']);
+          } else
+            this.connectors[c].redraw(ctx, scrollOffset);
         } else if (this.connectors[c].options['highlighted'] ||
-            this.highlightedConnector == this.connectors[c]) {
+          this.highlightedConnector == this.connectors[c]) {
           this.connectors[c].redraw(ctx, scrollOffset, "#43EC28");
         } else {
           //
@@ -696,7 +696,7 @@ class BaseDiagram extends BaseDiagramItem {
           //
           if (this.connectors[c].options['color']) {
             this.connectors[c].redraw(ctx, scrollOffset, this.connectors[c].options['color']);
-          } else 
+          } else
             this.connectors[c].redraw(ctx, scrollOffset);
         }
       }
@@ -726,7 +726,7 @@ class BaseDiagram extends BaseDiagramItem {
 
 
   #resetSelectedItems() {
-    this.selectedItems.forEach( (item) => {
+    this.selectedItems.forEach((item) => {
       item._setOption('selected', false);
     });
     this.selectedItems = [];
@@ -751,7 +751,7 @@ class BaseDiagram extends BaseDiagramItem {
     this.draw();
   }
 
-  _setOption( key, value ) {
+  _setOption(key, value) {
     this.options[key] = value;
     if (key == "editmode") {
       if (!value) {
@@ -775,16 +775,16 @@ class BaseDiagram extends BaseDiagramItem {
   #toggleSelectItem(item, ctrlDown, isSelect = true) {
     if (ctrlDown) {
       if (!item)
-         return;
+        return;
       //
       // Add or remove item to the list of selected
       //
       if (item.options.selected) {
-        this.selectedItems = this.selectedItems.filter((elem) => { return elem != item});
+        this.selectedItems = this.selectedItems.filter((elem) => { return elem != item });
       } else {
         this.selectedItems.push(item);
       }
-      item._setOption("selected", item.options.selected ? false: true);
+      item._setOption("selected", item.options.selected ? false : true);
     } else {
       //
       // Hide previously selected items
@@ -828,13 +828,13 @@ class BaseDiagram extends BaseDiagramItem {
 
     // User clicked on some connector
     if (this.highlightedConnector) {
-        this.#toggleSelectItem(this.highlightedConnector, ctrlDown);
+      this.#toggleSelectItem(this.highlightedConnector, ctrlDown);
     } else {
       // There is no selected connector //
 
       // There is no element too, but ctrl ON
       if (ctrlDown && !refElement) {
-          return;
+        return;
       }
 
       this.#toggleSelectItem(refElement, ctrlDown);
@@ -851,7 +851,7 @@ class BaseDiagram extends BaseDiagramItem {
 
   onMouseEnter(element) {
     // TODO: do not forget this.options.editmode if you decide to add something to this method
-    
+
     // Show "REFERENCE" for viewer mode   - MOVE TO PLUGIN
     // if (!this.isEditable() && (element.options.subdiagrams)) {
     //  this.observer.showElementRefs(element);
@@ -881,7 +881,7 @@ class BaseDiagram extends BaseDiagramItem {
       const item = this.elements[d];
       if (item === de                // the same element
         || !item.options.acceptdrop  // do not accept any elements for drop
-                                     // do not accept an element type as drop
+        // do not accept an element type as drop
         || item.options.acceptdrop.indexOf(de.options.nameTemplate) < 0) {
         continue;
       }
@@ -896,13 +896,13 @@ class BaseDiagram extends BaseDiagramItem {
       // Check if dropped element inside current 
       // 
       if ((dp.left > p.left) && (dp.left + ds.width < p.left + sz.width) && (dp.top > p.top) &&
-          (dp.top + ds.height < p.top + sz.height)) {
+        (dp.top + ds.height < p.top + sz.height)) {
 
-          const zi = parseInt(item.jsonModel['z-index']);
-          if (zi > zindex) {
-            zindex = zi;
-            result = item;
-          }
+        const zi = parseInt(item.jsonModel['z-index']);
+        if (zi > zindex) {
+          zindex = zi;
+          result = item;
+        }
       }
     }
     return result;
@@ -914,7 +914,7 @@ class BaseDiagram extends BaseDiagramItem {
   onAddConnector(connector) {
     // Notify rendrer's addon's if needed
     if (this.observer) {
-      this.observer.onJsonModelChange("add:connector", {connector});
+      this.observer.onJsonModelChange("add:connector", { connector });
     }
     // Add to the list
     this.connectors.push(connector);
@@ -930,7 +930,7 @@ class BaseDiagram extends BaseDiagramItem {
       var sz = elm.size();
 
       if ((x > p.left) && (x < p.left + sz.width) && (y > p.top) &&
-          (y < p.top + sz.height)) {
+        (y < p.top + sz.height)) {
         return this.elements[d].euid;
       }
     }
@@ -947,7 +947,7 @@ class BaseDiagram extends BaseDiagramItem {
       return;
     }
     this.dropHelper = dropHelper;
-    $("#" + this.euid + " .us-element-border").draggable("option", "helper", function(event) {
+    $("#" + this.euid + " .us-element-border").draggable("option", "helper", function (event) {
       return $("<div id='ConnectionHelper_Border' style='border:solid black;border-width:1px;'>\
           <div id='ConnectionHelper' style='border:solid yellow;border-width:1px;'> [ x ]</div></div>");
     });
@@ -1000,52 +1000,52 @@ class BaseDiagram extends BaseDiagramItem {
       for (var i in this.elements) {
         var ee = this.elements[i];
         if (ee.options["selected"]
-            && !ee.options["dragStart"]) {
+          && !ee.options["dragStart"]) {
           ee.onDragStart(ui);
         }
       }  // elements
     }
 
-      // Update the list of draggable elements
-      var draggable = [];
-      //
-      // Push all draggable elements to the list
-      //
-      for (var i in this.elements) {
-        const ee = this.elements[i];
-        if (ee.options["dragStart"]) {
-          // add euid to the list
-          draggable.push(ee.getId());
-        }
+    // Update the list of draggable elements
+    var draggable = [];
+    //
+    // Push all draggable elements to the list
+    //
+    for (var i in this.elements) {
+      const ee = this.elements[i];
+      if (ee.options["dragStart"]) {
+        // add euid to the list
+        draggable.push(ee.getId());
       }
-    
+    }
+
+
+    //
+    // Update list of connectors to DND
+    //
+    for (var i in this.connectors) {
+      var tmpConnector = this.connectors[i];
+      if (tmpConnector.options["selected"]) {
+        this.connectors[i].onDragStart(ui);
+        continue;
+      }
 
       //
-      // Update list of connectors to DND
+      // Connector's both side elements are started to drag
+      // or one side element is dragged and the other is not attached (null)
       //
-      for (var i in this.connectors) {
-        var tmpConnector = this.connectors[i];
-        if (tmpConnector.options["selected"]) {
-          this.connectors[i].onDragStart(ui);
-          continue;
-        }
+      const [id1, id2] = tmpConnector.getEndPointIds();
+      console.log("CONNECTOR END POINTS: ", id1, id2);
+      const id1InDraggable = id1 !== null && draggable.indexOf(id1) >= 0;
+      const id2InDraggable = id2 !== null && draggable.indexOf(id2) >= 0;
 
-        //
-        // Connector's both side elements are started to drag
-        // or one side element is dragged and the other is not attached (null)
-        //
-        const [id1, id2] = tmpConnector.getEndPointIds();
-        console.log("CONNECTOR END POINTS: ", id1, id2);
-        const id1InDraggable = id1 !== null && draggable.indexOf(id1) >= 0;
-        const id2InDraggable = id2 !== null && draggable.indexOf(id2) >= 0;
-        
-        if ((id1InDraggable && id2InDraggable) ||
-          (id1InDraggable && id2 === null) ||
-          (id2InDraggable && id1 === null)) {
-          this.connectors[i].onDragStart(ui);
-        }
-      }  // connectors
-    
+      if ((id1InDraggable && id2InDraggable) ||
+        (id1InDraggable && id2 === null) ||
+        (id2InDraggable && id1 === null)) {
+        this.connectors[i].onDragStart(ui);
+      }
+    }  // connectors
+
   }
 
 
@@ -1053,7 +1053,7 @@ class BaseDiagram extends BaseDiagramItem {
     // Elements
     for (var i in this.elements) {
       if (this.elements[i].options["dragStart"]
-          && this.elements[i] != element) {
+        && this.elements[i] != element) {
         // Drag move updates the css of the element
         // Skip draggable element to avoid infinite loop
         this.elements[i].onDragMove(ui);
@@ -1075,7 +1075,7 @@ class BaseDiagram extends BaseDiagramItem {
     for (var i in this.elements) {
       var ee = this.elements[i];
       if (ee.options["dragStart"]
-          && ee != element) {
+        && ee != element) {
         ee.onDragStop(ui);
         ee._update();
       }
