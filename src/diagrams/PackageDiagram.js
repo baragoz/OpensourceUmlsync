@@ -64,6 +64,18 @@ class PackageDiagram extends BaseDiagram {
         }
         return object;
       }
+
+    //
+    // Nest a package/subsystem dropped fully inside another package
+    //
+    handleElementDragStop(element, ui) {
+        if (!element.options.droppable) {
+            return;
+        }
+
+        const parent = this.checkDroppableElement(element);
+        this.reparentDroppedElement(element, parent);
+    }
 }
 
 export { PackageDiagram }

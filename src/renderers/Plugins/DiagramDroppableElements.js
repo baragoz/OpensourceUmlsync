@@ -1,6 +1,9 @@
 //
-// Addon - DROPPABLE
-// Allow to drop some elements on diagram, like classes or methods or packages
+// Addon - DROPPABLE cleanup
+// Detaches a droppable element from its parent's droplist (and vice versa)
+// when either side is removed from the diagram. Drag-stop nesting/z-index
+// logic itself lives on the diagram classes (BaseDiagram.handleElementDragStop
+// and its per-diagram overrides), not here.
 //
 class DiagramDroppableElement {
     constructor(diagram, blackboard) {
@@ -8,13 +11,8 @@ class DiagramDroppableElement {
         this.init(blackboard);
     }
 
-    //
-    // Trigger context menu events
-    //
     init(blackboard) {
-        blackboard.addEventListener('element:drag:stop', this.onElementDragStop.bind(this));
-        blackboard.addEventListener('element:remove', this.onElementRemove.bind(this));
-        blackboard.addEventListener('connector:drag:stop', this.onConnectorTransformEnd.bind(this));
+        blackboard.addEventListener('element:before:remove', this.onElementRemove.bind(this));
     }
 
     #elementDetachParent(element) {
@@ -35,7 +33,7 @@ class DiagramDroppableElement {
         if (element.options.droppable) {
             this.#elementDetachParent(element);
         }
-        else if (element.options.accepdrop && element.droplist) {
+        else if (element.options.acceptdrop && element.droplist) {
             //
             // Removed parent element. now let's detach all dropped elememnts
             //
@@ -43,36 +41,6 @@ class DiagramDroppableElement {
                 this.#elementDetachParent(element.droplist[x]);
             }
         }
-    }
-
-    onElementDragStop(element) {
-        // TODO: check for multiple selection
-
-        if (element.options.droppable) {
-            const parent = this.diagram.checkDroppableElement(element);
-            if (parent) {
-                const pz = parent.jsonModel['z-index'];
-                const ez = element.jsonModel['z-index'];
-                // parent on top of element
-                if (pz > ez) {
-                    parent._setOption('z-index', ez);
-                    element._setOption('z-index', pz);
-                }
-            }
-
-            if (element.parent != parent) {
-                this.#elementDetachParent(element);
-                if (parent) { // it could be null, when user pull out element
-                  parent.droplist = parent.droplist || [];
-                  parent.droplist.push(element);
-                  element.parent = parent;
-                }
-            }
-        }
-    }
-
-    onConnectorTransformEnd(connector) {
-        // Check end points
     }
 }
 

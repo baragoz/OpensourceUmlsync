@@ -82,10 +82,16 @@ class EditorPluginManager extends IDiagramObserver {
     //
     diagram.setUserData("plugin-mouse", new DiagramMouseEvents(diagram, this.blackboard));
     //
-    // allow to drop elements on sequence diagram
+    // droppable cleanup (detach parent/droplist links on element removal);
+    // nesting/z-index/snap-on-drop itself is handled by each diagram's
+    // handleElementDragStop override (see BaseDiagram.js)
     //
     if (diagram.options.nameTemplate === 'sequenceDiagram') {
+      // Sequence diagram still owns its own drag-stop nesting logic too
       diagram.setUserData("plugin-droppable", new DiagramDroppableSQElement(diagram, this.blackboard));
+    } else if (diagram.options.nameTemplate === 'packageDiagram' ||
+               diagram.options.nameTemplate === 'componentsDiagram') {
+      diagram.setUserData("plugin-droppable", new DiagramDroppableElement(diagram, this.blackboard));
     }
     diagram.setUserData("plugin-scroll", new DiagramScrollStartEvent(diagram, this.blackboard));
     diagram.setUserData("plugin-contextmenu", new DiagramContextMenuEvents(diagram, this.blackboard));

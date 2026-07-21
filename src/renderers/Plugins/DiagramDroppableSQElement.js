@@ -35,7 +35,7 @@ class DiagramDroppableSQElement {
         if (element.options.droppable) {
             this.#elementDetachParent(element);
         }
-        else if (element.options.accepdrop && element.droplist) {
+        else if (element.options.acceptdrop && element.droplist) {
             //
             // Removed parent element. now let's detach all dropped elememnts
             //

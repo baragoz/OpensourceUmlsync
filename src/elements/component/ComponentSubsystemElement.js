@@ -3,7 +3,7 @@ import { BaseElement } from "../BaseElement";
 const defaultOptions = {
     'nameTemplate': "component-subsystem",
     'droppable': true,
-    'acceptdrop': ["component"],
+    'acceptdrop': ["component", "port"],
 };
 
 const defaultModel = {

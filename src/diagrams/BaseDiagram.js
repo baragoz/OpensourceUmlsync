@@ -909,6 +909,84 @@ class BaseDiagram extends BaseDiagramItem {
   }
 
   //
+  // Find an accepting element whose border the dropped element merely
+  // overlaps (rather than being fully contained by), e.g. a component
+  // port that should sit on the parent's border rather than inside it.
+  //
+  checkOverlappingElement(de /* dropped_element */) {
+    const dp = de.nativeBorderRef.position();
+    const ds = {
+      width: de.nativeBorderRef.width(),
+      height: de.nativeBorderRef.height()
+    };
+
+    var zindex = -100;
+    var result = null;
+
+    for (var d in this.elements) {
+      const item = this.elements[d];
+      if (item === de
+        || !item.options.acceptdrop
+        || item.options.acceptdrop.indexOf(de.options.nameTemplate) < 0) {
+        continue;
+      }
+
+      const p = item.nativeBorderRef.position();
+      const sz = {
+        width: item.nativeBorderRef.width(),
+        height: item.nativeBorderRef.height()
+      };
+
+      //
+      // Check if dropped element's rect overlaps the accepting element's rect
+      //
+      const overlaps = (dp.left < p.left + sz.width) && (dp.left + ds.width > p.left) &&
+        (dp.top < p.top + sz.height) && (dp.top + ds.height > p.top);
+
+      if (overlaps) {
+        const zi = parseInt(item.jsonModel['z-index']);
+        if (zi > zindex) {
+          zindex = zi;
+          result = item;
+        }
+      }
+    }
+    return result;
+  }
+
+  //
+  // Detach element from its previous parent's droplist (if any) and
+  // attach it to the new parent (if any), then apply the z-index rule:
+  // a nested element must render above its parent.
+  //
+  reparentDroppedElement(element, parent) {
+    if (element.parent !== parent) {
+      if (element.parent && element.parent.droplist) {
+        const rmIdx = element.parent.droplist.indexOf(element);
+        if (rmIdx >= 0) {
+          element.parent.droplist.splice(rmIdx, 1);
+        }
+      }
+
+      element.parent = parent;
+      if (parent) {
+        parent.droplist = parent.droplist || [];
+        parent.droplist.push(element);
+      }
+    }
+
+    if (parent) {
+      const pz = parseInt(parent.jsonModel['z-index']);
+      const ez = parseInt(element.jsonModel['z-index']);
+      // parent on top of element - bump the nested element above it
+      if (pz > ez) {
+        parent._setOption('z-index', ez);
+        element._setOption('z-index', pz);
+      }
+    }
+  }
+
+  //
   // indeed on add connector finished successfull
   //
   onAddConnector(connector) {
@@ -1006,6 +1084,9 @@ class BaseDiagram extends BaseDiagramItem {
       }  // elements
     }
 
+    // Diagram-specific drag-start handling (e.g. nested/droppable elements)
+    this.handleElementDragStart(element, ui);
+
     // Update the list of draggable elements
     var draggable = [];
     //
@@ -1085,6 +1166,23 @@ class BaseDiagram extends BaseDiagramItem {
     for (var i in this.connectors)
       if (this.connectors[i].options["dragStart"])
         this.connectors[i].onDragStop(ui);
+
+    // Diagram-specific drag-stop handling (e.g. nested/droppable elements)
+    this.handleElementDragStop(element, ui);
+  }
+
+  //
+  // Hook for diagrams that support nested/droppable elements
+  // (e.g. PackageDiagram, ComponentsDiagram). No-op by default.
+  //
+  handleElementDragStart(element, ui) {
+  }
+
+  //
+  // Hook for diagrams that support nested/droppable elements
+  // (e.g. PackageDiagram, ComponentsDiagram). No-op by default.
+  //
+  handleElementDragStop(element, ui) {
   }
 
 }

@@ -4,7 +4,7 @@ class PortElement extends BaseElement {
     constructor(options, jsonModel, diagram) {
         let defaultOptions = {
             'nameTemplate': "port",
-            'droppable': false,
+            'droppable': true,
             resizeable: "none",
             ...options
         };
