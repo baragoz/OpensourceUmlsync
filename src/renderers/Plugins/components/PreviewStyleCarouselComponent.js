@@ -86,16 +86,17 @@ class PreviewStyleCarouselComponent {
         });
       }
 
+      static DEFAULT_EMPTY_ICON = `
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.5 4.75C5.5 4.06 6.06 3.5 6.75 3.5H17.25C17.94 3.5 18.5 4.06 18.5 4.75V20L12 16.45L5.5 20V4.75Z" stroke="#B7BAD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 6.75H15" stroke="#B7BAD1" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>`;
+
       renderEmptyState() {
-        const { title, message } = this.emptyState;
+        const { title, message, icon } = this.emptyState;
         const $empty = $(`
           <div class="us-ds-carousel-empty">
-            <div class="us-ds-carousel-empty-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5.5 4.75C5.5 4.06 6.06 3.5 6.75 3.5H17.25C17.94 3.5 18.5 4.06 18.5 4.75V20L12 16.45L5.5 20V4.75Z" stroke="#B7BAD1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9 6.75H15" stroke="#B7BAD1" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
+            <div class="us-ds-carousel-empty-icon">${icon || PreviewStyleCarouselComponent.DEFAULT_EMPTY_ICON}</div>
             <div class="us-ds-carousel-empty-text">
               <div class="us-ds-carousel-empty-title"></div>
               <div class="us-ds-carousel-empty-subtitle"></div>

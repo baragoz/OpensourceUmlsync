@@ -11,6 +11,18 @@ import { PreviewDiagramItemsDropdownComponent } from './components/PreviewDiagra
 import { PreviewStyleCarouselComponent } from './components/PreviewStyleCarouselComponent';
 import { PreviewStyleComponent } from './components/PreviewStyleComponent';
 
+// Empty-state icon for the "used in this project" styles tab.
+const PROJECT_EMPTY_ICON = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="#EEEFF8"></path>
+    <path d="M20.2743 7.6333L17.466 18.9083C17.266 19.75 16.516 20.3333 15.6493 20.3333H4.69929C3.44096 20.3333 2.54097 19.0999 2.91597 17.8916L6.4243 6.625C6.66597 5.84167 7.39098 5.29993 8.20765 5.29993H18.4576C19.2493 5.29993 19.9076 5.78326 20.1826 6.44993C20.341 6.80826 20.3743 7.21663 20.2743 7.6333Z" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10"></path>
+    <path d="M15.334 20.3333H19.3173C20.3923 20.3333 21.234 19.425 21.159 18.35L20.334 7" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M10.0664 7.31663L10.9331 3.71667" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M15.6504 7.32501L16.4337 3.70837" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M8.41602 12H15.0827" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M7.58398 15.3334H14.2507" stroke="#54577A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+  </svg>`;
+
 const defaultState = {
   // toggle for select/default
   isSelectMode: false,
@@ -203,6 +215,10 @@ class EditorDetachedToolbarMenu {
     <!-- saved (user) styles track, hidden until the saved tab is selected -->
     <div class="us-ds-carousel-track" id="us-ds-saved-carousel-track" style="display: none;">
       <div class="us-ds-carousel-wrapper" id="us-ds-saved-carousel-wrapper"></div>
+    </div>
+    <!-- styles used in this diagram, hidden until the used tab is selected -->
+    <div class="us-ds-carousel-track" id="us-ds-used-carousel-track" style="display: none;">
+      <div class="us-ds-carousel-wrapper" id="us-ds-used-carousel-wrapper"></div>
     </div>
     <!-- edit container for editing current style -->
     <div class="us-dt-edit-container" id="us-dt-edit-container" style="display: none;">
@@ -736,45 +752,51 @@ ${this.getHtmlToolbar()}
   initStyleIcons() {
     const systemContainer = this.nativeRef.find('#us-ds-carousel-track');
     const savedContainer = this.nativeRef.find('#us-ds-saved-carousel-track');
+    const usedContainer = this.nativeRef.find('#us-ds-used-carousel-track');
     const arrows = this.nativeRef.find('.us-ds-carousel-arrow');
     const editContainer = this.nativeRef.find('#us-dt-edit-container');
     const systemIcon = this.nativeRef.find('#us-icon-system');
     // Backed by the style API's user styles (getUserStyles/saveUserStyle/removeUserStyle).
     const savedIcon = this.nativeRef.find('#us-icon-saved');
-    // Not backed by the style API - reserved for a future "styles used in this
-    // diagram" view computed from applied element/connector styles.
+    // Not backed by the style API - computed on the fly from the current
+    // diagram's elements/connectors (see #extractProjectStyles()).
     const usedIcon = this.nativeRef.find('#us-icon-used');
     const editIcon = this.nativeRef.find('#us-icon-edit');
 
+    const hideAllTracks = () => {
+      systemContainer.hide();
+      savedContainer.hide();
+      usedContainer.hide();
+      editContainer.hide();
+    };
+
     // Handle icon clicks
     systemIcon.on('click', () => {
+      hideAllTracks();
       systemContainer.show();
-      savedContainer.hide();
       arrows.show();
-      editContainer.hide();
       this.updateIconSelection('system');
     });
 
     savedIcon.on('click', () => {
-      systemContainer.hide();
+      hideAllTracks();
       savedContainer.show();
       arrows.show();
-      editContainer.hide();
       this.updateIconSelection('saved');
     });
 
     usedIcon.on('click', () => {
-      systemContainer.show();
-      savedContainer.hide();
-      editContainer.hide();
+      hideAllTracks();
+      usedContainer.show();
+      arrows.show();
+      this.usedStyleCarousel.refresh(this.#extractProjectStyles());
       this.updateIconSelection('used');
     });
 
     editIcon.on('click', () => {
-      systemContainer.hide();
-      savedContainer.hide();
-      arrows.hide();
+      hideAllTracks();
       editContainer.show();
+      arrows.hide();
       this.updateIconSelection('edit');
     });
   }
@@ -813,6 +835,18 @@ ${this.getHtmlToolbar()}
         emptyState: {
           title: 'Saved styles will be visible here',
           message: 'Save a style from the Style panel to quickly access it here.'
+        }
+      });
+
+    this.usedStyleCarousel = new PreviewStyleCarouselComponent(
+      $carouselContainer,
+      this.#extractProjectStyles(),
+      {
+        trackId: 'us-ds-used-carousel-track',
+        emptyState: {
+          icon: PROJECT_EMPTY_ICON,
+          title: 'No styles in this project yet',
+          message: 'Create your first uml element to see style here.'
         }
       });
 
@@ -858,6 +892,7 @@ ${this.getHtmlToolbar()}
 
     this.styleCarousel.setListener(onStyleSelected);
     this.savedStyleCarousel.setListener(onStyleSelected);
+    this.usedStyleCarousel.setListener(onStyleSelected);
   }
 
   initCarouselScroll() {
@@ -1147,6 +1182,90 @@ ${this.getHtmlToolbar()}
   getDefaultElementOptions() {
     let tmp = Object.assign({}, this.defaultStylePreview.options.element);
     return tmp;
+  }
+
+  //
+  // Private: derive the styles currently used in this project (diagram) from
+  // its live elements/connectors. Not persisted and not part of the
+  // IStyleManager API - recomputed on demand each time the "used" tab is
+  // opened, so it always reflects the diagram's current state.
+  //
+  #extractProjectStyles() {
+    const elements = (this.diagram && this.diagram.elements) || [];
+    const connectors = (this.diagram && this.diagram.connectors) || [];
+
+    if (!elements.length) {
+      return [];
+    }
+
+    const elementStyles = this.#dedupeStyles(elements.map((element) => this.#readElementStyle(element)));
+    const connectorStyles = connectors.length
+      ? this.#dedupeStyles(connectors.map((connector) => this.#readConnectorStyle(connector)))
+      : [];
+
+    return elementStyles.map((element, i) => ({
+      id: `used-${i}`,
+      element,
+      connector: connectorStyles.length ? connectorStyles[i % connectorStyles.length] : {}
+    }));
+  }
+
+  #readElementStyle(element) {
+    const model = element.jsonModel || {};
+    return this.#compact({
+      text: 'Box',
+      'font-family': model['font-family'],
+      'font-size': model['font-size'],
+      'font-color': model['font-color'],
+      color: model['color'],
+      bold: model['font-weight'] === 'bold',
+      italic: model['font-style'] === 'italic',
+      underline: model['text-decoration'] === 'underline'
+    });
+  }
+
+  #readConnectorStyle(connector) {
+    // color/line-width live on `options` (see BaseConnector#_setOption's
+    // default branch); font-* properties are only ever persisted to
+    // `jsonModel` - the two bags aren't kept fully in sync, so read
+    // whichever one actually has each key.
+    const options = connector.options || {};
+    const model = connector.jsonModel || {};
+    return this.#compact({
+      text: 'Label',
+      'font-family': model['font-family'],
+      'font-size': model['font-size'],
+      'font-color': model['font-color'],
+      'font-bg': model['font-bg'],
+      color: options['color'] !== undefined ? options['color'] : model['color'],
+      'line-width': options['line-width'] !== undefined ? options['line-width'] : model['line-width'],
+      bold: model['font-weight'] === 'bold',
+      italic: model['font-style'] === 'italic',
+      underline: model['text-decoration'] === 'underline'
+    });
+  }
+
+  #compact(style) {
+    const result = {};
+    Object.entries(style).forEach(([key, value]) => {
+      if (value !== undefined) {
+        result[key] = value;
+      }
+    });
+    return result;
+  }
+
+  #dedupeStyles(styles) {
+    const seen = new Set();
+    const result = [];
+    styles.forEach((style) => {
+      const key = JSON.stringify(style);
+      if (!seen.has(key)) {
+        seen.add(key);
+        result.push(style);
+      }
+    });
+    return result;
   }
 }
 
