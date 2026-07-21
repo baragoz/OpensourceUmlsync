@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viewer test: fixed size</title>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script type="importmap">
+    { "imports": { "umlsync": "/dist/editor/UMLSync.editor.es.js" } }
+  </script>
+
+  <link rel="stylesheet" href="/dist/editor/style.css" />
+  <link rel="stylesheet" href="/dist/assets/styles/icons.css" />
+  <link rel="stylesheet" href="../css/viewer-tests.css" />
+</head>
+<body>
+  <div class="test-banner">
+    <strong>Check:</strong> the diagram (1595&times;918) is bigger than its 520&times;360 box below, so the
+    box scrolls. Scroll the diagram area in both directions and confirm the connector lines stay attached
+    to their elements instead of lagging behind or detaching. This exercises the connector redraw-on-scroll
+    path, which today is only wired up for the editor, not the viewer &mdash; so this is expected to reveal
+    a bug: the diagram doesn't redraw its connectors as you scroll it.
+  </div>
+
+  <div class="diagram-box" style="width: 520px; height: 360px; margin: 2rem;">
+    <div class="diagram-box-label">Single diagram &mdash; fixed 520&times;360 area</div>
+    <div id="diagram-target" style="width: 100%; height: calc(100% - 2.2rem);"></div>
+  </div>
+
+  <script type="module" src="../jsm/01-fixed-size.js"></script>
+</body>
+</html>

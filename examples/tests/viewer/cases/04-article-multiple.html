@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viewer test: multiple diagrams in an article</title>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script type="importmap">
+    { "imports": { "umlsync": "/dist/editor/UMLSync.editor.es.js" } }
+  </script>
+
+  <link rel="stylesheet" href="/dist/editor/style.css" />
+  <link rel="stylesheet" href="/dist/assets/styles/icons.css" />
+  <link rel="stylesheet" href="../css/viewer-tests.css" />
+</head>
+<body>
+  <div class="test-banner">
+    <strong>Check:</strong> diagram 1 and diagram 3 below are the <em>same</em> package diagram, loaded into
+    two separate viewer instances. Confirm both render correctly and independently &mdash; elements,
+    connector, and any interaction (hover/scroll) in one shouldn't affect the other, and neither should be
+    blank/broken because of the duplicate.
+  </div>
+
+  <div class="article">
+    <h1>UMLSync in an article</h1>
+    <p>
+      This paragraph stands in for regular article prose above the first diagram. The diagram below is
+      embedded inline, the way a blog post or docs page might drop a UML illustration next to explanatory
+      text.
+    </p>
+
+    <div class="diagram-box">
+      <div class="diagram-box-label">Diagram 1 &mdash; package diagram</div>
+      <div id="diagram-1" class="diagram-target"></div>
+    </div>
+
+    <p>
+      More prose in between diagrams. Next is a larger class diagram, still constrained to the article's
+      diagram-box height so it scrolls internally rather than pushing the rest of the page down arbitrarily.
+    </p>
+
+    <div class="diagram-box">
+      <div class="diagram-box-label">Diagram 2 &mdash; class diagram</div>
+      <div id="diagram-2" class="diagram-target"></div>
+    </div>
+
+    <p>
+      And here is the <strong>same package diagram as Diagram 1</strong>, embedded a second time further
+      down the article.
+    </p>
+
+    <div class="diagram-box">
+      <div class="diagram-box-label">Diagram 3 &mdash; package diagram (duplicate of Diagram 1)</div>
+      <div id="diagram-3" class="diagram-target"></div>
+    </div>
+
+    <p>End of article.</p>
+  </div>
+
+  <script type="module" src="../jsm/04-article-multiple.js"></script>
+</body>
+</html>

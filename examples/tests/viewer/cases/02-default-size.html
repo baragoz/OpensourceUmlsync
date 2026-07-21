@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viewer test: default size</title>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script type="importmap">
+    { "imports": { "umlsync": "/dist/editor/UMLSync.editor.es.js" } }
+  </script>
+
+  <link rel="stylesheet" href="/dist/editor/style.css" />
+  <link rel="stylesheet" href="/dist/assets/styles/icons.css" />
+  <link rel="stylesheet" href="../css/viewer-tests.css" />
+</head>
+<body>
+  <div class="test-banner">
+    <strong>Check:</strong> no width/height is passed to <code>new UMLSync.DiagramViewer(...)</code> for the
+    box below &mdash; it should fall back to the viewer's own default size (1000&times;500) and resize the
+    target element to that on its own, with the diagram rendered inside at that size.
+  </div>
+
+  <div class="diagram-box" style="width: fit-content; margin: 2rem;">
+    <div class="diagram-box-label">Single diagram &mdash; default size (no options passed)</div>
+    <div id="diagram-target"></div>
+  </div>
+
+  <script type="module" src="../jsm/02-default-size.js"></script>
+</body>
+</html>

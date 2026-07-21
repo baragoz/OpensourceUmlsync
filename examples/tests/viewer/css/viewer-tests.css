@@ -1,0 +1,114 @@
+@import url("/examples/css/variables.css");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+
+.test-banner {
+  background: #fff3cd;
+  border-bottom: 1px solid #e0c36a;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.test-banner strong {
+  color: #7a5b00;
+}
+
+.diagram-box {
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  position: relative;
+}
+
+.diagram-box-label {
+  padding: 0.4rem 0.75rem;
+  background: var(--color-primary-200, #d6d6d6);
+  border-bottom: 1px solid #ccc;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* --- Article layout (test 4) --- */
+
+.article {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 4rem;
+  line-height: 1.6;
+}
+
+.article h1 {
+  font-size: 1.6rem;
+}
+
+.article p {
+  margin: 1rem 0;
+}
+
+.article .diagram-box {
+  width: 100%;
+  height: 480px;
+  margin: 1.5rem 0;
+}
+
+.article .diagram-box .diagram-target {
+  width: 100%;
+  height: calc(100% - 2.2rem);
+}
+
+/* --- Tabs layout (test 5) --- */
+
+.tabs-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs-bar {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  background: #f4f4f4;
+  flex-shrink: 0;
+}
+
+.tabs-bar button {
+  border: none;
+  background: transparent;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+
+.tabs-bar button:hover {
+  background: #e8e8e8;
+}
+
+.tabs-bar button.active {
+  border-bottom-color: #4a7fd4;
+  font-weight: bold;
+}
+
+.tab-panels {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-panel {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}

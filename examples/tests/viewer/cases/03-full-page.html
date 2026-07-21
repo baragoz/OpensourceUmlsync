@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viewer test: full page size</title>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script type="importmap">
+    { "imports": { "umlsync": "/dist/editor/UMLSync.editor.es.js" } }
+  </script>
+
+  <link rel="stylesheet" href="/dist/editor/style.css" />
+  <link rel="stylesheet" href="/dist/assets/styles/icons.css" />
+  <link rel="stylesheet" href="../css/viewer-tests.css" />
+
+  <style>
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; }
+    #diagram-target { flex-grow: 1; }
+  </style>
+</head>
+<body>
+  <div class="test-banner">
+    <strong>Check:</strong> the diagram area fills the whole page below this banner
+    (<code>fitToParent: true</code>). Resize the browser window and confirm the diagram area resizes with
+    it &mdash; this only works because the page explicitly calls <code>viewer.setOption("dimention", {})</code>
+    on the window's <code>resize</code> event; <code>DiagramViewer</code> doesn't subscribe to resize on its own.
+  </div>
+
+  <div id="diagram-target"></div>
+
+  <script type="module" src="../jsm/03-full-page.js"></script>
+</body>
+</html>

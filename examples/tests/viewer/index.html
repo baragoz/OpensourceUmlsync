@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMLSync Viewer Tests</title>
+    <link rel="stylesheet" href="/examples/css/variables.css">
+    <link rel="stylesheet" href="/examples/css/examples.css">
+</head>
+<body>
+    <h1><span class="h1-title">UMLSync Viewer &mdash; Static Tests</span></h1>
+    <div class="container">
+        <div class="examples-menu">
+            <h2>Viewer Tests</h2>
+            <ul>
+                <li onclick="loadCase('cases/01-fixed-size.html')">1. Single diagram &mdash; fixed size</li>
+                <li onclick="loadCase('cases/02-default-size.html')">2. Single diagram &mdash; default size</li>
+                <li onclick="loadCase('cases/03-full-page.html')">3. Single diagram &mdash; full page size</li>
+                <li onclick="loadCase('cases/04-article-multiple.html')">4. Multiple diagrams &mdash; article</li>
+                <li onclick="loadCase('cases/05-tabs-multiple.html')">5. Multiple diagrams &mdash; tabs</li>
+            </ul>
+        </div>
+        <div class="example-display">
+            <iframe id="case-frame" src="cases/01-fixed-size.html"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function loadCase(path) {
+            document.getElementById('case-frame').src = path;
+        }
+    </script>
+</body>
+</html>
