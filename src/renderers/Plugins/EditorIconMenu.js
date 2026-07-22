@@ -130,6 +130,9 @@ class EditorIconMenu {
               (item["cs"][r]["force_create"]
                 ? "' data-force_create='" + item["cs"][r]["force_create"]
                 : "") + // force create
+              (item["cs"][r]["self"]
+                ? "' data-self='" + item["cs"][r]["self"]
+                : "") + // self-connector: no 2nd element needed
               "' data-element='" +
               item["el"] + // element to create
               '\' class="us-icon-menu-svg-wrapper">' +
@@ -144,6 +147,9 @@ class EditorIconMenu {
               item["cs"][r].connector + // unique ID == connection type
               "' title='" +
               item["cs"][r].connector + // hover tip
+              (item["cs"][r]["self"]
+                ? "' data-self='" + item["cs"][r]["self"]
+                : "") + // self-connector: no 2nd element needed
               "' element='" +
               item["el"] + // element to create
               "'></div>",
@@ -166,16 +172,21 @@ class EditorIconMenu {
     var connetorHelperEuid = null;
 
     // Make it possible to click + drag images
-    // ==========================================================================
-    //               THERE ARE TWO CALL's HERE FOR DRAGGABLE!!!!!
-    //               IT IS NECESSARY TO JOIN THEM - OR DESCRIBE THE DIFFERENCE
-    //               :) ONE FOR USUAL MENU AND ANOTHER ONE FOR SELF-CONNECTABLE
-    //               ITEMS WHICH DOESN'T REQUIRE THE 2-nd ELEMENT
+    //
+    // The 'self' data flag (see the icon HTML above) distinguishes
+    // self-connectable items (no 2nd element required, e.g.
+    // self-association) from the usual two-element flow, branching inside
+    // each of the callbacks below rather than needing a separate call.
     var kl;
     $("#" + this.diagram.euid + " .elmenu-" + menu_id + " div")
       .draggable({
         appendTo: "#" + this.diagram.euid,
         helper: function (event) {
+          // Self-connector: nothing is being dropped on, so there's no
+          // meaningful place for a floating helper to track - hide it.
+          if ($(this).data("self")) {
+            return $("<div style='display:none;'></div>");
+          }
           // Use the double wrapper because of element's structrure
           return $(
             "<div id='ConnectionHelper_Border' style='border:solid black;border-width:1px;'>" +
@@ -186,6 +197,30 @@ class EditorIconMenu {
           if (iconMenuBuilder.diagram) {
             if (iconMenuBuilder.diagram.opman) {
               iconMenuBuilder.diagram.opman.begin();
+            }
+
+            //
+            // Self-connector (e.g. self-association): there is no 2nd
+            // element to pick. Create the real connector right away,
+            // attached only to the source element (its _init() computes a
+            // default loop shape), then hand off straight to the existing
+            // point-transform machinery used to reshape an already-placed
+            // connector, targeting its middle point - so that point tracks
+            // the rest of this mouse gesture.
+            //
+            if ($(this).data("self")) {
+              var selfConnector = iconMenuBuilder.diagram.Connector(this.id, {
+                epoints: [{ id: iconMenuBuilder.currentElementId, x: 0, y: 0 }],
+                ...iconMenuBuilder.connectorStyle,
+              });
+              if (selfConnector) {
+                iconMenuBuilder.diagram.highlightedConnector = selfConnector;
+                iconMenuBuilder.diagram.startConnectorTransform(
+                  selfConnector.points[1].x,
+                  selfConnector.points[1].y,
+                );
+              }
+              return;
             }
 
             var tid = $(this).attr("element");
@@ -232,6 +267,28 @@ class EditorIconMenu {
           if (!iconMenuBuilder.diagram) return false;
 
           const opman = iconMenuBuilder.diagram.opman;
+
+          //
+          // Self-connector: nothing was dropped on - the connector already
+          // exists and its middle point has been tracking the mouse via
+          // the native point-transform machinery since 'start'. That's
+          // normally already finalized by the diagram's own mouseup
+          // handler (DiagramMouseEvents); call it again defensively in
+          // case this mouseup didn't bubble through the diagram surface
+          // (e.g. released outside its bounds) - stopConnectorTransform is
+          // a no-op once transformConnector is already cleared.
+          //
+          if ($(this).data("self")) {
+            iconMenuBuilder.diagram.stopConnectorTransform(
+              ui.position.left,
+              ui.position.top,
+            );
+            iconMenuBuilder.diagram.draw();
+            if (opman) {
+              opman.commit();
+            }
+            return;
+          }
 
           var tid = $(this).data("element"),
             force_create = $(this).data("force_create"),
@@ -307,6 +364,34 @@ class EditorIconMenu {
             opman.commit();
           }
         },
+      })
+      .on("click", function (event) {
+        //
+        // Self-connector fallback for a plain click with no drag: jQuery
+        // UI's draggable only fires 'start'/'stop' once the mouse has
+        // moved past its distance threshold, so a true zero-movement click
+        // needs its own path. (jQuery UI swallows this click event after a
+        // real drag, so this never double-fires with the 'start' handler
+        // above.)
+        //
+        if (!$(this).data("self")) return;
+        if (!iconMenuBuilder.diagram || !iconMenuBuilder.currentElement)
+          return;
+
+        const opman = iconMenuBuilder.diagram.opman;
+        if (opman) {
+          opman.begin();
+        }
+
+        iconMenuBuilder.diagram.Connector(this.id, {
+          epoints: [{ id: iconMenuBuilder.currentElementId, x: 0, y: 0 }],
+          ...iconMenuBuilder.connectorStyle,
+        });
+        iconMenuBuilder.diagram.draw();
+
+        if (opman) {
+          opman.commit();
+        }
       })
       .parent()
       .mouseenter(function () {

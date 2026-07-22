@@ -48,9 +48,16 @@ class SelfAssociationConnector extends BaseConnector {
 
     // Initialize epoints if needed
     if (this.epoints.length < 3) {
-      this.epoints[0] = { x: p11.left + 20, y: p11.top - 20 };
+      // Both ends attach to the same element (see _getConnectionPoints,
+      // which requires euid on epoints[0] and epoints[last] to re-derive
+      // the loop from the element's live position on every redraw) - carry
+      // the attachment set by BaseConnector._create() over onto both ends
+      // instead of dropping it.
+      const id = this.epoints[0]["id"];
+      const limit = this.epoints[0]["limit"];
+      this.epoints[0] = { x: p11.left + 20, y: p11.top - 20, euid, id, limit };
       this.epoints[1] = { x: p11.left + 140 + 40, y: p11.top - 20 };
-      this.epoints[2] = { x: p11.left + 180, y: p11.top + 20 };
+      this.epoints[2] = { x: p11.left + 180, y: p11.top + 20, euid, id, limit };
     } else {
       this.epoints[0].x = p11.left + 40;
       this.epoints[0].y = p11.top - 20;
