@@ -1383,15 +1383,13 @@ ${this.getHtmlToolbar()}
       connector: style.connector || {},
       element: style.element || {},
     });
-    return this.styleManager
-      .getUserStyles()
-      .some(
-        (savedStyle) =>
-          JSON.stringify({
-            connector: savedStyle.connector || {},
-            element: savedStyle.element || {},
-          }) === key,
-      );
+    return this.styleManager.getUserStyles().some(
+      (savedStyle) =>
+        JSON.stringify({
+          connector: savedStyle.connector || {},
+          element: savedStyle.element || {},
+        }) === key,
+    );
   }
 }
 

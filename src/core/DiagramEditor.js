@@ -83,6 +83,21 @@ class DiagramEditor {
     this.styleManager = new StyleManagerClass({
       storageKey: `umlsync:styles:${this.options.id}`,
     });
+
+    //
+    // Completion provider: see src/completion/ICompletionProvider.js.
+    // Unlike styleManager there's no default implementation - no provider
+    // registered means no autocomplete on name fields, editor-wide.
+    //
+    this.completionProvider = this.options.completionProvider || null;
+  }
+
+  //
+  // Public API: register (or replace) the completion provider used for
+  // name-field autocomplete across every diagram loaded into this editor.
+  //
+  registerCompletionProvider(provider) {
+    this.completionProvider = provider;
   }
 
   getNextGlobalId() {
@@ -200,6 +215,7 @@ class DiagramEditor {
       devmode: this.options.devmode,
       hotKeyManager: this.options.hotKeyManager,
       styleManager: this.styleManager,
+      completionProvider: this.completionProvider,
     });
 
     const diagramMap = {

@@ -1,6 +1,7 @@
 class ElementEditable {
-  constructor(element, nativeBorderRef, blackboard) {
+  constructor(element, nativeBorderRef, blackboard, completionProvider) {
     this.element = element;
+    this.completionProvider = completionProvider;
     this.init(element, nativeBorderRef, blackboard);
 
     this.isEditable = true; // TODO: read from BB
@@ -14,6 +15,8 @@ class ElementEditable {
   // Add element's resizeable options
   //
   init(element, nativeBorderRef, blackboard) {
+    const completionProvider = this.completionProvider;
+
     //
     // Make Wrapped element resizeable
     //
@@ -37,6 +40,20 @@ class ElementEditable {
         } else {
           apply();
         }
+      },
+      // See src/completion/ICompletionProvider.js - feeds
+      // jquery.editable.js's existing onAutocomplete hook, which passes the
+      // returned list straight into jQuery UI's .autocomplete() widget.
+      onAutocomplete: function () {
+        if (!completionProvider) {
+          return null;
+        }
+        const key = $(this).data("key") || "name";
+        return completionProvider.getSuggestions({
+          key,
+          elementType: element.options.nameTemplate,
+          currentValue: element.jsonModel[key],
+        });
       },
     });
   }

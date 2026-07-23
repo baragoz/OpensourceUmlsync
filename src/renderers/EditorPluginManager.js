@@ -245,7 +245,12 @@ class EditorPluginManager extends IDiagramObserver {
     }
     element.setUserData(
       "plugin-element-editable",
-      new ElementEditable(element, nativeBorderRef, this.blackboard),
+      new ElementEditable(
+        element,
+        nativeBorderRef,
+        this.blackboard,
+        this.options.completionProvider,
+      ),
     );
 
     if (element.options.nameTemplate == "class") {

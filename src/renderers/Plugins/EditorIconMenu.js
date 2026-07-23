@@ -375,8 +375,7 @@ class EditorIconMenu {
         // above.)
         //
         if (!$(this).data("self")) return;
-        if (!iconMenuBuilder.diagram || !iconMenuBuilder.currentElement)
-          return;
+        if (!iconMenuBuilder.diagram || !iconMenuBuilder.currentElement) return;
 
         const opman = iconMenuBuilder.diagram.opman;
         if (opman) {
