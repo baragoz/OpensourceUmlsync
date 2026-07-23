@@ -10,7 +10,7 @@ class NameListCompletionProvider {
   }
 
   getSuggestions(context) {
-    if (context.key !== "name") {
+    if (context.key !== "name" && context.key !== "label") {
       return [];
     }
     return this.textarea.value
@@ -24,7 +24,7 @@ const DIAGRAM_CONFIG = {
   class: {
     title: "Test Autocompletion - Class Diagram",
     hint:
-      "Comma-separated names below are offered as autocomplete suggestions while renaming the class (double-click its name to edit it).",
+      "Comma-separated names below are offered as autocomplete suggestions while renaming the class (double-click its name to edit it), or while editing a connector's label (right-click a connector > Add Label).",
     defaultNames: "Order, Customer, Product, Invoice, PaymentGateway, ShippingService",
     jsonModel: {
       nameTemplate: "classDiagram",
@@ -50,7 +50,7 @@ const DIAGRAM_CONFIG = {
   sequence: {
     title: "Test Autocompletion - Sequence Diagram",
     hint:
-      "Comma-separated names below are offered as autocomplete suggestions while renaming the object instance (double-click its name to edit it).",
+      "Comma-separated names below are offered as autocomplete suggestions while renaming the object instance (double-click its name to edit it), or while editing a message's label (right-click a message arrow > Add Label).",
     defaultNames: "OrderService, PaymentService, InventoryService, NotificationService",
     jsonModel: {
       nameTemplate: "sequenceDiagram",

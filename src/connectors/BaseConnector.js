@@ -255,6 +255,12 @@ class BaseConnector extends BaseDiagramItem {
     }
   }
 
+  // Short random string appended to label ids to avoid collisions when a
+  // label with the same prefix is re-added after being removed.
+  getRandomSuffix() {
+    return Math.random().toString(36).slice(2, 8);
+  }
+
   //
   // Add text label
   //

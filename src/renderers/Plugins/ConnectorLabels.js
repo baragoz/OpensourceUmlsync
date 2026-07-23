@@ -7,9 +7,10 @@ class ConnectorLabels {
    * @param {BaseConnector} connector
    * @param {Blackboard} blackboard
    */
-  constructor(connector, blackboard) {
+  constructor(connector, blackboard, completionProvider) {
     this.connector = connector;
     this.blackboard = blackboard;
+    this.completionProvider = completionProvider;
 
     this.init(connector, blackboard);
 
@@ -62,6 +63,7 @@ class ConnectorLabels {
 
   #makeLabelInteractive(euid) {
     let self = this;
+    const completionProvider = this.completionProvider;
     $("#" + euid)
       .draggable({
         start: function (event, ui) {
@@ -108,6 +110,23 @@ class ConnectorLabels {
       })
       .children("a")
       .editable({
+        // See src/completion/ICompletionProvider.js - feeds
+        // jquery.editable.js's existing onAutocomplete hook, which passes
+        // the returned list straight into jQuery UI's .autocomplete() widget.
+        onAutocomplete: function () {
+          if (!completionProvider) {
+            return null;
+          }
+          const lid = $(this).parent().data("label-id");
+          const label = (self.connector.jsonModel.labels || []).find(
+            (l) => l.id == lid,
+          );
+          return completionProvider.getSuggestions({
+            key: "label",
+            elementType: self.connector.options.nameTemplate,
+            currentValue: label ? label.text : "",
+          });
+        },
         onSubmit: function (data) {
           if (data["current"] == data["previous"]) return;
 

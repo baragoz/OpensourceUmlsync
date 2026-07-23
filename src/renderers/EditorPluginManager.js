@@ -183,7 +183,11 @@ class EditorPluginManager extends IDiagramObserver {
     // Mainly uses for the context menu commands
     connector.setUserData(
       "plugin-connector-labels",
-      new ConnectorLabels(connector, this.blackboard),
+      new ConnectorLabels(
+        connector,
+        this.blackboard,
+        this.options.completionProvider,
+      ),
     );
 
     //
