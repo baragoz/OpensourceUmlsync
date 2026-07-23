@@ -1,0 +1,31 @@
+/* Layout for index.autocomplete.html - overrides .us-ex-full-screen's plain
+   `display:block` (sized for a single diagram placeholder filling 100%) with
+   a flex column, since this page stacks a hint + textarea above the diagram. */
+.us-ac-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.us-ac-hint {
+  margin: 0.75rem 1rem 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.us-ac-namelist {
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
+  margin: 0.75rem 1rem;
+  min-height: 3.5em;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 0.5rem;
+  resize: vertical;
+}
+
+.us-ac-diagram-placeholder {
+  flex-grow: 1;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  margin: 0 1rem 1rem;
+}
