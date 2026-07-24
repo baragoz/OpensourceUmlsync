@@ -1,3 +1,12 @@
+/* Design tokens first: everything below reads them via var(--token, <fallback>).
+   default.css is the baseline token set (colors + sizing) and stays loaded
+   even inside VS Code - a VS Code host additionally loads whichever
+   ./css/themes/vscode.*.css matches the active theme kind. Those files are
+   scoped under body.vscode-* selectors, which naturally out-specifies the
+   :root rules here, so they only need to override the color tokens; sizing
+   tokens keep flowing from this file. See Readme.vscode.md for the full plan. */
+@import "./css/themes/default.css";
+
 @import "./css/base.css";
 @import "./css/elements.css";
 @import "./css/toolbar.css";

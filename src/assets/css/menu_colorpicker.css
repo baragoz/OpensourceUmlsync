@@ -1,10 +1,15 @@
+/* Design tokens (--umlsync-*) canonically live in ./themes/default.css
+   (imported once by ../umlsync.css). Every var() below carries its own
+   literal fallback so this file still renders correctly if it's ever
+   loaded standalone, without default.css. */
+
 /* Color picker component */
 .us-color-picker {
     position: absolute;
-    background: #fff;
-    border: 1px solid #ccc;
+    background: var(--umlsync-menu-bg, #fff);
+    border: 1px solid var(--umlsync-menu-border, #ccc);
     border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 6px var(--umlsync-shadow-md, rgba(0, 0, 0, 0.2));
     padding: 8px;
     z-index: 200000;
     min-width: 400px; /* wider for 8x8 grid */
@@ -36,7 +41,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding-right: 10px;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid var(--umlsync-menu-border-light, #ddd);
   }
   
   .us-color-block:nth-child(3n) {
@@ -59,7 +64,7 @@
   .us-color-cell {
     width: 16px;
     height: 16px;
-    border: 1px solid #999;
+    border: 1px solid var(--umlsync-menu-cell-border, #999);
     border-radius: 3px;
     cursor: pointer;
   }

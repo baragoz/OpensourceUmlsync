@@ -1,0 +1,77 @@
+/*
+ * vscode.dark2.css — VS Code, Dark High Contrast theme kind
+ * (body.vscode-high-contrast).
+ *
+ * Differs from vscode.dark1.css in the ways VS Code's own HC themes differ
+ * from its regular Dark theme: flat fills with strong solid borders instead
+ * of soft box-shadow/translucent tints (HC users rely on hard edges, not
+ * subtle depth cues), and --vscode-contrastBorder/--vscode-contrastActiveBorder
+ * used directly wherever a boundary or focus ring matters, since those two
+ * tokens are only guaranteed to be defined in high-contrast themes.
+ *
+ * See ../../../../Readme.vscode.md for the full plan.
+ */
+body.vscode-high-contrast {
+  /* base design-system colors consumed indirectly via --toolbar-*/--umlsync-* below */
+  --color-primary-0: var(--vscode-editorWidget-background);
+  --color-secondary-400: var(--vscode-foreground);
+
+  /* toolbar chrome */
+  --toolbar-bg-color: var(--vscode-editorWidget-background);
+  --toolbar-font-color: var(--vscode-foreground);
+  --toolbar-bg-options: var(--vscode-input-background);
+  --toolbar-text-color: var(--vscode-foreground);
+  --toolbar-options-background: var(--vscode-input-background);
+  --toolbar-icon-font-color-default: var(--vscode-icon-foreground);
+  --toolbar-detached-bg-color: var(--vscode-editorWidget-background);
+  --toolbar-style-row-bg-color: var(--vscode-input-background);
+
+  --toolbar-border-color: var(--vscode-contrastBorder);
+  --toolbar-divider-color: var(--vscode-contrastBorder);
+  --toolbar-title-color: var(--vscode-foreground);
+  --toolbar-separator-color: var(--vscode-contrastBorder);
+
+  --toolbar-accent: var(--vscode-button-background);
+  --toolbar-accent-soft: var(--vscode-list-hoverBackground);
+  --toolbar-accent-translucent: var(--vscode-button-background);
+  --toolbar-danger-color: var(--vscode-errorForeground);
+
+  --toolbar-remove-bg: var(--vscode-badge-background);
+  --toolbar-remove-fg: var(--vscode-badge-foreground);
+
+  --toolbar-empty-border: var(--vscode-contrastBorder);
+  --toolbar-empty-bg: var(--vscode-editorWidget-background);
+  --toolbar-empty-title-color: var(--vscode-foreground);
+  --toolbar-empty-subtitle-color: var(--vscode-descriptionForeground);
+
+  --toolbar-carousel-hover-bg: var(--vscode-list-hoverBackground);
+  --toolbar-carousel-track-tint: var(--vscode-editorWidget-background);
+  --toolbar-active-selection-bg: var(--vscode-list-activeSelectionBackground);
+
+  /* diagram canvas "ink" & element fills */
+  --umlsync-ink: var(--vscode-editor-foreground);
+  --umlsync-canvas-bg: var(--vscode-editor-background);
+  --umlsync-surface-bg: var(--vscode-editorWidget-background);
+  --umlsync-text-muted: var(--vscode-descriptionForeground);
+  --umlsync-accent: var(--vscode-contrastActiveBorder, var(--vscode-focusBorder));
+
+  --umlsync-fill-info: var(--vscode-charts-blue);
+  --umlsync-fill-warning: var(--vscode-charts-orange);
+  --umlsync-fill-success: var(--vscode-charts-green);
+  --umlsync-fill-caution: var(--vscode-charts-yellow);
+  --umlsync-fill-datastore: var(--vscode-charts-yellow);
+  --umlsync-fill-neutral: var(--vscode-disabledForeground);
+  --umlsync-note-bg: var(--vscode-charts-yellow);
+  --umlsync-grid-bg: var(--vscode-editorWidget-background);
+
+  /* floating menus / popovers - flat, bordered, no shadow */
+  --umlsync-menu-bg: var(--vscode-menu-background, var(--vscode-editorWidget-background));
+  --umlsync-menu-border: var(--vscode-contrastBorder);
+  --umlsync-menu-border-light: var(--vscode-contrastBorder);
+  --umlsync-menu-cell-border: var(--vscode-contrastBorder);
+  --umlsync-menu-hover-bg: var(--vscode-menu-selectionBackground, var(--vscode-list-hoverBackground));
+  --umlsync-menu-active-bg: var(--vscode-list-activeSelectionBackground);
+  --umlsync-align-cell-hover-border: var(--vscode-contrastActiveBorder, var(--vscode-focusBorder));
+  --umlsync-shadow-sm: transparent;
+  --umlsync-shadow-md: transparent;
+}

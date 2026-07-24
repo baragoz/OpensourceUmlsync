@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMLSync — VS Code Light preview</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Import Map to define module paths (requires `npm run build:editor` to have run) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "umlsync": "../dist/editor/UMLSync.editor.cjs.js"
+            }
+        }
+    </script>
+
+    <!-- Base bundle: structural CSS + themes/default.css's baseline tokens -->
+    <link rel="stylesheet" href="../dist/editor/style.css" />
+
+    <!-- Only this page's theme overlay - body.vscode-light below is
+         hardcoded, so only vscode.light1.css's rules (scoped to that same
+         selector) ever apply here. -->
+    <link rel="stylesheet" href="../dist/editor/assets/styles/themes/vscode.light.css" />
+
+    <script type="module" src="jsm/jquery.editable.js"></script>
+
+    <!-- ============================================================
+         DEMO-ONLY: simulated --vscode-* variables for VS Code's regular
+         Light theme kind (body.vscode-light).
+
+         This page runs in a plain browser tab, not a real VS Code webview,
+         so none of the --vscode-* custom properties that vscode.light1.css
+         relies on actually exist here - every var(--vscode-*) reference
+         would resolve to invalid and every token it feeds
+         (--umlsync-canvas-bg etc.) would fall through to its own literal
+         default, making the page look identical to the non-VS Code look.
+         That's the CORRECT behavior for vscode.light1.css itself; this
+         block just fakes plausible approximations of VS Code's real
+         Light+ palette so the preview is informative in a regular browser.
+         Delete this block when embedding umlsync in an actual VS Code
+         webview - real values are injected there automatically. -->
+    <style>
+        body.vscode-light {
+            --vscode-editor-background: #ffffff;
+            --vscode-editor-foreground: #000000;
+            --vscode-foreground: #616161;
+            --vscode-editorWidget-background: #f3f3f3;
+            --vscode-input-background: #ffffff;
+            --vscode-icon-foreground: #424242;
+            --vscode-widget-border: #c8c8c8;
+            --vscode-panel-border: #80808059;
+            --vscode-button-background: #007acc;
+            --vscode-list-hoverBackground: #e8e8e8;
+            --vscode-errorForeground: #e51400;
+            --vscode-badge-background: #c4c4c4;
+            --vscode-badge-foreground: #333333;
+            --vscode-descriptionForeground: #3b3b3b;
+            --vscode-editor-inactiveSelectionBackground: #e5ebf1;
+            --vscode-list-activeSelectionBackground: #cde0f7;
+            --vscode-focusBorder: #005fb8;
+            --vscode-charts-blue: #1a85ff;
+            --vscode-charts-orange: #d18616;
+            --vscode-charts-green: #388a34;
+            --vscode-charts-yellow: #b5940c;
+            --vscode-disabledForeground: #a1a1a1;
+            --vscode-menu-background: #ffffff;
+            --vscode-menu-selectionBackground: #cde0f7;
+            --vscode-widget-shadow: rgba(0, 0, 0, 0.16);
+        }
+    </style>
+    <!-- ============================================================ -->
+
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: var(--umlsync-canvas-bg, #eee);
+            color: var(--umlsync-ink, #000);
+        }
+
+        #us-theme-banner {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--toolbar-border-color, #ccc);
+            background: var(--toolbar-bg-color, #fff);
+            color: var(--toolbar-font-color, #333);
+        }
+
+        #us-theme-banner a {
+            color: inherit;
+            opacity: 0.75;
+        }
+
+        #diagram-placeholder {
+            width: 100%;
+            height: 60vh;
+        }
+
+        #us-swatches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .us-swatch {
+            width: 120px;
+            height: 60px;
+            border: 1px solid var(--umlsync-ink, #000);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="vscode-light">
+    <div id="us-theme-banner">
+        <strong>VS Code theme: Light</strong>
+        <span>&mdash; other kinds:</span>
+        <a href="index.vscode-theme-preview.dark1.html">Dark</a>
+        <a href="index.vscode-theme-preview.dark2.html">Dark High Contrast</a>
+        <a href="index.vscode-theme-preview.light2.html">Light High Contrast</a>
+        <a href="index.html">Gallery</a>
+    </div>
+
+    <div id="diagram-placeholder"></div>
+
+    <div id="us-swatches">
+        <div class="us-swatch" style="background: var(--umlsync-fill-info);">fill-info<br>(state/collab.)</div>
+        <div class="us-swatch" style="background: var(--umlsync-fill-warning);">fill-warning<br>(entity)</div>
+        <div class="us-swatch" style="background: var(--umlsync-fill-success);">fill-success<br>(procedure)</div>
+        <div class="us-swatch" style="background: var(--umlsync-fill-caution);">fill-caution<br>(resultset)</div>
+        <div class="us-swatch" style="background: var(--umlsync-fill-datastore);">fill-datastore</div>
+        <div class="us-swatch" style="background: var(--umlsync-note-bg);">note-bg</div>
+        <div class="us-swatch" style="background: var(--umlsync-menu-bg); box-shadow: 0 2px 8px var(--umlsync-shadow-sm);">menu-bg<br>+ shadow-sm</div>
+        <div class="us-swatch" style="background: var(--umlsync-accent);">accent<br>(selection)</div>
+    </div>
+
+    <script type="module">
+        try {
+            const { default: UMLSync } = await import("umlsync");
+
+            const classDiagramJson = {"nameTemplate":"classDiagram","width":1058,"height":420,"globalId":6,"maxZIndex":1007,"elements":[{"width":293,"height":225,"left":40,"top":40,"name":"Common Package","id":1,"height_b":208,"nameTemplate":"package","z-index":1000},{"width":280,"height":165,"left":400,"top":80,"name":"IExample","aux":"Interface","operations":[{"id":1,"text":"createSomething()"},{"id":2,"text":"updatePayload()"}],"attributes":[{"id":0,"text":"someField"},{"id":2,"text":"someField2"}],"id":2,"height_a":37,"nameTemplate":"class","z-index":1002},{"width":180,"height":56,"left":760,"top":260,"id":3,"nameTemplate":"note","z-index":1003}],"connectors":[{"id":1,"nameTemplate":"anchor","epoints":[{"x":665,"y":150},{"x":760,"y":280}],"stored":true}]};
+
+            const placeholder = $("#diagram-placeholder");
+            const editor = new UMLSync.DiagramEditor("#diagram-placeholder", {
+                width: placeholder.width(),
+                height: placeholder.height(),
+                fitToParent: true,
+                devmode: true,
+            });
+            editor.loadDiagram(classDiagramJson, { width: placeholder.width(), height: placeholder.height(), editmode: true });
+        } catch (err) {
+            console.error("Diagram failed to load (swatches above still work independently):", err);
+            document.getElementById("diagram-placeholder").textContent =
+                "Diagram failed to load - see console. This page must be served over http(s) (e.g. `npm run dev`), not opened as a local file.";
+        }
+    </script>
+</body>
+</html>

@@ -1,12 +1,17 @@
+/* Design tokens (--umlsync-*) canonically live in ./themes/default.css
+   (imported once by ../umlsync.css). Every var() below carries its own
+   literal fallback so this file still renders correctly if it's ever
+   loaded standalone, without default.css. */
+
 /* Text align component */
 .us-preview-align {
     position: relative;
     display: inline-block;
     width: 24px;
     height: 24px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--umlsync-menu-border, #ccc);
     border-radius: 6px;
-    background: white;
+    background: var(--umlsync-menu-bg, white);
     cursor: pointer;
   }
   
@@ -26,10 +31,10 @@
     bottom: 100%;
     left: 0;
     margin-bottom: 6px;
-    background: white;
-    border: 1px solid #ccc;
+    background: var(--umlsync-menu-bg, white);
+    border: 1px solid var(--umlsync-menu-border, #ccc);
     border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px var(--umlsync-shadow-md, rgba(0,0,0,0.2));
     padding: 6px;
     z-index: 1000;
   }
@@ -52,8 +57,8 @@
   }
   
   .us-align-cell:hover {
-    border-color: #aaa;
-    background: #f0f0f0;
+    border-color: var(--umlsync-align-cell-hover-border, #aaa);
+    background: var(--umlsync-menu-hover-bg, #f0f0f0);
   }
   
   .us-align-cell svg {

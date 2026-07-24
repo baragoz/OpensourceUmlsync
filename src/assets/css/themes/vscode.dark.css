@@ -1,0 +1,78 @@
+/*
+ * vscode.dark1.css — VS Code, regular Dark theme kind (body.vscode-dark).
+ *
+ * VS Code injects `body.vscode-dark` and several hundred `--vscode-*`
+ * custom properties into every webview automatically, reflecting the
+ * user's active color theme - no JS handshake needed. This file only
+ * overrides the *color* tokens defined in ./default.css; sizing tokens
+ * (border-radius, icon sizes, font sizes) keep inheriting from there,
+ * since body.vscode-dark (specificity 0,1,1) already out-specifies :root
+ * (0,1,0) for the tokens it does redefine.
+ *
+ * See ../../../../Readme.vscode.md for the full plan and the load order
+ * this file expects (loaded alongside default.css, not instead of it).
+ */
+body.vscode-dark {
+  /* base design-system colors consumed indirectly via --toolbar-*/--umlsync-* below */
+  --color-primary-0: var(--vscode-editorWidget-background);
+  --color-secondary-400: var(--vscode-foreground);
+
+  /* toolbar chrome */
+  --toolbar-bg-color: var(--vscode-editorWidget-background);
+  --toolbar-font-color: var(--vscode-foreground);
+  --toolbar-bg-options: var(--vscode-input-background);
+  --toolbar-text-color: var(--vscode-foreground);
+  --toolbar-options-background: var(--vscode-input-background);
+  --toolbar-icon-font-color-default: var(--vscode-icon-foreground);
+  --toolbar-detached-bg-color: var(--vscode-editorWidget-background);
+  --toolbar-style-row-bg-color: var(--vscode-input-background);
+
+  --toolbar-border-color: var(--vscode-widget-border, var(--vscode-panel-border));
+  --toolbar-divider-color: var(--vscode-widget-border, var(--vscode-panel-border));
+  --toolbar-title-color: var(--vscode-foreground);
+  --toolbar-separator-color: var(--vscode-widget-border, var(--vscode-panel-border));
+
+  --toolbar-accent: var(--vscode-button-background);
+  --toolbar-accent-soft: var(--vscode-list-hoverBackground);
+  --toolbar-accent-translucent: var(--vscode-button-background);
+  --toolbar-danger-color: var(--vscode-errorForeground);
+
+  --toolbar-remove-bg: var(--vscode-badge-background);
+  --toolbar-remove-fg: var(--vscode-badge-foreground);
+
+  --toolbar-empty-border: var(--vscode-widget-border, var(--vscode-panel-border));
+  --toolbar-empty-bg: var(--vscode-editorWidget-background);
+  --toolbar-empty-title-color: var(--vscode-foreground);
+  --toolbar-empty-subtitle-color: var(--vscode-descriptionForeground);
+
+  --toolbar-carousel-hover-bg: var(--vscode-list-hoverBackground);
+  --toolbar-carousel-track-tint: var(--vscode-editor-inactiveSelectionBackground);
+  --toolbar-active-selection-bg: var(--vscode-list-activeSelectionBackground);
+
+  /* diagram canvas "ink" & element fills */
+  --umlsync-ink: var(--vscode-editor-foreground);
+  --umlsync-canvas-bg: var(--vscode-editor-background);
+  --umlsync-surface-bg: var(--vscode-editorWidget-background);
+  --umlsync-text-muted: var(--vscode-descriptionForeground);
+  --umlsync-accent: var(--vscode-focusBorder);
+
+  --umlsync-fill-info: var(--vscode-charts-blue);
+  --umlsync-fill-warning: var(--vscode-charts-orange);
+  --umlsync-fill-success: var(--vscode-charts-green);
+  --umlsync-fill-caution: var(--vscode-charts-yellow);
+  --umlsync-fill-datastore: var(--vscode-charts-yellow);
+  --umlsync-fill-neutral: var(--vscode-disabledForeground);
+  --umlsync-note-bg: var(--vscode-charts-yellow);
+  --umlsync-grid-bg: var(--vscode-editor-inactiveSelectionBackground);
+
+  /* floating menus / popovers */
+  --umlsync-menu-bg: var(--vscode-menu-background, var(--vscode-editorWidget-background));
+  --umlsync-menu-border: var(--vscode-menu-border, var(--vscode-widget-border));
+  --umlsync-menu-border-light: var(--vscode-menu-border, var(--vscode-widget-border));
+  --umlsync-menu-cell-border: var(--vscode-widget-border, var(--vscode-panel-border));
+  --umlsync-menu-hover-bg: var(--vscode-menu-selectionBackground, var(--vscode-list-hoverBackground));
+  --umlsync-menu-active-bg: var(--vscode-list-activeSelectionBackground);
+  --umlsync-align-cell-hover-border: var(--vscode-focusBorder);
+  --umlsync-shadow-sm: var(--vscode-widget-shadow, rgba(0, 0, 0, 0.36));
+  --umlsync-shadow-md: var(--vscode-widget-shadow, rgba(0, 0, 0, 0.36));
+}

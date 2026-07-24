@@ -64,8 +64,19 @@ export default defineConfig({
         // Copy extra JS files
         //
         copy({
+          // Vite empties outDir (build.emptyOutDir) right after Rollup's
+          // buildEnd hook but before writing the bundle, which would wipe
+          // out anything copied on the default "buildEnd" hook. Copying on
+          // "writeBundle" instead runs after that emptying/writing step.
+          hook: "writeBundle",
           targets: [
             { src: "src/assets/js/jquery.editable.js", dest: "dist/editor/assets/js/" },
+            //
+            // VS Code theme CSS files: not part of the default JS-imported
+            // stylesheet on purpose (see Readme.vscode.md) - a VS Code
+            // extension host loads these directly, alongside style.css.
+            //
+            { src: "src/assets/css/themes/vscode.*.css", dest: "dist/editor/assets/styles/themes/" },
           ],
           verbose: true,
         }),

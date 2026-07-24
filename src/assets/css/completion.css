@@ -1,14 +1,19 @@
 /******************* NAME AUTOCOMPLETION *****************/
 /* Minimal styling for jQuery UI's .autocomplete() widget - no jquery-ui
    theme CSS is assumed to be loaded by consumers, so the widget would
-   otherwise render as an unstyled list on top of the diagram canvas. */
+   otherwise render as an unstyled list on top of the diagram canvas.
+
+   Design tokens (--umlsync-*) canonically live in ./themes/default.css
+   (imported once by ../umlsync.css). Every var() below carries its own
+   literal fallback so this file still renders correctly if it's ever
+   loaded standalone, without default.css. */
 
 .ui-autocomplete {
   position: absolute;
-  background: #ffffff;
-  border: 1px solid #ddd;
+  background: var(--umlsync-menu-bg, #ffffff);
+  border: 1px solid var(--umlsync-menu-border-light, #ddd);
   border-radius: 6px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 8px var(--umlsync-shadow-sm, rgba(0, 0, 0, 0.1));
   list-style: none;
   margin: 4px 0 0;
   padding: 4px 0;
@@ -25,6 +30,6 @@
 }
 
 .ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
-  background: #f0f0f0;
+  background: var(--umlsync-menu-hover-bg, #f0f0f0);
   border: none;
 }
