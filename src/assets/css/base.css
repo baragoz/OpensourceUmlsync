@@ -1168,6 +1168,10 @@
     margin: 2px;
   }
 
+  .us-icon-menu-svg-wrapper {
+    color: var(--umlsync-ink, black);
+  }
+
   .us-icon-menu-svg-wrapper>svg {
     width: 22px;
   }
