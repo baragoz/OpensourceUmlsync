@@ -75,7 +75,7 @@ export class PreviewDiagramItemsDropdownComponent {
           <div class="menu-item-list-variant">
             <div class="menu-item-svg">
               <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.3 18H11.7C16.2 18 18 16.2 18 11.7V6.3C18 1.8 16.2 0 11.7 0H6.3C1.8 0 0 1.8 0 6.3V11.7C0 16.2 1.8 18 6.3 18Z" fill="#0BCA6E"/>
+                <path d="M6.3 18H11.7C16.2 18 18 16.2 18 11.7V6.3C18 1.8 16.2 0 11.7 0H6.3C1.8 0 0 1.8 0 6.3V11.7C0 16.2 1.8 18 6.3 18Z" fill="currentColor"/>
               </svg>
             </div>
             <div class="us-side-menu-icon">${item.svg}</div>
@@ -89,7 +89,7 @@ export class PreviewDiagramItemsDropdownComponent {
           <div class="menu-item-list-variant">
             <div class="menu-item-svg">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.3 18H11.7C16.2 18 18 16.2 18 11.7V6.3C18 1.8 16.2 0 11.7 0H6.3C1.8 0 0 1.8 0 6.3V11.7C0 16.2 1.8 18 6.3 18Z" fill="#0BCA6E"/>
+                <path d="M6.3 18H11.7C16.2 18 18 16.2 18 11.7V6.3C18 1.8 16.2 0 11.7 0H6.3C1.8 0 0 1.8 0 6.3V11.7C0 16.2 1.8 18 6.3 18Z" fill="currentColor"/>
               </svg>
             </div>
             <div class="icons-sprite ${item.css || ""} us-side-menu-icon"></div>

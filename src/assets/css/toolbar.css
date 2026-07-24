@@ -578,6 +578,10 @@
   gap: 5px;
 }
 
+.menu-item-svg {
+  color: var(--toolbar-accent-translucent, #0BCA6E99);
+}
+
 .menu-item-svg svg {
   display: block;
 }

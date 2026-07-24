@@ -1154,12 +1154,17 @@
 
   .us-side-menu-icon {
     position: absolute;
+    color: var(--umlsync-ink, black);
   }
 
   .us-side-menu-icon>svg {
     width: 20px;
     height: 20px;
     margin: 2px;
+  }
+
+  .us-preview-menu-icon {
+    color: var(--umlsync-ink, black);
   }
 
   .us-preview-menu-icon>svg {

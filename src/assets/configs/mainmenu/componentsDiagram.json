@@ -8,7 +8,7 @@
         "jsonModel": {
           "name": "Component"
         },
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M10.3 21H15.7C20.2 21 22 19.2 22 14.7V9.3C22 4.8 20.2 3 15.7 3H10.3C5.8 3 4 4.8 4 9.3V14.7C4 19.2 5.8 21 10.3 21Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M9 5.75V9.25C9 10.3 8.41667 11 7.05556 11H3.94444C2.58333 11 2 10.3 2 9.25V5.75C2 4.7 2.58333 4 3.94444 4H7.05556C8.41667 4 9 4.7 9 5.75Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M9 14.75V18.25C9 19.3 8.41667 20 7.05556 20H3.94444C2.58333 20 2 19.3 2 18.25V14.75C2 13.7 2.58333 13 3.94444 13H7.05556C8.41667 13 9 13.7 9 14.75Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M10.3 21H15.7C20.2 21 22 19.2 22 14.7V9.3C22 4.8 20.2 3 15.7 3H10.3C5.8 3 4 4.8 4 9.3V14.7C4 19.2 5.8 21 10.3 21Z' fill='#0BCA6E' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M9 5.75V9.25C9 10.3 8.41667 11 7.05556 11H3.94444C2.58333 11 2 10.3 2 9.25V5.75C2 4.7 2.58333 4 3.94444 4H7.05556C8.41667 4 9 4.7 9 5.75Z' fill='#0BCA6E' stroke='currentColor' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M9 14.75V18.25C9 19.3 8.41667 20 7.05556 20H3.94444C2.58333 20 2 19.3 2 18.25V14.75C2 13.7 2.58333 13 3.94444 13H7.05556C8.41667 13 9 13.7 9 14.75Z' fill='#0BCA6E' stroke='currentColor' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "description": "Subsystem",
@@ -16,7 +16,7 @@
         "jsonModel": {
           "name": "Component Subsystem"
         },
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>  <path d='M10.3 21H15.7C20.2 21 22 19.2 22 14.7V9.3C22 4.8 20.2 3 15.7 3H10.3C5.8 3 4 4.8 4 9.3V14.7C4 19.2 5.8 21 10.3 21Z'        fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M9 5.75V9.25C9 10.3 8.41667 11 7.05556 11H3.94444C2.58333 11 2 10.3 2 9.25V5.75C2 4.7 2.58333 4 3.94444 4H7.05556C8.41667 4 9 4.7 9 5.75Z'        fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M9 14.75V18.25C9 19.3 8.41667 20 7.05556 20H3.94444C2.58333 20 2 19.3 2 18.25V14.75C2 13.7 2.58333 13 3.94444 13H7.05556C8.41667 13 9 13.7 9 14.75Z'        fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M14.6 9.5L10.7 16H18.7L14.8 9.5'        stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>  <path d='M10.3 21H15.7C20.2 21 22 19.2 22 14.7V9.3C22 4.8 20.2 3 15.7 3H10.3C5.8 3 4 4.8 4 9.3V14.7C4 19.2 5.8 21 10.3 21Z'        fill='#0BCA6E' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M9 5.75V9.25C9 10.3 8.41667 11 7.05556 11H3.94444C2.58333 11 2 10.3 2 9.25V5.75C2 4.7 2.58333 4 3.94444 4H7.05556C8.41667 4 9 4.7 9 5.75Z'        fill='#0BCA6E' stroke='currentColor' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M9 14.75V18.25C9 19.3 8.41667 20 7.05556 20H3.94444C2.58333 20 2 19.3 2 18.25V14.75C2 13.7 2.58333 13 3.94444 13H7.05556C8.41667 13 9 13.7 9 14.75Z'        fill='#0BCA6E' stroke='currentColor' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/>  <path d='M14.6 9.5L10.7 16H18.7L14.8 9.5'        stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "element": "interface",
@@ -24,7 +24,7 @@
         "jsonModel": {
           "name": "Interface"
         },
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='9' fill='#0BCA6E' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "element": "port",
@@ -32,12 +32,12 @@
         "jsonModel": {
           "name": "Port"
         },
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7.9 17H12.1C15.6 17 17 15.6 17 12.1V7.9C17 4.4 15.6 3 12.1 3H7.9C4.4 3 3 4.4 3 7.9V12.1C3 15.6 4.4 17 7.9 17Z' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M3 21L21 21' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M17 10L21 10' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7.9 17H12.1C15.6 17 17 15.6 17 12.1V7.9C17 4.4 15.6 3 12.1 3H7.9C4.4 3 3 4.4 3 7.9V12.1C3 15.6 4.4 17 7.9 17Z' fill='#0BCA6E' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M3 21L21 21' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/><path d='M17 10L21 10' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/></svg>"
       },
       {
         "element": "note",
         "description": "Note",
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><g clip-path='url(#clip0_4403_12086)'><path d='M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M14.5 4.5V6.5C14.5 7.6 15.4 8.5 16.5 8.5H18.5' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 13H12' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 17H16' stroke='#292D32' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></g><defs><clipPath id='clip0_4403_12086'><rect width='24' height='24' fill='white'/></clipPath></defs></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><g clip-path='url(#clip0_4403_12086)'><path d='M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z' stroke='currentColor' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M14.5 4.5V6.5C14.5 7.6 15.4 8.5 16.5 8.5H18.5' stroke='currentColor' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 13H12' stroke='currentColor' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/><path d='M8 17H16' stroke='currentColor' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></g><defs><clipPath id='clip0_4403_12086'><rect width='24' height='24' fill='white'/></clipPath></defs></svg>"
       }
     ],
     "connectors": [
@@ -45,7 +45,7 @@
         "connector": "association",
         "element" : "interface",
         "description": "Assembly Connector",
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 12L3 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><ellipse cx='16' cy='12' rx='5' ry='5' fill='#0BCA6E' stroke='#292D32' stroke-width='1.5'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 12L3 12' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/><ellipse cx='16' cy='12' rx='5' ry='5' fill='#0BCA6E' stroke='currentColor' stroke-width='1.5'/></svg>"
       },
       {
         "connector": "assembly",
@@ -54,23 +54,23 @@
           "visible": true
         },
         "description": "Assembly Connector",
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M16 12L3 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/><path d='M21 17C18.2386 17 16 14.7614 16 12C16 9.23858 18.2386 7 21 7' stroke='#292D32' stroke-width='1.5'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M16 12L3 12' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/><path d='M21 17C18.2386 17 16 14.7614 16 12C16 9.23858 18.2386 7 21 7' stroke='currentColor' stroke-width='1.5'/></svg>"
       },
 
       {
         "connector": "dependency",
         "description": "Dependency",
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99996 12H3.59095H5.18194H6.77293M14.7279 12H16.3189M21.0918 12H19.5008M11.5459 12H9.95491' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99996 12H3.59095H5.18194H6.77293M14.7279 12H16.3189M21.0918 12H19.5008M11.5459 12H9.95491' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       },
       {
         "connector": "association",
         "description": "Association",
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 12L21 12' stroke='#292D32' stroke-width='1.5' stroke-linecap='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M3 12L21 12' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/></svg>"
       },
       {
         "connector": "realization",
         "description": "Realization",
-        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364' fill='#292D32'/><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364V5.63605Z' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99996 12H3.59095H5.18194H6.77293M14.7279 12H16.3189M21.0918 12H19.5008M11.5459 12H9.95491' stroke='#292D32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+        "svg": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364' fill='currentColor'/><path d='M15.3638 5.63605L21.7277 12L15.3638 18.364V5.63605Z' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M1.99996 12H3.59095H5.18194H6.77293M14.7279 12H16.3189M21.0918 12H19.5008M11.5459 12H9.95491' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>"
       }
     ]
   }
