@@ -49,8 +49,9 @@ class EditorDetachedToolbarMenu {
    * @param { Blackboard } blackboard
    * @param { Boolean } isDevMode
    * @param { import("../../styles/IStyleManager").IStyleManager } styleManager
+   * @param { import("../../utils/ThemeDetector").ThemeDetector } themeDetector
    */
-  constructor(placeholder, diagram, blackboard, isDevMode, styleManager) {
+  constructor(placeholder, diagram, blackboard, isDevMode, styleManager, themeDetector) {
     this.placeholder = placeholder;
     this.nativeRef = $(placeholder);
 
@@ -59,6 +60,7 @@ class EditorDetachedToolbarMenu {
     this.toolbarElement = null;
     this.isDevMode = isDevMode;
     this.styleManager = styleManager;
+    this.themeDetector = themeDetector;
 
     // clone state
     this.state = { ...defaultState };
@@ -1033,6 +1035,8 @@ ${this.getHtmlToolbar()}
     this.arrowColorPicker = new PreviewColorPickerComponent(
       this.nativeRef.find("#us-arrow-color-picker"),
       ["Line Color"],
+      null,
+      this.themeDetector,
     );
 
     this.arrowColorPicker.onSelect((index, color) => {
@@ -1101,6 +1105,8 @@ ${this.getHtmlToolbar()}
     this.labelColorPicker = new PreviewColorPickerComponent(
       this.nativeRef.find(".us-label-color-picker"),
       ["Text Color", "Background Color"],
+      null,
+      this.themeDetector,
     );
 
     this.labelColorPicker.onSelect((index, color) => {
@@ -1173,6 +1179,8 @@ ${this.getHtmlToolbar()}
     this.elementColorPicker = new PreviewColorPickerComponent(
       this.nativeRef.find(".us-text-color-picker"),
       ["Background Color", "Text Color"],
+      null,
+      this.themeDetector,
     );
 
     this.elementColorPicker.onSelect((index, color) => {

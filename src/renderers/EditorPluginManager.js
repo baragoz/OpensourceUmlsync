@@ -151,6 +151,7 @@ class EditorPluginManager extends IDiagramObserver {
         this.blackboard,
         this.options.devmode,
         this.options.styleManager,
+        this.options.themeDetector,
       ),
     );
 

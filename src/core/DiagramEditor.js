@@ -30,6 +30,7 @@ import { ComponentsDiagram } from "../diagrams/ComponentsDiagram";
 import { StateDiagram } from "../diagrams/StateDiagram";
 import { SequenceDiagram } from "../diagrams/SequenceDiagram";
 import { DefaultStyleManager } from "../styles/DefaultStyleManager";
+import { ThemeDetector } from "../utils/ThemeDetector";
 
 class DiagramEditor {
   // Listeners registered via onUndoRedoChange(), fanned out on every
@@ -96,6 +97,31 @@ class DiagramEditor {
     // registered means no autocomplete on name fields, editor-wide.
     //
     this.completionProvider = this.options.completionProvider || null;
+
+    //
+    // Theme detector: JS-side counterpart to the CSS-only theming in
+    // assets/css/themes/ (see ../../Readme.vscode.md). `theme` option
+    // unset -> "auto" (VS Code body class, else OS prefers-color-scheme).
+    //
+    this.themeDetector = new ThemeDetector(this.options.theme || "auto");
+  }
+
+  //
+  // Public API: whether the editor is currently rendering in a dark theme -
+  // see src/utils/ThemeDetector.js for the VS Code / OS-preference / explicit
+  // `theme` option priority order.
+  //
+  isDarkMode() {
+    return this.themeDetector.isDarkMode();
+  }
+
+  //
+  // Public API: subscribe to dark/light flips (VS Code theme switch, OS
+  // preference switch) while the editor stays open. Returns an unsubscribe
+  // function.
+  //
+  onThemeChange(callback) {
+    return this.themeDetector.onThemeChange(callback);
   }
 
   //
@@ -222,6 +248,7 @@ class DiagramEditor {
       hotKeyManager: this.options.hotKeyManager,
       styleManager: this.styleManager,
       completionProvider: this.completionProvider,
+      themeDetector: this.themeDetector,
     });
 
     const diagramMap = {
