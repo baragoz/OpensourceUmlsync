@@ -215,9 +215,11 @@ class EditorIconMenu {
               });
               if (selfConnector) {
                 iconMenuBuilder.diagram.highlightedConnector = selfConnector;
+                // points[] is [anchorOnTopEdge, epoints[0], corner,
+                // epoints[2], anchorOnRightEdge] - the corner is index 2.
                 iconMenuBuilder.diagram.startConnectorTransform(
-                  selfConnector.points[1].x,
-                  selfConnector.points[1].y,
+                  selfConnector.points[2].x,
+                  selfConnector.points[2].y,
                 );
               }
               return;
