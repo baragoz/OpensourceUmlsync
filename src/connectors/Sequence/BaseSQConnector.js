@@ -453,6 +453,18 @@ class BaseSQConnector extends BaseConnector {
       if (fp) {
         startElement = fe;
         epoints[0].x = fp.left + fe.width() / 2 + 4;
+
+        // Messages landing on the object instance's header box (not the
+        // lifeline below it) should stop at its left border, not pierce
+        // through to the lifeline's center point.
+        var fHeader = fe.find(".us-instance");
+        if (
+          fHeader.length &&
+          epoints[0].y - fp.top >= 0 &&
+          epoints[0].y - fp.top < fHeader.outerHeight()
+        ) {
+          epoints[0].x = fp.left;
+        }
       }
     }
 
@@ -465,6 +477,17 @@ class BaseSQConnector extends BaseConnector {
       if (tp) {
         endElement = te;
         epoints[epoints.length - 1].x = tp.left + te.width() / 2 + 4;
+
+        // Same as above: land on the header's left border instead of the
+        // lifeline's center point when pointing at the header level.
+        var tHeader = te.find(".us-instance");
+        if (
+          tHeader.length &&
+          epoints[epoints.length - 1].y - tp.top >= 0 &&
+          epoints[epoints.length - 1].y - tp.top < tHeader.outerHeight()
+        ) {
+          epoints[epoints.length - 1].x = tp.left;
+        }
       }
     }
 
