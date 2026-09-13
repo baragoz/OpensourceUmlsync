@@ -9,8 +9,8 @@ class SQAltElement extends BaseElement {
     };
     let defaultjsonModel = {
       title: "Alt",
-      width: 26,
-      height: 80,
+      width: 350,
+      height: 250,
       ...jsonModel,
     };
 
@@ -19,6 +19,15 @@ class SQAltElement extends BaseElement {
 
   _update() {
     super._update();
+  }
+
+  _updateJsonModel(key, value) {
+    if (key === "color") {
+      this.nativeRef.find(".us-alt-tab").css("background-color", value || "");
+      this.jsonModel[key] = value;
+    } else {
+      super._updateJsonModel(key, value);
+    }
   }
 
   getAlt() {

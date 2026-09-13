@@ -311,6 +311,8 @@
   .us-alt-body {
     padding: 0px;
     position: relative;
+    height: 100%;
+    box-sizing: border-box;
     border: 2px solid var(--umlsync-ink, black);
     text-align: center;
   }
