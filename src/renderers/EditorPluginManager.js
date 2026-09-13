@@ -20,6 +20,7 @@ import { ElementDraggable } from "./Plugins/ElementDraggable";
 import { ElementEditable } from "./Plugins/ElementEditable";
 import { ElementMouseEvents } from "./Plugins/ElementMouseEvents";
 import { ElementResizeable } from "./Plugins/ElementResizeable";
+import { SQPortIndentControls } from "./Plugins/SQPortIndentControls";
 
 class EditorPluginManager extends IDiagramObserver {
   constructor(overrideDefaultValues = {}) {
@@ -115,6 +116,13 @@ class EditorPluginManager extends IDiagramObserver {
     diagram.setUserData(
       "plugin-editor-iconmenu",
       new EditorIconMenu(diagram, this.blackboard),
+    );
+    // Indent nudge buttons for a selected sqport that has been dropped onto
+    // a lifeline. Self-guards on nameTemplate === "sqport", so it's a
+    // harmless no-op for every other diagram/element type.
+    diagram.setUserData(
+      "plugin-editor-sqport-indent",
+      new SQPortIndentControls(diagram, this.blackboard),
     );
     //diagram.setUserData("plugin-editor-sidemenu", new EditorSideMenu(
     //    this.getSidebarPlaceholder(diagram), diagram, this.blackboard));

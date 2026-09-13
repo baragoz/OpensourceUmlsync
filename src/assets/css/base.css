@@ -1181,6 +1181,28 @@
     width: 22px;
   }
 
+  .us-sqport-indent-btn {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: var(--umlsync-grid-bg, #ECF3EC);
+  }
+
+  .us-sqport-indent-btn:hover {
+    background: var(--umlsync-fill-info, #87CEEB);
+  }
+
+  .us-sqport-indent-btn>svg {
+    width: 16px;
+  }
+
 /***************** CLASS DIAGRAM **********/
 
 .us-class-aux {

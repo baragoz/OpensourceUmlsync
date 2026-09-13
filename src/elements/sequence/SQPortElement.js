@@ -12,6 +12,11 @@ class SQPortElement extends BaseElement {
       width: 18,
       height: 80,
       level: -1,
+      // Horizontal offset step from the parent lifeline's center, in units
+      // of 10px (indent: 2 => +20px). Only meaningful once dropped onto an
+      // SQObjectInstance - see SequenceDiagram.handleElementDragStop and
+      // SQPortIndentControls.
+      indent: 0,
       ...jsonModel,
     };
 

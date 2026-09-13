@@ -105,10 +105,14 @@ class SequenceDiagram extends BaseDiagram {
     // Re-align model after DND, otherwise user could place it anywhere
     // inside parent element, after drop it first time
     if (parent) {
+      // Preserve any indent nudge the user applied via SQPortIndentControls
+      // (10px per step) instead of always resetting to dead center.
+      const indent = element.jsonModel.indent || 0;
       const align =
         parent.jsonModel.left +
         parent.jsonModel.width / 2 -
-        element.jsonModel.width / 2;
+        element.jsonModel.width / 2 +
+        indent * 10;
       element.nativeBorderRef.css("left", align);
       element.jsonModel.left = align;
     }
