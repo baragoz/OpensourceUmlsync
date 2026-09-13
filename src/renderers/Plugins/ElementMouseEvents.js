@@ -19,6 +19,18 @@ class ElementMouseEvents {
 
         event.stopPropagation();
       })
+      .dblclick(self, function (event) {
+        element.diagram.onMouseClick(element, event, true);
+
+        blackboard.notify("element:dblclick", element);
+
+        // Otherwise this bubbles up to DiagramMouseEvents' own .dblclick()
+        // (bound on the whole diagram surface), which would additionally
+        // fire "diagram:dblclick" for a click that actually landed on this
+        // element - same reasoning the .click() handler above already
+        // follows.
+        event.stopPropagation();
+      })
       .mouseenter(self, function (event) {
         /*
           if (!element.options.selected && !element.highlighted) {

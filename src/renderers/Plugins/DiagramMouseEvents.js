@@ -19,7 +19,17 @@ class DiagramMouseEvents {
         e.preventDefault();
         e.stopPropagation();
         iDiagram.onMouseClick(null, e, true);
-        blackboard.notify("diagram:dblclick");
+
+        // Same selectedconnector-based inference the .click() handler below
+        // already relies on (set during mousedown/mousemove hit-testing,
+        // same file) - a connector has no per-item DOM binding of its own
+        // to double-click on directly, unlike an element (see
+        // ElementMouseEvents' own .dblclick()).
+        if (iDiagram.selectedconnector) {
+          blackboard.notify("connector:dblclick", iDiagram.selectedconnector);
+        } else {
+          blackboard.notify("diagram:dblclick");
+        }
       })
       .click(function (evt) {
         // it could be undefined !!!

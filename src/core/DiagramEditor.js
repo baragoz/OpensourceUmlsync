@@ -35,6 +35,12 @@ class DiagramEditor {
   // Listeners registered via onUndoRedoChange(), fanned out on every
   // undo/redo stack change and re-attached to each newly loaded diagram.
   #undoRedoListeners = [];
+  // Listeners registered via onElementDoubleClick()/onConnectorDoubleClick(),
+  // fanned out on the current diagram's "element:dblclick"/"connector:dblclick"
+  // blackboard notifications and re-attached to each newly loaded diagram -
+  // same pattern as #undoRedoListeners above.
+  #elementDoubleClickListeners = [];
+  #connectorDoubleClickListeners = [];
 
   constructor(domSelector, overrideOptions) {
     this.parentSelector = domSelector;
@@ -252,6 +258,9 @@ class DiagramEditor {
     this.#attachUndoRedoListener();
     this.#notifyUndoRedoListeners();
 
+    // Re-attach double-click tracking too, same reasoning.
+    this.#attachDoubleClickListeners();
+
     return this.digram;
   }
 
@@ -316,6 +325,55 @@ class DiagramEditor {
     }
     blackboard.addEventListener("opman:changed", () =>
       this.#notifyUndoRedoListeners(),
+    );
+  }
+
+  //
+  // Double-click API - notifies which specific element/connector was
+  // double-clicked (single click is already available directly off the
+  // blackboard's own "element:click"/"connector:click", see
+  // ElementMouseEvents/DiagramMouseEvents - this wraps the double-click
+  // counterpart the same way onUndoRedoChange above wraps "opman:changed",
+  // instead of requiring a caller to know diagram.getUserData("blackboard")
+  // is where to look). Works in both edit and view mode - the mouse-event
+  // plugins that notify these aren't gated on the editmode option.
+  //
+  // callback receives the element/connector object double-clicked (same
+  // payload shape "element:click"/"connector:click" already give - e.g.
+  // element.jsonModel.id is the id persisted in the diagram's own JSON).
+  // Returns an unsubscribe function.
+  //
+  onElementDoubleClick(callback) {
+    this.#elementDoubleClickListeners.push(callback);
+    return () => {
+      this.#elementDoubleClickListeners =
+        this.#elementDoubleClickListeners.filter((cb) => cb !== callback);
+    };
+  }
+
+  onConnectorDoubleClick(callback) {
+    this.#connectorDoubleClickListeners.push(callback);
+    return () => {
+      this.#connectorDoubleClickListeners =
+        this.#connectorDoubleClickListeners.filter((cb) => cb !== callback);
+    };
+  }
+
+  #attachDoubleClickListeners() {
+    if (!this.digram) {
+      return;
+    }
+    const blackboard = this.digram.getUserData("blackboard");
+    if (!blackboard) {
+      return;
+    }
+    blackboard.addEventListener("element:dblclick", (element) =>
+      this.#elementDoubleClickListeners.forEach((callback) => callback(element)),
+    );
+    blackboard.addEventListener("connector:dblclick", (connector) =>
+      this.#connectorDoubleClickListeners.forEach((callback) =>
+        callback(connector),
+      ),
     );
   }
 
