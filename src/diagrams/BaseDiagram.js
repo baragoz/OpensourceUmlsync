@@ -1216,43 +1216,51 @@ class BaseDiagram extends BaseDiagramItem {
     //
     // Update list of connectors to DND
     //
+    let selectionChanged = false;
     for (var i in this.connectors) {
       var tmpConnector = this.connectors[i];
-      //
-      // A connector can still be marked selected here even though the
-      // user is now dragging an unrelated element: selection is only
-      // cleared on the connector/element "click" (mouseup), which fires
-      // after jQuery UI's draggable "start" (mousemove-threshold) has
-      // already triggered onElementDragStart. Sequence diagrams rely on
-      // dragging a selected connector along with an element on purpose;
-      // for other diagram types this stale selection must not drag the
-      // connector along.
-      //
-      if (
-        tmpConnector.options["selected"] &&
-        this.options["type"] === "sequence"
-      ) {
-        this.connectors[i].onDragStart(ui);
-        continue;
-      }
 
       //
-      // Connector's both side elements are started to drag
-      // or one side element is dragged and the other is not attached (null)
+      // A connector follows the drag whenever at least one of its 2 ends
+      // is among the currently-dragged elements - whether the other end
+      // is unattached, attached to a different (static) element, or also
+      // being dragged. This has to cover the "one end moving, other end
+      // fixed" case too (not just "both ends move" / "other end is
+      // null"): a connector's own free/middle points (e.g. a message's
+      // elbow, or a self-message's 2 loop corners) don't get recomputed
+      // from any element's live position, so without onDragStart/onDragMove
+      // translating them along, they'd stay frozen while only the moving
+      // end's attach point re-glues itself each redraw - visibly
+      // stretching the shape instead of the whole thing following.
       //
       const [id1, id2] = tmpConnector.getEndPointIds();
       console.log("CONNECTOR END POINTS: ", id1, id2);
       const id1InDraggable = id1 !== null && draggable.indexOf(id1) >= 0;
       const id2InDraggable = id2 !== null && draggable.indexOf(id2) >= 0;
 
-      if (
-        (id1InDraggable && id2InDraggable) ||
-        (id1InDraggable && id2 === null) ||
-        (id2InDraggable && id1 === null)
-      ) {
+      if (id1InDraggable || id2InDraggable) {
         this.connectors[i].onDragStart(ui);
+      } else if (tmpConnector.options["selected"]) {
+        //
+        // A connector can still be marked selected here even though the
+        // user is now dragging an unrelated element: selection is only
+        // cleared on the connector/element "click" (mouseup), which fires
+        // after jQuery UI's draggable "start" (mousemove-threshold) has
+        // already triggered onElementDragStart. Since this connector has
+        // nothing to do with the element being dragged, drop the stale
+        // selection now instead of letting it tag along.
+        //
+        this.selectedItems = this.selectedItems.filter(
+          (item) => item !== tmpConnector,
+        );
+        tmpConnector._setOption("selected", false);
+        selectionChanged = true;
       }
     } // connectors
+
+    if (selectionChanged) {
+      this.observer.onSelectDiagramItem(this.selectedItems);
+    }
   }
 
   onElementDragMove(element, ui) {
