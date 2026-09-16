@@ -42,6 +42,8 @@ class DiagramEditor {
   // same pattern as #undoRedoListeners above.
   #elementDoubleClickListeners = [];
   #connectorDoubleClickListeners = [];
+  // ResizeObserver watching the parent element, see #subscribeToResize().
+  #resizeObserver;
 
   constructor(domSelector, overrideOptions) {
     this.parentSelector = domSelector;
@@ -275,6 +277,15 @@ class DiagramEditor {
 
       this.digram = new DiagramRef(jsonModel, options, pm);
       this.digram.setUserData("plugin-manager", pm);
+
+      // `options.width`/`options.height` above are whatever this.options
+      // held at construction time (defaults, unless fitToParent already
+      // measured a real rect before any diagram existed - #updateDimention
+      // only sizes this.digram when one is present). Force a resize pass
+      // now that this.digram exists, so a freshly loaded/created diagram
+      // is sized to the actual container instead of those stale/default
+      // dimensions.
+      this.#updateDimention();
     }
 
     // Sync-up edit mode - hide/show side menu
@@ -505,13 +516,11 @@ class DiagramEditor {
       return;
     }
 
-    // Store initial dimensions to detect changes
+    // Store current dimensions to dedupe change notifications
     let lastWidth = $parent.width();
     let lastHeight = $parent.height();
 
-    // Subscribe to window resize events and check if parent element size changed
-    $(window).on("resize." + this.prefix, () => {
-      console.log("RESIZE EVENT FIRED " + this.parentSelector);
+    const onPossibleResize = () => {
       const currentWidth = $parent.width();
       const currentHeight = $parent.height();
 
@@ -521,7 +530,20 @@ class DiagramEditor {
         lastHeight = currentHeight;
         this.#updateDimention();
       }
-    });
+    };
+
+    // Window resize alone misses cases where the parent element's own box
+    // changes without the OS window resizing - e.g. a host page/webview
+    // panel that finishes laying out after mount, becomes visible after
+    // being a background tab, or is resized by splitting/dragging an
+    // editor group. ResizeObserver catches all of those; window resize is
+    // kept alongside it as a fallback for hosts without ResizeObserver.
+    if (typeof ResizeObserver !== "undefined") {
+      this.#resizeObserver = new ResizeObserver(onPossibleResize);
+      this.#resizeObserver.observe($parent[0]);
+    }
+
+    $(window).on("resize." + this.prefix, onPossibleResize);
   }
 }
 
