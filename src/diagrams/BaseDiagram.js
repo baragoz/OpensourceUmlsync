@@ -699,7 +699,7 @@ class BaseDiagram extends BaseDiagramItem {
   //
   // Check if user dropped icon menu on some element
   //
-  _dropConnector(ui) {
+  _dropConnector(ui, padding = 0) {
     var result = null,
       scrollLeft = $("#" + this.euid).scrollLeft(),
       scrollTop = $("#" + this.euid).scrollTop();
@@ -714,10 +714,10 @@ class BaseDiagram extends BaseDiagramItem {
         h = e.height();
 
       if (
-        ui.position.left > p.left + scrollLeft &&
-        ui.position.left < p.left + w + scrollLeft &&
-        ui.position.top > p.top + scrollTop &&
-        ui.position.top < p.top + h + scrollTop
+        ui.position.left > p.left + scrollLeft - padding &&
+        ui.position.left < p.left + w + scrollLeft + padding &&
+        ui.position.top > p.top + scrollTop - padding &&
+        ui.position.top < p.top + h + scrollTop + padding
       ) {
         //
         // get max z-index
@@ -1220,25 +1220,20 @@ class BaseDiagram extends BaseDiagramItem {
     for (var i in this.connectors) {
       var tmpConnector = this.connectors[i];
 
-      //
-      // A connector follows the drag whenever at least one of its 2 ends
-      // is among the currently-dragged elements - whether the other end
-      // is unattached, attached to a different (static) element, or also
-      // being dragged. This has to cover the "one end moving, other end
-      // fixed" case too (not just "both ends move" / "other end is
-      // null"): a connector's own free/middle points (e.g. a message's
-      // elbow, or a self-message's 2 loop corners) don't get recomputed
-      // from any element's live position, so without onDragStart/onDragMove
-      // translating them along, they'd stay frozen while only the moving
-      // end's attach point re-glues itself each redraw - visibly
-      // stretching the shape instead of the whole thing following.
-      //
       const [id1, id2] = tmpConnector.getEndPointIds();
       console.log("CONNECTOR END POINTS: ", id1, id2);
       const id1InDraggable = id1 !== null && draggable.indexOf(id1) >= 0;
       const id2InDraggable = id2 !== null && draggable.indexOf(id2) >= 0;
 
-      if (id1InDraggable || id2InDraggable) {
+      if (
+        this.isConnectorRelatedToDrag(
+          tmpConnector,
+          id1,
+          id2,
+          id1InDraggable,
+          id2InDraggable,
+        )
+      ) {
         this.connectors[i].onDragStart(ui);
       } else if (tmpConnector.options["selected"]) {
         //
@@ -1315,6 +1310,25 @@ class BaseDiagram extends BaseDiagramItem {
   // (e.g. PackageDiagram, ComponentsDiagram). No-op by default.
   //
   handleElementDragStop(element, ui) {}
+
+  //
+  // Decide whether `connector` should be dragged along with the elements
+  // currently being moved (id1/id2 are its 2 end-point ids, already
+  // resolved into id1InDraggable/id2InDraggable against the set of
+  // elements taking part in this drag). Default: both ends move together,
+  // or one end moves while the other is fully unattached - i.e. the
+  // connector's own shape is always fully derived from its attached
+  // element(s), so it never needs its free points manually translated
+  // unless everything relevant is already moving. See SequenceDiagram for
+  // why that's too strict there.
+  //
+  isConnectorRelatedToDrag(connector, id1, id2, id1InDraggable, id2InDraggable) {
+    return (
+      (id1InDraggable && id2InDraggable) ||
+      (id1InDraggable && id2 === null) ||
+      (id2InDraggable && id1 === null)
+    );
+  }
 }
 
 export { BaseDiagram };

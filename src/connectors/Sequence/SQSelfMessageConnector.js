@@ -83,11 +83,33 @@ class SQSelfMessageConnector extends BaseConnector {
     if (!pos) {
       return null;
     }
+    var width = $border.width();
     var height = $border.height();
     return {
-      right: pos.left + $border.width(),
+      right: pos.left + width,
+      centerX: pos.left + width / 2,
       centerY: pos.top + height / 2,
     };
+  }
+
+  //
+  // An attach point's x depends on what it's actually bound to: a port
+  // (a narrow activation bar) attaches at its right edge, so the loop
+  // visibly starts/ends flush with it - but the object instance itself
+  // (attaching directly to the lifeline header, not one of its ports) is
+  // a wide box, and the lifeline runs through its horizontal center, so
+  // the attach point belongs there instead.
+  //
+  _getAttachX(attach) {
+    const rect = attach.euid ? this._getBorderRect(attach.euid) : null;
+    if (!rect) {
+      return null;
+    }
+    const element =
+      attach.id != null ? this.diagram.getElementById(attach.id) : null;
+    const isInstance =
+      element && element.options.nameTemplate === "sqobject_instance";
+    return isInstance ? rect.centerX : rect.right;
   }
 
   //
@@ -104,10 +126,9 @@ class SQSelfMessageConnector extends BaseConnector {
     var to = { ...this.epoints[this.epoints.length - 1] };
 
     var fromRect = from.euid ? this._getBorderRect(from.euid) : null;
-    var toRect = to.euid ? this._getBorderRect(to.euid) : null;
 
-    var fromX = fromRect ? fromRect.right : from.x;
-    var toX = toRect ? toRect.right : to.x;
+    var fromX = this._getAttachX(from) ?? from.x;
+    var toX = this._getAttachX(to) ?? to.x;
 
     var y0 = fromRect ? fromRect.centerY - GAP_DEFAULT / 2 : from.y;
     var y1 = y0 + GAP_DEFAULT;
@@ -162,8 +183,7 @@ class SQSelfMessageConnector extends BaseConnector {
   _recalculatePoints(x, y) {
     if (this.eppos === 1) {
       var from = this.epoints[0];
-      var fromRect = from.euid ? this._getBorderRect(from.euid) : null;
-      var refX = fromRect ? fromRect.right : from.x;
+      var refX = this._getAttachX(from) ?? from.x;
       var sharedX = clamp(x, refX + CORNER_X_MIN, refX + CORNER_X_MAX);
       var y0 = Math.min(y, this.epoints[3].y - GAP_MIN);
 
@@ -172,8 +192,7 @@ class SQSelfMessageConnector extends BaseConnector {
       this.epoints[2].x = sharedX;
     } else if (this.eppos === 2) {
       var to = this.epoints[3];
-      var toRect = to.euid ? this._getBorderRect(to.euid) : null;
-      var refX2 = toRect ? toRect.right : to.x;
+      var refX2 = this._getAttachX(to) ?? to.x;
       var sharedX2 = clamp(x, refX2 + CORNER_X_MIN, refX2 + CORNER_X_MAX);
       var y1 = Math.max(y, this.epoints[0].y + GAP_MIN);
 
@@ -302,14 +321,15 @@ class SQSelfMessageConnector extends BaseConnector {
       to.limit = found ? found.options.midpoint || 0 : 0;
     }
 
-    // Keep each attach point glued to its own port's right edge -
-    // independently, since a self message may span 2 different (stacked)
-    // ports on the same lifeline.
-    const fromRect = from.euid ? this._getBorderRect(from.euid) : null;
-    const toRect = to.euid ? this._getBorderRect(to.euid) : null;
+    // Keep each attach point glued to what it's bound to - a port's right
+    // edge, or the object instance's own horizontal center - independently,
+    // since a self message may span 2 different (stacked) ports, or a
+    // port and the instance itself, on the same lifeline.
+    const fromX = this._getAttachX(from);
+    const toX = this._getAttachX(to);
 
-    if (fromRect) from.x = fromRect.right;
-    if (toRect) to.x = toRect.right;
+    if (fromX != null) from.x = fromX;
+    if (toX != null) to.x = toX;
 
     return epoints.map((pt) => ({
       x: pt.x - scrollLeft,

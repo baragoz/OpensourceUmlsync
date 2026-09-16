@@ -295,22 +295,38 @@ class BaseSQConnector extends BaseConnector {
     // firt or last point - return
     //
     if (!this.isStartPoint) {
+      //
+      // it is not a start point -> update middle point.
+      //
       this.eppos = 1;
-      // add point if needed
+      //
+      // add virtual point if needed
+      //
       if (this.epoints.length < 3) {
         this.epoints.splice(1, 0, { x: x1, y: y1 });
       } else {
+        //
+        // Update virtual point position.
+        // it is absolutely invisible point.
+        //
         this.epoints[1] = { x: x1, y: y1 };
       }
     } else {
       if (this.epoints.length >= 3) {
-        // remove middle point
+        //
+        // remove middle point, because we are moving start point and it is not needed anymore.
+        //
         this.epoints.splice(1, 1);
       }
+      //
+      // Detach start/end point from element.
+      //
       this.epoints[this.eppos]["euid"] = null;
     }
 
+    //
     // cache labels for dnd
+    //
     if (this.labels && this.labels.length > 0) {
       this.labels_drag = [];
       for (var i in this.labels) {
@@ -319,12 +335,15 @@ class BaseSQConnector extends BaseConnector {
       }
     }
 
+    //
+    // Notify observers.
+    //
     this.onStartTransform(x, y);
   }
 
   stopTransform(x1, y1, scrollOffset) {
     //
-    //
+    // There is no active point to transform.
     //
     if (this.eppos < 0) {
       return;
@@ -346,25 +365,29 @@ class BaseSQConnector extends BaseConnector {
     //
     // Check the position of start point
     //
-    let start = this.diagram._dropConnector({
-      position: { top: y, left: this.epoints[0].x },
-    });
+    let start = this.diagram._dropConnector(
+      { position: { top: y, left: this.epoints[0].x } },
+      12,
+    );
+    this.epoints[0]["id"] = start ? start.getId() : null;
     this.epoints[0]["euid"] = start ? start.euid : null;
     this.epoints[0]["limit"] = start ? start.options.midpoint : 0;
 
     //
     // Check the end point drop position
     //
-    let end = this.diagram._dropConnector({
-      position: { top: y, left: this.epoints[this.epoints.length - 1].x },
-    });
+    let end = this.diagram._dropConnector(
+      { position: { top: y, left: this.epoints[this.epoints.length - 1].x } },
+      12,
+    );
+    this.epoints[this.epoints.length - 1]["id"] = end ? end.getId() : null;
     this.epoints[this.epoints.length - 1]["euid"] = end ? end.euid : null;
     this.epoints[this.epoints.length - 1]["limit"] = end
       ? end.options.midpoint
       : 0;
 
     //
-    // has both ends attached => add an extra point in the middle
+    // has both ends are attached => add an extra point in the middle
     //
     if (this.epoints[0]["euid"] && this.epoints[1]["euid"]) {
       if (this.epoints.length == 2) {
@@ -384,6 +407,9 @@ class BaseSQConnector extends BaseConnector {
     this.label_start_y = 0;
     this.eppos = -1;
     this.onStopTransform(x, y);
+
+    // Force to redraw connector
+    this.redraw();
   }
 
   TransformTo(x1, y1) {
@@ -416,12 +442,60 @@ class BaseSQConnector extends BaseConnector {
     this.onTransform(x, y);
   }
 
+  //
+  // Recompute one end's x from its attached element's live border
+  // position. Returns the border element (needed by the width shift
+  // below), or null when the point is detached / not yet laid out.
+  //
+  _refreshAttachPosition(point) {
+    if (!point["euid"]) {
+      return null;
+    }
+
+    var el = $("#" + point["euid"] + "_Border");
+    var pos = el.position();
+    if (!pos) {
+      return null;
+    }
+
+    point.x = pos.left + el.width() / 2 + 4;
+
+    // Messages landing on the object instance's header box (not the
+    // lifeline below it) should stop at its left border, not pierce
+    // through to the lifeline's center point.
+    var header = el.find(".us-instance");
+    if (
+      header.length &&
+      point.y - pos.top >= 0 &&
+      point.y - pos.top < header.outerHeight()
+    ) {
+      point.x = pos.left;
+    }
+
+    return el;
+  }
+
+  //
+  // Extend an attached end past its element's center, toward whichever
+  // side its neighbor point sits on (the other end for a 2-point line,
+  // the shared middle waypoint for a 3-point line).
+  //
+  _applyAttachShift(point, neighborX, element) {
+    if (!element || point["limit"]) {
+      return;
+    }
+    point.x += neighborX > point.x ? element.width() / 2 : -element.width() / 2;
+  }
+
   _getConnectionPoints(epoints, scrollOffset) {
     const scrollTop = scrollOffset.top;
     const scrollLeft = scrollOffset.left;
 
     console.log("GET POINTS:", epoints);
 
+    //
+    //  2 points, connection helper
+    //
     if (epoints.length == 2 && epoints[1]["euid"] === "ConnectionHelper") {
       var ch = $("#ConnectionHelper_Border");
       var p1 = ch.position();
@@ -436,78 +510,33 @@ class BaseSQConnector extends BaseConnector {
       }
     }
 
+    //
     // TODO: Throw an exception
+    // For sequence diagram we need at least 2 points to draw a connector
+    //
     if (epoints.length < 2) {
       return [];
     }
 
-    var startElement = null;
-    var endElement = null;
-    //
-    // refresh x position of strart element
-    //
-    if (epoints[0]["euid"]) {
-      var fe = $("#" + epoints[0]["euid"] + "_Border");
-      var fp = fe.position();
-
-      if (fp) {
-        startElement = fe;
-        epoints[0].x = fp.left + fe.width() / 2 + 4;
-
-        // Messages landing on the object instance's header box (not the
-        // lifeline below it) should stop at its left border, not pierce
-        // through to the lifeline's center point.
-        var fHeader = fe.find(".us-instance");
-        if (
-          fHeader.length &&
-          epoints[0].y - fp.top >= 0 &&
-          epoints[0].y - fp.top < fHeader.outerHeight()
-        ) {
-          epoints[0].x = fp.left;
-        }
-      }
-    }
+    var lastIdx = epoints.length - 1;
+    var neighborIdxForStart = 1;
+    var neighborIdxForEnd = epoints.length - 2;
 
     //
-    // refresh end element x position
+    // refresh x position of both ends from their attached elements
     //
-    if (epoints[epoints.length - 1]["euid"]) {
-      var te = $("#" + epoints[epoints.length - 1]["euid"] + "_Border");
-      var tp = te.position();
-      if (tp) {
-        endElement = te;
-        epoints[epoints.length - 1].x = tp.left + te.width() / 2 + 4;
+    var startElement = this._refreshAttachPosition(epoints[0]);
+    var endElement = this._refreshAttachPosition(epoints[lastIdx]);
 
-        // Same as above: land on the header's left border instead of the
-        // lifeline's center point when pointing at the header level.
-        var tHeader = te.find(".us-instance");
-        if (
-          tHeader.length &&
-          epoints[epoints.length - 1].y - tp.top >= 0 &&
-          epoints[epoints.length - 1].y - tp.top < tHeader.outerHeight()
-        ) {
-          epoints[epoints.length - 1].x = tp.left;
-        }
-      }
-    }
+    //
+    // capture both neighbor x's before shifting either end, so the two
+    // decisions are made from the same pre-shift snapshot
+    //
+    var startNeighborX = epoints[neighborIdxForStart].x;
+    var endNeighborX = epoints[neighborIdxForEnd].x;
 
-    if (epoints[epoints.length - 1].x > epoints[0].x) {
-      // regular point, not mid point
-      if (startElement && !epoints[0]["limit"]) {
-        epoints[0].x += startElement.width() / 2;
-      }
-      if (endElement && !epoints[epoints.length - 1]["limit"]) {
-        epoints[epoints.length - 1].x -= endElement.width() / 2;
-      }
-    } else {
-      // regular point, not mid point
-      if (startElement && !epoints[0]["limit"]) {
-        epoints[0].x -= startElement.width() / 2;
-      }
-      if (endElement && !epoints[epoints.length - 1]["limit"]) {
-        epoints[epoints.length - 1].x += endElement.width() / 2;
-      }
-    }
+    this._applyAttachShift(epoints[0], startNeighborX, startElement);
+    this._applyAttachShift(epoints[lastIdx], endNeighborX, endElement);
 
     if (epoints.length === 3) {
       return [

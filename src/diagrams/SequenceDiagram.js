@@ -117,6 +117,22 @@ class SequenceDiagram extends BaseDiagram {
       element.jsonModel.left = align;
     }
   }
+
+  //
+  // Sequence-diagram connectors commonly have free points that aren't
+  // re-derived from any element's live position - a regular message's
+  // elbow, or a self-message's 2 loop corners - so a connector must
+  // follow the drag whenever EITHER of its 2 ends is among the
+  // currently-dragged elements, not just when both move together or the
+  // other end is fully detached (BaseDiagram's default). Without this,
+  // dragging just one of a message's 2 ports would leave its elbow/corner
+  // points frozen while only the moving end's attach point re-glues
+  // itself each redraw - visibly stretching the shape instead of the
+  // whole thing following.
+  //
+  isConnectorRelatedToDrag(connector, id1, id2, id1InDraggable, id2InDraggable) {
+    return id1InDraggable || id2InDraggable;
+  }
 }
 
 export { SequenceDiagram };
