@@ -116,6 +116,22 @@ class SequenceDiagram extends BaseDiagram {
       element.nativeBorderRef.css("left", align);
       element.jsonModel.left = align;
     }
+
+    //
+    // The re-center above happens after BaseDiagram.onElementDragStop has
+    // already finished moving connectors along with the drag - nothing
+    // else redraws afterwards, so a connector attached to this element
+    // would otherwise keep pointing at its pre-realign position until
+    // some unrelated redraw happened to come along. This is also a good
+    // opportunity to check whether any fully-detached self-message end is
+    // now sitting on (or near) whatever just got dropped/repositioned.
+    //
+    for (const connector of this.connectors) {
+      if (connector.reattachDetachedEnds) {
+        connector.reattachDetachedEnds();
+      }
+    }
+    this.draw();
   }
 
   //

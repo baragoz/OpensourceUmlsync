@@ -60,21 +60,34 @@ class SQObjectInstanceElement extends BaseElement {
   // - Landing inside the header ("us-instance") attaches to the instance
   //   itself, at its left border (matches BaseSQConnector's own header
   //   handling).
-  // - Landing below the header attaches to one of this instance's ports.
-  //   All ports share the same lifeline column, so "nearest" isn't a
-  //   precise y hit-test against each port's (often narrow/overlapping)
-  //   activation bar - instead pick the port pushed furthest toward the
-  //   connector's own side (largest indent for a connector approaching
-  //   from the right, smallest/most negative for one approaching from
-  //   the left), since that's the currently outward/active activation.
-  //   With no ports at all, fall back to the lifeline's own center.
+  // - Landing below the header attaches to one of this instance's ports,
+  //   but only among the ports whose OWN vertical extent actually
+  //   contains y - a port claims its own row, not the whole rest of the
+  //   lifeline below the header, so dragging past a port (while still
+  //   inside the instance) falls through to the instance's own body
+  //   instead of clinging to whichever port happens to exist. Among
+  //   several ports that do overlap at this y (stacked/nested
+  //   activations sharing the same lifeline column), pick the one pushed
+  //   furthest toward the connector's own side (largest indent for a
+  //   connector approaching from the right, smallest/most negative for
+  //   one approaching from the left), since that's the currently
+  //   outward/active activation. With no port claiming this y, fall back
+  //   to the lifeline's own center.
   //
   // Returns { element, x } (x already in diagram/page coordinates), or
-  // null if this instance's border isn't in the DOM.
+  // null if this instance's border isn't in the DOM, or if y falls
+  // outside this instance's own rendered height entirely (dragged past
+  // its top or bottom) - callers rely on that null to mean "genuinely
+  // detached", not "snap to whatever's closest anyway".
   //
   findNearestAttachPoint(x, y, fromRight = true) {
     const pos = this.nativeBorderRef.position();
     if (!pos) {
+      return null;
+    }
+
+    const height = this.nativeBorderRef.height();
+    if (y < pos.top || y > pos.top + height) {
       return null;
     }
 
@@ -86,9 +99,17 @@ class SQObjectInstanceElement extends BaseElement {
       return { element: this, x: pos.left };
     }
 
-    const ports = (this.droplist || []).filter(
-      (el) => el.options.nameTemplate === "sqport",
-    );
+    const ports = (this.droplist || []).filter((el) => {
+      if (el.options.nameTemplate !== "sqport") {
+        return false;
+      }
+      const p = el.nativeBorderRef.position();
+      if (!p) {
+        return false;
+      }
+      const h = el.nativeBorderRef.height();
+      return y >= p.top && y <= p.top + h;
+    });
 
     if (ports.length === 0) {
       return { element: this, x: pos.left + this.nativeBorderRef.width() / 2 };
