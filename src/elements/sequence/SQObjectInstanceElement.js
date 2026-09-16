@@ -80,23 +80,33 @@ class SQObjectInstanceElement extends BaseElement {
   // its top or bottom) - callers rely on that null to mean "genuinely
   // detached", not "snap to whatever's closest anyway".
   //
+  // (x, y) here are document-space, like every coordinate a connector
+  // stores - but jQuery's .position() is relative to the current scroll,
+  // so it's converted back to document-space (by adding the live scroll
+  // straight back) before comparing against them. Skipping that on
+  // either axis would make this drift by exactly the scroll amount on
+  // that axis once the diagram is scrolled.
+  //
   findNearestAttachPoint(x, y, fromRight = true) {
     const pos = this.nativeBorderRef.position();
     if (!pos) {
       return null;
     }
+    const offset = this.diagram.getDiagramOffset();
+    const left = pos.left + offset.left;
+    const top = pos.top + offset.top;
 
     const height = this.nativeBorderRef.height();
-    if (y < pos.top || y > pos.top + height) {
+    if (y < top || y > top + height) {
       return null;
     }
 
     const $header = this.nativeRef.find(".us-instance");
     const headerHeight = $header.length ? $header.outerHeight() : 0;
-    const inHeader = y - pos.top >= 0 && y - pos.top < headerHeight;
+    const inHeader = y - top >= 0 && y - top < headerHeight;
 
     if (inHeader) {
-      return { element: this, x: pos.left };
+      return { element: this, x: left };
     }
 
     const ports = (this.droplist || []).filter((el) => {
@@ -107,12 +117,13 @@ class SQObjectInstanceElement extends BaseElement {
       if (!p) {
         return false;
       }
+      const pTop = p.top + offset.top;
       const h = el.nativeBorderRef.height();
-      return y >= p.top && y <= p.top + h;
+      return y >= pTop && y <= pTop + h;
     });
 
     if (ports.length === 0) {
-      return { element: this, x: pos.left + this.nativeBorderRef.width() / 2 };
+      return { element: this, x: left + this.nativeBorderRef.width() / 2 };
     }
 
     let best = ports[0];
@@ -125,7 +136,10 @@ class SQObjectInstanceElement extends BaseElement {
     }
 
     const bp = best.nativeBorderRef.position();
-    return { element: best, x: bp.left + best.nativeBorderRef.width() };
+    return {
+      element: best,
+      x: bp.left + offset.left + best.nativeBorderRef.width(),
+    };
   }
 }
 

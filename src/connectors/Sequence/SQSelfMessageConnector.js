@@ -93,18 +93,37 @@ class SQSelfMessageConnector extends BaseConnector {
     c.closePath();
   }
 
+  //
+  // jQuery's .position() is relative to the current scroll (it's meant
+  // for CSS placement against the canvas' own sticky top:0/left:0), but
+  // every coordinate this connector stores or compares against -
+  // epoints[].x/y, mouse input via startTransform/onTransform - is
+  // document-space (unaffected by scroll; only ever converted to
+  // viewport-space once, in _getConnectionPoints's final step). Adding
+  // the live scroll straight back here keeps that the ONLY place scroll
+  // enters the picture - anywhere else ends up comparing document-space
+  // against viewport-space, which drifts by exactly the scroll amount on
+  // whichever axis it's read raw (this bit both _getBorderRect's x and,
+  // before this fix, _getConnectionPoints's own final step).
+  //
   _getBorderRect(euid) {
     var $border = $("#" + euid + "_Border");
     var pos = $border.position();
     if (!pos) {
       return null;
     }
+    var offset = this.diagram.getDiagramOffset();
+    var left = pos.left + offset.left;
+    var top = pos.top + offset.top;
     var width = $border.width();
     var height = $border.height();
     return {
-      right: pos.left + width,
-      centerX: pos.left + width / 2,
-      centerY: pos.top + height / 2,
+      left,
+      top,
+      right: left + width,
+      bottom: top + height,
+      centerX: left + width / 2,
+      centerY: top + height / 2,
     };
   }
 
@@ -398,12 +417,8 @@ class SQSelfMessageConnector extends BaseConnector {
       if (el.options.nameTemplate !== "sqobject_instance") {
         continue;
       }
-      const pos = el.nativeBorderRef.position();
-      if (!pos) {
-        continue;
-      }
-      const width = el.nativeBorderRef.width();
-      if (attach.x >= pos.left && attach.x <= pos.left + width) {
+      const rect = this._getBorderRect(el.euid);
+      if (rect && attach.x >= rect.left && attach.x <= rect.right) {
         return el;
       }
     }
@@ -448,13 +463,11 @@ class SQSelfMessageConnector extends BaseConnector {
       ) {
         continue;
       }
-      const pos = el.nativeBorderRef.position();
-      if (!pos) {
+      const rect = this._getBorderRect(el.euid);
+      if (!rect) {
         continue;
       }
-      const w = el.nativeBorderRef.width();
-      const h = el.nativeBorderRef.height();
-      if (x >= pos.left && x <= pos.left + w && y >= pos.top && y <= pos.top + h) {
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
         return el;
       }
     }

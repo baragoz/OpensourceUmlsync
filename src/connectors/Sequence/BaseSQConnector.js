@@ -539,9 +539,14 @@ class BaseSQConnector extends BaseConnector {
     this._applyAttachShift(epoints[lastIdx], endNeighborX, endElement);
 
     if (epoints.length === 3) {
+      // epoints[].y is a frozen document-space value (set once, at drag
+      // time) - unlike x it's never re-derived from a live element, so it
+      // must be re-projected into the current scroll view here, same as
+      // the generic path below does.
+      const y = epoints[1].y - scrollTop;
       return [
-        { x: epoints[0].x, y: epoints[1].y },
-        { x: epoints[2].x, y: epoints[1].y },
+        { x: epoints[0].x, y },
+        { x: epoints[2].x, y },
       ];
     }
 
@@ -550,16 +555,18 @@ class BaseSQConnector extends BaseConnector {
       // start point has a fixed element, then points to the end element
       //
       if (this.epoints[0]["euid"] || !this.epoints[1]["euid"]) {
+        const y = epoints[1].y - scrollTop;
         return [
-          { x: epoints[0].x, y: epoints[1].y },
-          { x: epoints[1].x, y: epoints[1].y },
+          { x: epoints[0].x, y },
+          { x: epoints[1].x, y },
         ];
       }
 
       // start point detached => will be the main point for Y
+      const y = epoints[0].y - scrollTop;
       return [
-        { x: epoints[0].x, y: epoints[0].y },
-        { x: epoints[1].x, y: epoints[0].y },
+        { x: epoints[0].x, y },
+        { x: epoints[1].x, y },
       ];
     }
 
