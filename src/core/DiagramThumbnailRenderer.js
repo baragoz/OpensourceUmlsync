@@ -1,6 +1,7 @@
 import { ClassDiagram } from "../diagrams/ClassDiagram";
 import { ComponentsDiagram } from "../diagrams/ComponentsDiagram";
 import { PackageDiagram } from "../diagrams/PackageDiagram";
+import { SequenceDiagram } from "../diagrams/SequenceDiagram";
 import { StateDiagram } from "../diagrams/StateDiagram";
 import { ThumbnailPluginManager } from "../renderers/ThumbnailPluginManager";
 
@@ -37,6 +38,7 @@ class DiagramThumbnailRenderer {
       packageDiagram: PackageDiagram,
       componentsDiagram: ComponentsDiagram,
       stateDiagram: StateDiagram,
+      sequenceDiagram: SequenceDiagram,
     };
 
     const DiagramRef = diagramMap[jsonModel.nameTemplate];
