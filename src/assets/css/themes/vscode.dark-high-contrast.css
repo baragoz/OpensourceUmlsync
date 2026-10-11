@@ -9,7 +9,7 @@
  * used directly wherever a boundary or focus ring matters, since those two
  * tokens are only guaranteed to be defined in high-contrast themes.
  *
- * See ../../../../Readme.vscode.md for the full plan.
+ * See ../../../../docs/Readme.vscode.md for the full plan.
  */
 body.vscode-high-contrast {
   /* base design-system colors consumed indirectly via --toolbar-*/--umlsync-* below */

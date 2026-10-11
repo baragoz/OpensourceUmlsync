@@ -9,7 +9,7 @@
  * gives the vscode.*.css theme files (in this same directory) a single,
  * flat set of tokens to override.
  *
- * See ../../../../Readme.vscode.md for the full plan this file is part of.
+ * See ../../../../docs/Readme.vscode.md for the full plan this file is part of.
  */
 :root {
   /* ===== fonts ===== */

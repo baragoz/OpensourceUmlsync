@@ -10,7 +10,7 @@
  * between the *regular* and *high-contrast* kinds (see vscode.dark2.css /
  * vscode.light2.css for that split), not between dark and light.
  *
- * See ../../../../Readme.vscode.md for the full plan and the load order
+ * See ../../../../docs/Readme.vscode.md for the full plan and the load order
  * this file expects (loaded alongside default.css, not instead of it).
  */
 body.vscode-light {

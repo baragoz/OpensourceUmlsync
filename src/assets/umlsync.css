@@ -4,7 +4,7 @@
    ./css/themes/vscode.*.css matches the active theme kind. Those files are
    scoped under body.vscode-* selectors, which naturally out-specifies the
    :root rules here, so they only need to override the color tokens; sizing
-   tokens keep flowing from this file. See Readme.vscode.md for the full plan. */
+   tokens keep flowing from this file. See docs/Readme.vscode.md for the full plan. */
 @import "./css/themes/default.css";
 
 @import "./css/base.css";

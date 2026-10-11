@@ -102,7 +102,7 @@ class DiagramEditor {
 
     //
     // Theme detector: JS-side counterpart to the CSS-only theming in
-    // assets/css/themes/ (see ../../Readme.vscode.md). `theme` option
+    // assets/css/themes/ (see ../../docs/Readme.vscode.md). `theme` option
     // unset -> "auto" (VS Code body class, else OS prefers-color-scheme).
     //
     this.themeDetector = new ThemeDetector(this.options.theme || "auto");

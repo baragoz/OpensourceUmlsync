@@ -7,7 +7,7 @@
  * dark/light split is handled automatically by VS Code's --vscode-* values,
  * same as the vscode.dark1.css / vscode.light1.css pair.
  *
- * See ../../../../Readme.vscode.md for the full plan.
+ * See ../../../../docs/Readme.vscode.md for the full plan.
  */
 body.vscode-high-contrast-light {
   /* base design-system colors consumed indirectly via --toolbar-*/--umlsync-* below */

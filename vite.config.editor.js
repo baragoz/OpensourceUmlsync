@@ -73,7 +73,7 @@ export default defineConfig({
             { src: "src/assets/js/jquery.editable.js", dest: "dist/editor/assets/js/" },
             //
             // VS Code theme CSS files: not part of the default JS-imported
-            // stylesheet on purpose (see Readme.vscode.md) - a VS Code
+            // stylesheet on purpose (see docs/Readme.vscode.md) - a VS Code
             // extension host loads these directly, alongside style.css.
             //
             { src: "src/assets/css/themes/vscode.*.css", dest: "dist/editor/assets/styles/themes/" },

@@ -9,7 +9,7 @@
  * since body.vscode-dark (specificity 0,1,1) already out-specifies :root
  * (0,1,0) for the tokens it does redefine.
  *
- * See ../../../../Readme.vscode.md for the full plan and the load order
+ * See ../../../../docs/Readme.vscode.md for the full plan and the load order
  * this file expects (loaded alongside default.css, not instead of it).
  */
 body.vscode-dark {
